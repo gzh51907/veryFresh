@@ -8,8 +8,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+import './css/base.css';
+import './js/rem.js'
+
 // 引入路由配置的参数,并注入Vue 实例
-import router from './route'
+import router from './routes'
 
 //把 axios 写入Vue的原型，成为Vue的属性 在任何地方都可以使用了
 import axios from 'axios';
