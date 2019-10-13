@@ -41,6 +41,16 @@ let routes = [
         path: '/404',
         component: NotFound
     },
+    //*
+    {
+        path: '*',
+        redirect:'/404'
+    },
+    //默认首页
+    {
+        path: '/',
+        redirect:'/home'
+    },
 ];
 
 export default routes;
