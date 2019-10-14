@@ -47,6 +47,17 @@ let routes = [
          path: '/cart_rules',
          component: cart_rules
      },
+    //*
+    {
+        path: '*',
+        redirect:'/404'
+    },
+    //默认首页
+    {
+        path: '/',
+        redirect:'/home'
+    },
+
 ];
 
 export default routes;

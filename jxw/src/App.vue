@@ -1,39 +1,26 @@
 <template>
   <el-container>
-    <!-- 头部 -->
-    <el-header class="header" style="padding:0px; height: 56px">
-      <el-row>
-        <el-col :span="4">
-          <i class="el-icon-location-information">广州</i>
-        </el-col>
-        <el-col :span="16">
-          <div class="demo-input-suffix">
-            <el-input placeholder="请搜索您感兴趣的商品" prefix-icon="el-icon-search"></el-input>
-          </div>
-        </el-col>
-        <el-col :span="4">
-          <i class="el-icon-chat-round"></i>
-        </el-col>
-      </el-row>
-    </el-header>
+ 
 
     <!-- 中间 -->
-    <el-main style="padding:0px;">
+    <el-main style="padding:0px; margin-bottom:47px;">
       <router-view />
     </el-main>
 
     <!-- 底部 -->
-    <el-footer style="padding:0px; position:fixed;bottom:0px;width:100%;height:47px;">
-      <el-row>
-        <ul id="footers" :default-active="activeIndex">
-          <li v-for="item in menus" :key="item.path" @click="goto(item.path)">
-            <i v-if="activeIndex == item.path" :class="item.activeIcon"></i>
-            <i v-else :class="item.iconClassName" ref="active-icon"></i>
-            <span>{{item.text}}</span>
-          </li>
-        </ul>
-      </el-row>
-    </el-footer>
+    <!-- <div class="app_footer" style="height:56px"> -->
+      <el-footer style="padding:0px; position:fixed;bottom:0px;width:100%;height:47px;">
+        <el-row>
+          <ul id="footers" :default-active="activeIndex">
+            <li v-for="item in menus" :key="item.path" @click="goto(item.path)">
+              <i v-if="activeIndex == item.path" :class="item.activeIcon"></i>
+              <i v-else :class="item.iconClassName" ref="active-icon"></i>
+              <span>{{item.text}}</span>
+            </li>
+          </ul>
+        </el-row>
+      </el-footer>
+    <!-- </div> -->
   </el-container>
 </template>
 
@@ -109,86 +96,59 @@ export default {
 }
 </style>
 <style lang="scss">
-.header {
-  padding: 0;
-  background: #fff;
-  box-shadow: 1px 1px 4px hsla(0, 0%, 49%, 0.3);
-  .el-row {
-    margin-top: 8px;
+
+// .app_footer {
+  #footers {
+    height: 60px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
     align-items: center;
-
-    .el-col-4 {
+    border: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
+    background: #fff;
+    li {
+      width: 20%;
+      height: 47px;
       text-align: center;
-      font-size: 14px;
-      i {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 9px 0 0 0;
+      span {
+        font-size: 10px;
         color: #333333;
-        display: block;
-        font-size: 14px;
+      }
+      i {
+        width: 22px;
+        height: 20px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
         &::before {
-          color: #333333;
-          font-size: 18px;
+          font-size: 20px;
+          color: #999;
+          // #0463de
         }
       }
-    }
-    .el-col-16 {
-      input {
-        background: #f5f5f5;
-        outline-style: none;
+      .homeactive {
+        background-image: url("./assets/icon/home.png");
+      }
+      .typeactive {
+        background-image: url("./assets/icon/type.png");
+      }
+      .cartactive {
+        background-image: url("./assets/icon/cart.png");
+      }
+      .bookactive {
+        background-image: url("./assets/icon/book.png");
+      }
+      .mineactive {
+        background-image: url("./assets/icon/mine.png");
       }
     }
-  }
-}
-#footers {
-  height: 60px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-left: none;
-  border-right: none;
-  background: #fff;
-  li {
-    width: 20%;
-    height: 47px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 9px 0 0 0;
-    span {
-      font-size: 10px;
-      color: #333333;
-    }
-    i {
-      width: 22px;
-      height: 20px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center center;
-      &::before {
-        font-size: 20px;
-        color: #999;
-        // #0463de
-      }
-    }
-    .homeactive {
-      background-image: url("./assets/icon/home.png");
-    }
-    .typeactive {
-      background-image: url("./assets/icon/type.png");
-    }
-    .cartactive {
-      background-image: url("./assets/icon/cart.png");
-    }
-    .bookactive {
-      background-image: url("./assets/icon/book.png");
-    }
-    .mineactive {
-      background-image: url("./assets/icon/mine.png");
-    }
-  }
+  // }
 }
 </style>
