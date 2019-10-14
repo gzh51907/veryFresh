@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="title">
-            <p>&lt;</p>
+            <p @click="goto">&lt;</p>
             <h4>规则详情</h4>
         </div>
         <div class="main">
@@ -56,7 +56,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+    data(){
+        return{}
+    },
+    methods:{
+        goto(){
+            this.$router.push('/cart')
+        }
+    }
+};
 </script>
 
 <style lang='scss' scoped>
@@ -78,9 +87,8 @@ export default {};
   }
 }
 .main {
-    padding: 0 10px 62px;
+    padding: 0 10px 12px;
 .block{
-    // margin-bottom: 62px;
       h3 {
     font-size: 16px;
     font-weight: 800;
@@ -91,10 +99,6 @@ export default {};
   }
   dl {
        font-size: 14px;
-    //    line-height: 16px;
-    dt {
-       
-    }
     dd {
         padding: 0 10px;
         line-height: 20px;

@@ -1,5 +1,3 @@
-
-
 //导入路由
 import NotFound from '../pages/NotFound';
 import home from '../pages/home';
@@ -9,10 +7,10 @@ import cart from '../pages/cart';
 import mine from '../pages/mine';
 import detail from '../pages/detail';
 import cart_rules from '../pages/cart_rules';
+import register_login from '../pages/register_login';
 
 //配置
-let routes = [
-    {
+let routes = [{
         path: '/home',
         component: home
     },
@@ -42,20 +40,25 @@ let routes = [
         path: '/404',
         component: NotFound
     },
-     //购物车-规则详情
-     {
-         path: '/cart_rules',
-         component: cart_rules
-     },
+    //购物车-规则详情
+    {
+        path: '/cart_rules',
+        component: cart_rules
+    },
     //*
     {
         path: '*',
-        redirect:'/404'
+        redirect: '/404'
     },
     //默认首页
     {
         path: '/',
-        redirect:'/home'
+        redirect: '/home'
+    },
+    //登录与注册页
+    {
+        path: '/register_login',
+        component:register_login
     },
 
 ];
