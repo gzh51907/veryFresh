@@ -71,8 +71,9 @@
       </ul>
     </div>
 
-    <!-- goodlist -->
+    <!-- 优选现货 -->
     <div class="productBox">
+      <!-- 标题 -->
       <div class="productListTitle">
         <h4>优选现货</h4>
         <span class="listMore">
@@ -80,18 +81,23 @@
           <i class="el-icon-arrow-right"></i>
         </span>
       </div>
+      <!-- 内容 -->
       <div class="productList">
         <ul class="productList_css">
           <li>
             <div class="goods">
               <div class="goods_pic">
                 <img src="../assets/goods/good1.jpg" />
+                <span class="data-style">到港</span>
+                <span class="abroad-style">国内精品</span>
               </div>
               <div class="good_con">
-                <p class="p_title">极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）</p>
-                <p>
+                <p class="p_title">
+                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                </p>
+                <p style="margin-top:4px;">
                   <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/ 500g</span>
+                  <span class="p_weight">/500g</span>
                 </p>
               </div>
             </div>
@@ -100,12 +106,16 @@
             <div class="goods">
               <div class="goods_pic">
                 <img src="../assets/goods/good1.jpg" />
+                <span class="data-style">到港</span>
+                <span class="abroad-style">国内精品</span>
               </div>
               <div class="good_con">
-                <p class="p_title">极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）</p>
-                <p>
+                <p class="p_title">
+                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                </p>
+                <p style="margin-top:4px;">
                   <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/ 500g</span>
+                  <span class="p_weight">/500g</span>
                 </p>
               </div>
             </div>
@@ -114,31 +124,220 @@
             <div class="goods">
               <div class="goods_pic">
                 <img src="../assets/goods/good1.jpg" />
+                <span class="data-style">到港</span>
+                <span class="abroad-style">国内精品</span>
               </div>
               <div class="good_con">
-                <p class="p_title">极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）</p>
-                <p>
-                  <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/ 500g</span>
+                <p class="p_title">
+                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
                 </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="goods">
-              <div class="goods_pic">
-                <img src="../assets/goods/good1.jpg" />
-              </div>
-              <div class="good_con">
-                <p class="p_title">极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）</p>
-                <p>
+                <p style="margin-top:4px;">
                   <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/ 500g</span>
+                  <span class="p_weight">/500g</span>
                 </p>
               </div>
             </div>
           </li>
         </ul>
+      </div>
+    </div>
+
+    <!-- 好货限时抢 -->
+    <div class="productBox">
+      <!-- 标题 -->
+      <div class="productListTitle">
+        <h4>好货限时抢</h4>
+        <span class="listMore">
+          更多
+          <i class="el-icon-arrow-right"></i>
+        </span>
+      </div>
+      <!-- 内容 -->
+      <div class="productList">
+        <ul class="productList_css">
+          <li>
+            <div class="goods">
+              <div class="goods_pic">
+                <img src="../assets/goods/good1.jpg" />
+                <span class="data-style">到港</span>
+                <span class="abroad-style">国内精品</span>
+              </div>
+              <div class="good_con">
+                <p class="p_title">
+                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                </p>
+                <p style="margin-top:4px;">
+                  <span class="p_price">￥38.00</span>
+                  <span class="p_weight">/500g</span>
+                </p>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="goods">
+              <div class="goods_pic">
+                <img src="../assets/goods/good1.jpg" />
+                <span class="data-style">到港</span>
+                <span class="abroad-style">国内精品</span>
+              </div>
+              <div class="good_con">
+                <p class="p_title">
+                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                </p>
+                <p style="margin-top:4px;">
+                  <span class="p_price">￥38.00</span>
+                  <span class="p_weight">/500g</span>
+                </p>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="goods">
+              <div class="goods_pic">
+                <img src="../assets/goods/good1.jpg" />
+                <span class="data-style">到港</span>
+                <span class="abroad-style">国内精品</span>
+              </div>
+              <div class="good_con">
+                <p class="p_title">
+                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                </p>
+                <p style="margin-top:4px;">
+                  <span class="p_price">￥38.00</span>
+                  <span class="p_weight">/500g</span>
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 龙虾专区 -->
+    <div class="Special_area">
+      <!-- 标题 -->
+      <div class="productListTitle">
+        <h4>龙虾专区</h4>
+        <span class="listMore">
+          更多
+          <i class="el-icon-arrow-right"></i>
+        </span>
+      </div>
+      <div class="goodlist">
+        <dl>
+          <dt>
+            <div class="goods_pic">
+              <img src="../assets/goods/good1.jpg" />
+              <span class="data-style">到港</span>
+              <span class="abroad-style">国内精品</span>
+            </div>
+          </dt>
+          <dd>
+            <div class="good_name">
+              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
+            </div>
+            <div class="row2">
+              <span class="sale-volume">已售:1114箱</span>
+              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
+            </div>
+            <div class="row3">
+              <div>
+                <span class="p_price" style="font-size:16px">￥81.00</span>
+                <span class="p_weight">/500g</span>
+              </div>
+              <i class="el-icon-shopping-cart-2"></i>
+            </div>
+          </dd>
+        </dl>
+        <div class="line-css"></div>
+        <dl>
+          <dt>
+            <div class="goods_pic">
+              <img src="../assets/goods/good1.jpg" />
+              <span class="data-style">到港</span>
+              <span class="abroad-style">国内精品</span>
+            </div>
+          </dt>
+          <dd>
+            <div class="good_name">
+              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
+            </div>
+            <div class="row2">
+              <span class="sale-volume">已售:1114箱</span>
+              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
+            </div>
+            <div class="row3">
+              <div>
+                <span class="p_price" style="font-size:16px">￥81.00</span>
+                <span class="p_weight">/500g</span>
+              </div>
+              <i class="el-icon-shopping-cart-2"></i>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <!-- 鱼类专区 -->
+    <div class="Special_area">
+      <!-- 标题 -->
+      <div class="productListTitle">
+        <h4>鱼类专区</h4>
+        <span class="listMore">
+          更多
+          <i class="el-icon-arrow-right"></i>
+        </span>
+      </div>
+      <div class="goodlist">
+        <dl>
+          <dt>
+            <div class="goods_pic">
+              <img src="../assets/goods/good1.jpg" />
+              <span class="data-style">到港</span>
+              <span class="abroad-style">国内精品</span>
+            </div>
+          </dt>
+          <dd>
+            <div class="good_name">
+              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
+            </div>
+            <div class="row2">
+              <span class="sale-volume">已售:1114箱</span>
+              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
+            </div>
+            <div class="row3">
+              <div>
+                <span class="p_price" style="font-size:16px">￥81.00</span>
+                <span class="p_weight">/500g</span>
+              </div>
+              <i class="el-icon-shopping-cart-2"></i>
+            </div>
+          </dd>
+        </dl>
+        <div class="line-css"></div>
+        <dl>
+          <dt>
+            <div class="goods_pic">
+              <img src="../assets/goods/good1.jpg" />
+              <span class="data-style">到港</span>
+              <span class="abroad-style">国内精品</span>
+            </div>
+          </dt>
+          <dd>
+            <div class="good_name">
+              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
+            </div>
+            <div class="row2">
+              <span class="sale-volume">已售:1114箱</span>
+              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
+            </div>
+            <div class="row3">
+              <div>
+                <span class="p_price" style="font-size:16px">￥81.00</span>
+                <span class="p_weight">/500g</span>
+              </div>
+              <i class="el-icon-shopping-cart-2"></i>
+            </div>
+          </dd>
+        </dl>
       </div>
     </div>
   </div>
@@ -205,13 +404,14 @@ export default {
       }
     }
   }
+  // 轮播图
   .van-swipe__indicators {
     bottom: 20px;
     .van-swipe__indicator {
       background-color: gray;
     }
   }
-
+  // 公告
   .notice {
     height: 46px;
     display: flex;
@@ -287,53 +487,161 @@ export default {
     }
   }
 
-  .productBox {
-    .productListTitle {
-      height: 56px;
-      padding: 0 16px;
+  //分隔线
+  .line-css {
+    border-bottom: 1px solid #f5f5f5;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  // .productBox {
+  // 标题
+  .productListTitle {
+    height: 56px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h4 {
+      box-sizing: border-box;
+      font-size: 24px;
+      color: #333333;
+      line-height: 24px;
+    }
+  }
+  .productList {
+    padding-bottom: 16px;
+    .productList_css {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      h4 {
-        box-sizing: border-box;
-        font-size: 24px;
-        color: #333333;
-        line-height: 24px;
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        width: 0; //可滚动时隐藏滚动条
+      }
+      li {
+        margin-left: 16px;
+        display: flex;
+        width: 136px;
+        .good_con {
+          color: #333;
+          margin-top: 4px;
+          .p_title {
+            text-align: left;
+            height: 30px;
+            line-height: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
       }
     }
-    .productList {
-      .productList_css {
+  }
+  // 图片
+  .goods_pic {
+    position: relative;
+    img {
+      width: 136px;
+      height: 136px;
+    }
+    .data-style {
+      text-align: center;
+      font-size: 10px;
+      height: 22px;
+      position: absolute;
+      top: 4px;
+      left: 0;
+      color: #fff;
+      line-height: 22px;
+      border-top-right-radius: 11px;
+      border-bottom-right-radius: 11px;
+      background-image: -webkit-linear-gradient(left, #66bdf8, #0091f3);
+      background-image: linear-gradient(90deg, #66bdf8, #0091f3);
+      min-width: 40px;
+      font-weight: 600;
+    }
+    .abroad-style {
+      text-align: center;
+      font-size: 10px;
+      height: 14px;
+      position: absolute;
+      bottom: 5px;
+      left: 6px;
+      color: #333;
+      line-height: 14px;
+      border-radius: 2px;
+      background-color: #fff;
+    }
+  }
+  // 自营
+  .Self-support {
+    background: RGB(255, 64, 129);
+    display: block;
+    width: 25px;
+    height: 16px;
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+    // line-height: 16px;
+    border-radius: 3px;
+    float: left;
+    margin-right: 5px;
+  }
+  // 价格
+  .p_price {
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  // 重量
+  .p_weight {
+    font-size: 10px;
+  }
+  // }
+
+  .Special_area {
+    padding-bottom: 16px;
+    .goodlist {
+      dl {
+        // background: #58bc58;
+        padding: 16px;
         display: flex;
-        overflow-y: auto;
-        &::-webkit-scrollbar {
-          width: 0; //可滚动时隐藏滚动条
-        }
-        li {
-          margin-left: 16px;
-          display: flex;
-          width: 136px;
-          .goods_pic {
-            img {
-              width: 136px;
-              height: 136px;
-            }
-          }
-          .good_con {
+        justify-content: flex-start;
+        dd {
+          position: relative;
+          padding-left: 8px;
+          .good_name {
+            text-align: left;
+            font-size: 12px;
             color: #333;
-            margin-top: 4px;
-            .p_title {
-              text-align: left;
+            height: 15px;
+            line-height: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .row2 {
+            padding-top: 8px;
+            font-size: 12px;
+            color: rgba(51, 51, 51, 0.6);
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .row3 {
+            // width: 100%;
+            width: calc(100% - 8px);
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            i {
+              color: rgb(4, 99, 222);
+              font-size: 25px;
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              min-width: 48px;
               height: 30px;
-              line-height: 15px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-            .p_price {
-              font-size: 14px;
-              font-weight: bold;
-            }
-            .p_weight {
-              font-size: 10px;
+              line-height: 30px;
+              text-align: center;
+              border: 1px solid rgb(4, 99, 222);
+              border-radius: 15px;
             }
           }
         }
