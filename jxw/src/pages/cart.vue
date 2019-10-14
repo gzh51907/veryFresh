@@ -4,47 +4,50 @@
        <el-col :span="20">购物车</el-col>
        <el-col :span="4">删除</el-col>
     </el-row>
-    <div class="block">
-      <el-row class="store">
+    <div class="block" >
+    <div  v-for="item in dataList" :key="item.shopId">
+        <el-row class="store">
         <el-col :span="2"><input type="checkbox" name="" id=""></el-col>
-        <el-col :span="22"><span class="storeName">极鲜仓配</span></el-col>
+        <el-col :span="22"><span class="storeName">{{item.shopName}}</span></el-col>
       </el-row >
-      <el-row class="list" v-for="(item,index) in 3" :key='index' >
+      <el-row class="list" v-for="goods in item.shoppingCartVos" :key='goods.productId'>
         <el-col  :span="2"><input type="checkbox" name="" id=""></el-col>
         <el-col :span="22">
              <ul>
               <li>
                   <div class="goods">
                      <div class="con">
-                        <img src="https://file.gfresh.cn/product/2018/1/4ca32455-bda2-4c75-befb-4955c5cbff54/1515132584343.4313D99D7F7-0B1F-427B-A286-DEC881100611.jpeg" alt="">
+                        <img :src="goods.productImg" alt="">
                         <div class="con_right">
-                            <h4>极鲜仓配 印尼 青龙 野生</h4>
+                            <h4>{{goods.productName}}</h4>
                             <div class="info">
                                 <div class="left">
                                     <p class="price">
-                                        <span>¥141.00</span>
-                                        <small>/500克</small>
-                                        </p>
-                                    <span>¥1410.00/箱</span>
+                                        <span>¥{{goods.unitPrice}}</span>
+                                        <small>/{{goods.unitPriceUnit}}</small>
+                                    </p>
+                                    <span class="bottom">¥{{goods.salePrice}}/{{goods.salePriceUnit}}</span>
                                 </div>
                                 <div class="right">
-                                    <span class="cut">-</span>
-                                    <input type="number" v-model='value' value="1" >
-                                    <span class="add" @click='add(number)'>+</span>
+                                    <span class="cut" @click='cut(goods.productId)'>-</span>
+                                    <input type="number" value="1" v-model='goods.num'>
+                                    <span class="add" @click='add(goods.productId)'>+</span>
+                                     <!-- <el-input-number size="mini" v-model="goods.inducement"></el-input-number> -->
                                 </div>
                             </div>
                         </div>
                      </div>
                   </div>
-                  <div class="props">
+                  <div class="props"  v-for="details in goods.dynamicProperties" :key='details.name'>
                       <span>现货</span>
-                      <span>200~300g</span>
-                      <span>5千克/箱</span>
+                      <span>{{details.propertieValue.enValue}}</span>
+                      <span>{{details.propertieValue.Value}}</span>
                   </div>
               </li>
           </ul>
         </el-col>
       </el-row>
+    </div>
       <el-row class="rule" @click.native='goto'>
         <el-col :span="18">购物车或订单合并支付，运费可以合并计算节省运费</el-col>
         <el-col :span="6">规则详情></el-col>
@@ -59,31 +62,55 @@
           <span class="goAccount">去结算（<strong>0</strong>）</span>
         </el-col>
       </el-row>
-    
     </div>
-    </div>
+  
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-     value:"1"
+      num4: 1,
+      dataList: ""
     };
   },
-  computed: {
-    number: 1
-  },
+  computed: {},
   methods: {
-    add(val) {
-      ++val;
-      console.log(val);
-      return val;
+    add(id) {
+      this.dataList.map(item => {
+        item.shoppingCartVos.forEach(i => {
+          if (i.productId === id) {
+            i.num += 1;
+            if (i.num >= i.stockQty) {
+              i.num = i.stockQty;
+            }
+          }
+        });
+      });
+    },
+    cut(id) {
+      this.dataList.map(item => {
+        item.shoppingCartVos.forEach(i => {
+          if (i.productId === id) {
+            i.num -= 1;
+            if (i.num <= 1) {
+              i.num = 1;
+            }
+          }
+        });
+      });
     },
     goto() {
       console.log("1");
       this.$router.push("/cart_rules");
     }
+  },
+  async created() {
+    let { data } = await this.$axios.get("http://10.3.133.72:10086/goods/cart");
+    this.dataList = data;
+
+    console.log(data);
   }
 };
 </script>
@@ -105,7 +132,6 @@ export default {
   }
 }
 .block {
-  margin-bottom: 48px;
   .el-col-2 {
     text-align: center;
   }
@@ -115,7 +141,9 @@ export default {
     font-size: 14px;
     border-bottom: 1px solid #ccc;
     .el-col-22 {
+      font-weight: 900;
       padding-left: 10px;
+      font-size: 16px;
     }
   }
   .list {
@@ -146,17 +174,40 @@ export default {
               }
               .con_right {
                 width: calc(100% - 72px);
+                h4 {
+                  font-weight: 600;
+                  font-size: 12px;
+                  margin: 5px 0;
+                }
                 .info {
                   position: relative;
                   .left {
+                    height: 50px;
                     position: absolute;
                     left: 0;
                     width: 77px;
+                    p {
+                      margin-bottom: 6px;
+                    }
+                    .bottom {
+                      color: rgb(136, 135, 135);
+                    }
                   }
                   .right {
                     position: absolute;
                     right: 0;
                     width: 110px;
+                    // /deep/ .el-input {
+                    //   width: 100px;
+                    //   input {
+                    //     // width: 35px;
+                    //     text-align: center;
+                    //   }
+                    // }
+                    //  /deep/ .el-input-number__increase{
+                    //   right: 30px;
+                    // }
+
                     input {
                       width: 35px;
                       border: none;
@@ -211,7 +262,7 @@ export default {
     display: inline-block;
   }
   .dis {
-    height: 80px;
+    height: 64px;
     font-size: 22px;
     position: absolute;
     right: 120px;
