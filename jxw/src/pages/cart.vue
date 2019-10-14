@@ -9,7 +9,7 @@
         <el-col :span="2"><input type="checkbox" name="" id=""></el-col>
         <el-col :span="22"><span class="storeName">极鲜仓配</span></el-col>
       </el-row >
-      <el-row class="list" v-for="item in 2" >
+      <el-row class="list" v-for="(item,index) in 3" :key='index' >
         <el-col  :span="2"><input type="checkbox" name="" id=""></el-col>
         <el-col :span="22">
              <ul>
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="right">
                                     <span class="cut">-</span>
-                                    <input type="number" value="1" v-model="number">
+                                    <input type="number" v-model='value' value="1" >
                                     <span class="add" @click='add(number)'>+</span>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
           </ul>
         </el-col>
       </el-row>
-      <el-row class="rule">
+      <el-row class="rule" @click.native='goto'>
         <el-col :span="18">购物车或订单合并支付，运费可以合并计算节省运费</el-col>
         <el-col :span="6">规则详情></el-col>
       </el-row>
@@ -68,17 +68,21 @@
 export default {
   data() {
     return {
-       number: "1"
+     value:"1"
     };
-   
   },
   computed: {
+    number: 1
   },
   methods: {
     add(val) {
       ++val;
       console.log(val);
       return val;
+    },
+    goto() {
+      console.log("1");
+      this.$router.push("/cart_rules");
     }
   }
 };
@@ -101,6 +105,7 @@ export default {
   }
 }
 .block {
+  margin-bottom: 48px;
   .el-col-2 {
     text-align: center;
   }
