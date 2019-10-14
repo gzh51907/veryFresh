@@ -40,7 +40,7 @@ let routes = [
     },
     //商品列表动态路由
     {
-        path: '/list',
+        path: '/list/:gid',
         component: list
     },
     //404
