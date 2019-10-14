@@ -1,23 +1,6 @@
 <template>
   <el-container>
-    <!-- 头部 -->
-    <div class="app_header" style="height:56px;">
-      <el-header class="header" style="padding:0px; height: 56px">
-        <el-row>
-          <el-col :span="4">
-            <i class="el-icon-location-information">广州</i>
-          </el-col>
-          <el-col :span="16">
-            <div class="demo-input-suffix">
-              <el-input placeholder="请搜索您感兴趣的商品" prefix-icon="el-icon-search"></el-input>
-            </div>
-          </el-col>
-          <el-col :span="4">
-            <i class="el-icon-chat-round"></i>
-          </el-col>
-        </el-row>
-      </el-header>
-    </div>
+ 
 
     <!-- 中间 -->
     <el-main style="padding:0px; margin-bottom:47px;">
@@ -113,44 +96,7 @@ export default {
 }
 </style>
 <style lang="scss">
-.app_header {
-  .header {
-    background: #fff;
-    box-shadow: 1px 1px 4px hsla(0, 0%, 49%, 0.3);
-    padding: 0;
-    position: fixed;
-    top: -1px;
-    left: 0px;
-    right: 0px;
-    width: 100%;
-    z-index: 999;
-    .el-row {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
 
-      .el-col-4 {
-        text-align: center;
-        font-size: 14px;
-        i {
-          color: #333333;
-          display: block;
-          font-size: 14px;
-          &::before {
-            color: #333333;
-            font-size: 18px;
-          }
-        }
-      }
-      .el-col-16 {
-        input {
-          background: #f5f5f5;
-          outline-style: none;
-        }
-      }
-    }
-  }
-}
 // .app_footer {
   #footers {
     height: 60px;
