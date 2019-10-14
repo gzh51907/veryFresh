@@ -8,6 +8,7 @@ import book from '../pages/book';
 import cart from '../pages/cart';
 import mine from '../pages/mine';
 import detail from '../pages/detail';
+import cart_rules from '../pages/cart_rules';
 
 //配置
 let routes = [
@@ -41,6 +42,11 @@ let routes = [
         path: '/404',
         component: NotFound
     },
+     //购物车-规则详情
+     {
+         path: '/cart_rules',
+         component: cart_rules
+     },
 ];
 
 export default routes;
