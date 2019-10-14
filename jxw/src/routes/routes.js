@@ -8,6 +8,7 @@ import book from '../pages/book';
 import cart from '../pages/cart';
 import mine from '../pages/mine';
 import detail from '../pages/detail';
+import list from '../pages/list';
 
 //配置
 let routes = [
@@ -35,6 +36,11 @@ let routes = [
     {
         path: '/detail/:gid',
         component: detail
+    },
+    //商品列表动态路由
+    {
+        path: '/list',
+        component: list
     },
     //404
     {
