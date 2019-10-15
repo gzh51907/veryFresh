@@ -96,7 +96,7 @@
               <div class="good_con">
                 <p class="p_title">
                   <i class="Self-support" v-if="supitem.isProprietary === 1">自营</i>
-                  极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                  {{supitem.name}}
                 </p>
                 <p style="margin-top:4px;">
                   <span class="p_price" v-if="supitem.unitPrice == null">￥__.__</span>
@@ -132,12 +132,11 @@
               <div class="good_con">
                 <p class="p_title">
                   <i class="Self-support" v-if="supitem.isProprietary === 1">自营</i>
-                  极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                  {{supitem.name}}
                 </p>
                 <p style="margin-top:4px;">
                   <span class="p_price" v-if="supitem.unitPrice == null">￥__.__</span>
                   <span class="p_price" v-else>￥{{(supitem.unitPrice-0).toFixed(2)}}</span>
-
                   <span class="p_weight">/{{supitem.unitName}}</span>
                 </p>
               </div>
@@ -151,66 +150,43 @@
     <div class="Special_area" v-for="item in typeList" :key="item.areaName">
       <!-- 标题 -->
       <div class="productListTitle">
-        <h4>{{item.typeList}}</h4>
+        <h4>{{item.type}}</h4>
         <span class="listMore">
           更多
           <i class="el-icon-arrow-right"></i>
         </span>
       </div>
       <div class="goodlist">
-        <dl>
+        <dl v-for="subitem in item.data" :key="subitem.productId">
           <dt>
             <div class="goods_pic">
-              <img src="../assets/goods/good1.jpg" />
-              <span class="data-style" v-if="item.sendDate === '现货'">{{supitem.sendDate}}</span>
-              <span class="data-style" v-else>{{item.sendDate}}到港</span>
-              <span class="abroad-style" v-if="item.abroad === 2">国内精品</span>
-              <span class="abroad-style" v-if="item.abroad === 1">海外原包</span>
+              <img :src="subitem.imgUrl" />
+              <span class="data-style" v-if="subitem.sendDate === '现货'">{{subitem.sendDate}}</span>
+              <span class="data-style" v-else>{{subitem.sendDate}}到港</span>
+              <span class="abroad-style" v-if="subitem.abroad === 2">国内精品</span>
+              <span class="abroad-style" v-if="subitem.abroad === 1">海外原包</span>
             </div>
           </dt>
           <dd>
             <div class="good_name">
-              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
+              <i class="Self-support" v-if="subitem.isProprietary === 1">自营</i>
+              {{subitem.name}}
             </div>
             <div class="row2">
-              <span class="sale-volume">已售:1114箱</span>
-              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
+              <span class="sale-volume">已售:{{subitem.saledQty}}{{subitem.salePriceUnitName}}</span>
+              <span class="guige" style="margin-left:15px;">{{subitem.specName}}</span>
             </div>
             <div class="row3">
               <div>
-                <span class="p_price" style="font-size:16px">￥81.00</span>
-                <span class="p_weight">/500g</span>
+                <span class="p_price" style="font-size:16px" v-if="subitem.unitPrice == null">￥__.__</span>
+                <span class="p_price" v-else>￥{{(subitem.unitPrice-0).toFixed(2)}}</span>
+                <span class="p_weight">/{{subitem.unitName}}</span>
               </div>
               <i class="el-icon-shopping-cart-2"></i>
             </div>
           </dd>
         </dl>
         <div class="line-css"></div>
-        <dl>
-          <dt>
-            <div class="goods_pic">
-              <img src="../assets/goods/good1.jpg" />
-              <span class="data-style">到港</span>
-              <span class="abroad-style">国内精品</span>
-            </div>
-          </dt>
-          <dd>
-            <div class="good_name">
-              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
-            </div>
-            <div class="row2">
-              <span class="sale-volume">已售:1114箱</span>
-              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
-            </div>
-            <div class="row3">
-              <div>
-                <span class="p_price" style="font-size:16px">￥81.00</span>
-                <span class="p_weight">/500g</span>
-              </div>
-              <i class="el-icon-shopping-cart-2"></i>
-            </div>
-          </dd>
-        </dl>
       </div>
     </div>
   </div>
@@ -225,7 +201,7 @@ export default {
       likeData: "",
       AreaDatalist: "",
       // cateId: []
-      typeList: []
+      typeList: ""
     };
   },
   async created() {
@@ -288,15 +264,20 @@ export default {
     let axios1 = this.$axios;
     let len = Arealist.length;
     let arrlist = [];
-    let datastr = "初始值";
+    this.typeList = arrlist;
+    // let datastr = "";
 
+    // console.time();
     //在这里拿到数据，但是相对于外部异步，暂时没能渲染
-    function fn(num) {
+    (function fn(num) {
       if (num >= len) {
-        console.log("递归结束");
-        datastr = JSON.stringify(arrlist);
-        console.log(datastr);
-        return datastr;
+        // console.log("递归结束");
+        // datastr = JSON.stringify(arrlist);
+        // console.log(arrlist);
+        // console.timeEnd();
+        // console.log(datastr);
+        // return datastr;
+        return ;
       } else {
         let str = "";
         let lh = Arealist[num].categoryVos.length;
@@ -314,34 +295,13 @@ export default {
                   data: { quoteList }
                 }
               } = res;
-              // console.log(JSON.stringify(quoteList));
               arrlist.push({ type: Arealist[num].areaName, data: quoteList });
-              // console.log("arrlist",arrlist);
-              // console.log(JSON.stringify(arrlist))
               return fn(++num);
             });
           }
         });
       }
-    }
-
-    let p = new Promise(function(reslove) {
-      let aa = fn(0);
-      reslove(aa);
-    });
-    p.then(function(data3) {
-      console.log("data3", data3);
-    });
-
-    // console.log("bb");
-    // console.log("datastr；", datastr);
-    // this.typeList = arrlist;
-    // let i = "0";
-    // console.log("this.typeList",this.typeList);
-    // console.log(this.typeList);
-    // console.log( "this.typeList['__ob__']",this.typeList['__ob__']);
-    //
-    
+    })(0);
   }
 };
 </script>
@@ -606,6 +566,7 @@ export default {
         display: flex;
         justify-content: flex-start;
         dd {
+          width: 233px;
           position: relative;
           padding-left: 8px;
           .good_name {
