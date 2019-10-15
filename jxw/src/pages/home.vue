@@ -84,7 +84,11 @@
       <!-- 内容 -->
       <div class="productList">
         <ul class="productList_css">
-          <li v-for="supitem in item.products" :key="supitem.productId">
+          <li
+            v-for="supitem in item.products"
+            :key="supitem.productId"
+            @click="goto(supitem.productId)"
+          >
             <div class="goods">
               <div class="goods_pic">
                 <img :src="supitem.imgUrl" />
@@ -120,7 +124,7 @@
       </div>
       <div class="productList">
         <ul class="productList_css">
-          <li v-for="supitem in likeData" :key="supitem.productId">
+          <li v-for="supitem in likeData" :key="supitem.productId" @click="goto(supitem.productId)">
             <div class="goods">
               <div class="goods_pic">
                 <img :src="supitem.imgUrl" />
@@ -157,7 +161,7 @@
         </span>
       </div>
       <div class="goodlist">
-        <dl v-for="subitem in item.data" :key="subitem.productId">
+        <dl v-for="subitem in item.data" :key="subitem.productId" @click="goto(subitem.productId)">
           <dt>
             <div class="goods_pic">
               <img :src="subitem.imgUrl" />
@@ -200,7 +204,6 @@ export default {
       activeList: "",
       likeData: "",
       AreaDatalist: "",
-      // cateId: []
       typeList: ""
     };
   },
@@ -268,7 +271,7 @@ export default {
     // let datastr = "";
 
     // console.time();
-    //在这里拿到数据，但是相对于外部异步，暂时没能渲染
+    //在这里拿到数据分区
     (function fn(num) {
       if (num >= len) {
         // console.log("递归结束");
@@ -277,7 +280,7 @@ export default {
         // console.timeEnd();
         // console.log(datastr);
         // return datastr;
-        return ;
+        return;
       } else {
         let str = "";
         let lh = Arealist[num].categoryVos.length;
@@ -302,6 +305,12 @@ export default {
         });
       }
     })(0);
+  },
+  methods: {
+    goto(gid) {
+      //路由跳转详情页
+      this.$router.push({ name: "detail", params: { gid } });
+    }
   }
 };
 </script>
