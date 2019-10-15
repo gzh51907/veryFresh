@@ -71,11 +71,11 @@
       </ul>
     </div>
 
-    <!-- 优选现货 -->
-    <div class="productBox">
+    <!-- 优选现货 | 好货限时购 -->
+    <div class="productBox" v-for="item in activeList" :key="item.id">
       <!-- 标题 -->
       <div class="productListTitle">
-        <h4>优选现货</h4>
+        <h4>{{item.actName}}</h4>
         <span class="listMore">
           更多
           <i class="el-icon-arrow-right"></i>
@@ -84,56 +84,28 @@
       <!-- 内容 -->
       <div class="productList">
         <ul class="productList_css">
-          <li>
+          <li
+            v-for="supitem in item.products"
+            :key="supitem.productId"
+            @click="goto(supitem.productId)"
+          >
             <div class="goods">
               <div class="goods_pic">
-                <img src="../assets/goods/good1.jpg" />
-                <span class="data-style">到港</span>
-                <span class="abroad-style">国内精品</span>
+                <img :src="supitem.imgUrl" />
+                <span class="data-style" v-if="supitem.sendDate === '现货'">{{supitem.sendDate}}</span>
+                <span class="data-style" v-else>{{supitem.sendDate}}到港</span>
+                <span class="abroad-style" v-if="supitem.abroad === 2">国内精品</span>
+                <span class="abroad-style" v-if="supitem.abroad === 1">海外原包</span>
               </div>
               <div class="good_con">
                 <p class="p_title">
-                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                  <i class="Self-support" v-if="supitem.isProprietary === 1">自营</i>
+                  {{supitem.name}}
                 </p>
                 <p style="margin-top:4px;">
-                  <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/500g</span>
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="goods">
-              <div class="goods_pic">
-                <img src="../assets/goods/good1.jpg" />
-                <span class="data-style">到港</span>
-                <span class="abroad-style">国内精品</span>
-              </div>
-              <div class="good_con">
-                <p class="p_title">
-                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
-                </p>
-                <p style="margin-top:4px;">
-                  <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/500g</span>
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="goods">
-              <div class="goods_pic">
-                <img src="../assets/goods/good1.jpg" />
-                <span class="data-style">到港</span>
-                <span class="abroad-style">国内精品</span>
-              </div>
-              <div class="good_con">
-                <p class="p_title">
-                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
-                </p>
-                <p style="margin-top:4px;">
-                  <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/500g</span>
+                  <span class="p_price" v-if="supitem.unitPrice == null">￥__.__</span>
+                  <span class="p_price" v-else>￥{{(supitem.unitPrice-0).toFixed(2)}}</span>
+                  <span class="p_weight">/{{supitem.unitName}}</span>
                 </p>
               </div>
             </div>
@@ -142,69 +114,34 @@
       </div>
     </div>
 
-    <!-- 好货限时抢 -->
+    <!-- 猜你喜欢 -->
     <div class="productBox">
-      <!-- 标题 -->
       <div class="productListTitle">
-        <h4>好货限时抢</h4>
-        <span class="listMore">
-          更多
-          <i class="el-icon-arrow-right"></i>
-        </span>
+        <h4>
+          猜你喜欢
+          <b></b>
+        </h4>
       </div>
-      <!-- 内容 -->
       <div class="productList">
         <ul class="productList_css">
-          <li>
+          <li v-for="supitem in likeData" :key="supitem.productId" @click="goto(supitem.productId)">
             <div class="goods">
               <div class="goods_pic">
-                <img src="../assets/goods/good1.jpg" />
-                <span class="data-style">到港</span>
-                <span class="abroad-style">国内精品</span>
+                <img :src="supitem.imgUrl" />
+                <span class="data-style" v-if="supitem.sendDate === '现货'">{{supitem.sendDate}}</span>
+                <span class="data-style" v-else>{{supitem.sendDate}}到港</span>
+                <span class="abroad-style" v-if="supitem.abroad === 2">国内精品</span>
+                <span class="abroad-style" v-if="supitem.abroad === 1">海外原包</span>
               </div>
               <div class="good_con">
                 <p class="p_title">
-                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
+                  <i class="Self-support" v-if="supitem.isProprietary === 1">自营</i>
+                  {{supitem.name}}
                 </p>
                 <p style="margin-top:4px;">
-                  <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/500g</span>
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="goods">
-              <div class="goods_pic">
-                <img src="../assets/goods/good1.jpg" />
-                <span class="data-style">到港</span>
-                <span class="abroad-style">国内精品</span>
-              </div>
-              <div class="good_con">
-                <p class="p_title">
-                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
-                </p>
-                <p style="margin-top:4px;">
-                  <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/500g</span>
-                </p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="goods">
-              <div class="goods_pic">
-                <img src="../assets/goods/good1.jpg" />
-                <span class="data-style">到港</span>
-                <span class="abroad-style">国内精品</span>
-              </div>
-              <div class="good_con">
-                <p class="p_title">
-                  <i class="Self-support">自营</i>极鲜仓配 中国 国产鲍鱼 养殖（上海市发货）
-                </p>
-                <p style="margin-top:4px;">
-                  <span class="p_price">￥38.00</span>
-                  <span class="p_weight">/500g</span>
+                  <span class="p_price" v-if="supitem.unitPrice == null">￥__.__</span>
+                  <span class="p_price" v-else>￥{{(supitem.unitPrice-0).toFixed(2)}}</span>
+                  <span class="p_weight">/{{supitem.unitName}}</span>
                 </p>
               </div>
             </div>
@@ -212,132 +149,48 @@
         </ul>
       </div>
     </div>
+
     <!-- 龙虾专区 -->
-    <div class="Special_area">
+    <div class="Special_area" v-for="item in typeList" :key="item.areaName">
       <!-- 标题 -->
       <div class="productListTitle">
-        <h4>龙虾专区</h4>
+        <h4>{{item.type}}</h4>
         <span class="listMore">
           更多
           <i class="el-icon-arrow-right"></i>
         </span>
       </div>
       <div class="goodlist">
-        <dl>
+        <dl v-for="subitem in item.data" :key="subitem.productId" @click="goto(subitem.productId)">
           <dt>
             <div class="goods_pic">
-              <img src="../assets/goods/good1.jpg" />
-              <span class="data-style">到港</span>
-              <span class="abroad-style">国内精品</span>
+              <img :src="subitem.imgUrl" />
+              <span class="data-style" v-if="subitem.sendDate === '现货'">{{subitem.sendDate}}</span>
+              <span class="data-style" v-else>{{subitem.sendDate}}到港</span>
+              <span class="abroad-style" v-if="subitem.abroad === 2">国内精品</span>
+              <span class="abroad-style" v-if="subitem.abroad === 1">海外原包</span>
             </div>
           </dt>
           <dd>
             <div class="good_name">
-              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
+              <i class="Self-support" v-if="subitem.isProprietary === 1">自营</i>
+              {{subitem.name}}
             </div>
             <div class="row2">
-              <span class="sale-volume">已售:1114箱</span>
-              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
+              <span class="sale-volume">已售:{{subitem.saledQty}}{{subitem.salePriceUnitName}}</span>
+              <span class="guige" style="margin-left:15px;">{{subitem.specName}}</span>
             </div>
             <div class="row3">
               <div>
-                <span class="p_price" style="font-size:16px">￥81.00</span>
-                <span class="p_weight">/500g</span>
+                <span class="p_price" style="font-size:16px" v-if="subitem.unitPrice == null">￥__.__</span>
+                <span class="p_price" v-else>￥{{(subitem.unitPrice-0).toFixed(2)}}</span>
+                <span class="p_weight">/{{subitem.unitName}}</span>
               </div>
               <i class="el-icon-shopping-cart-2"></i>
             </div>
           </dd>
         </dl>
         <div class="line-css"></div>
-        <dl>
-          <dt>
-            <div class="goods_pic">
-              <img src="../assets/goods/good1.jpg" />
-              <span class="data-style">到港</span>
-              <span class="abroad-style">国内精品</span>
-            </div>
-          </dt>
-          <dd>
-            <div class="good_name">
-              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
-            </div>
-            <div class="row2">
-              <span class="sale-volume">已售:1114箱</span>
-              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
-            </div>
-            <div class="row3">
-              <div>
-                <span class="p_price" style="font-size:16px">￥81.00</span>
-                <span class="p_weight">/500g</span>
-              </div>
-              <i class="el-icon-shopping-cart-2"></i>
-            </div>
-          </dd>
-        </dl>
-      </div>
-    </div>
-    <!-- 鱼类专区 -->
-    <div class="Special_area">
-      <!-- 标题 -->
-      <div class="productListTitle">
-        <h4>鱼类专区</h4>
-        <span class="listMore">
-          更多
-          <i class="el-icon-arrow-right"></i>
-        </span>
-      </div>
-      <div class="goodlist">
-        <dl>
-          <dt>
-            <div class="goods_pic">
-              <img src="../assets/goods/good1.jpg" />
-              <span class="data-style">到港</span>
-              <span class="abroad-style">国内精品</span>
-            </div>
-          </dt>
-          <dd>
-            <div class="good_name">
-              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
-            </div>
-            <div class="row2">
-              <span class="sale-volume">已售:1114箱</span>
-              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
-            </div>
-            <div class="row3">
-              <div>
-                <span class="p_price" style="font-size:16px">￥81.00</span>
-                <span class="p_weight">/500g</span>
-              </div>
-              <i class="el-icon-shopping-cart-2"></i>
-            </div>
-          </dd>
-        </dl>
-        <div class="line-css"></div>
-        <dl>
-          <dt>
-            <div class="goods_pic">
-              <img src="../assets/goods/good1.jpg" />
-              <span class="data-style">到港</span>
-              <span class="abroad-style">国内精品</span>
-            </div>
-          </dt>
-          <dd>
-            <div class="good_name">
-              <i class="Self-support">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
-            </div>
-            <div class="row2">
-              <span class="sale-volume">已售:1114箱</span>
-              <span class="guige" style="margin-left:15px;">45-60g左右/只</span>
-            </div>
-            <div class="row3">
-              <div>
-                <span class="p_price" style="font-size:16px">￥81.00</span>
-                <span class="p_weight">/500g</span>
-              </div>
-              <i class="el-icon-shopping-cart-2"></i>
-            </div>
-          </dd>
-        </dl>
       </div>
     </div>
   </div>
@@ -347,7 +200,11 @@ export default {
   data() {
     return {
       //轮播图数据
-      bannerUrl: ""
+      bannerUrl: "",
+      activeList: "",
+      likeData: "",
+      AreaDatalist: "",
+      typeList: ""
     };
   },
   async created() {
@@ -356,10 +213,104 @@ export default {
         data: { content }
       }
     } = await this.$axios.get(
-      "https://zuul.gfresh.cn/api/product/banner/queryBannerList?pageNum=1&showNum=10"
+      "https://zuul.gfresh.cn/api/product/banner/queryBannerList?",
+      {
+        params: {
+          pageNum: 1,
+          showNum: 10
+        }
+      }
     );
     // console.log(content);
     this.bannerUrl = content;
+    //优选现货 好货限时购 的数据请求
+    let {
+      data: { data }
+    } = await this.$axios.get(
+      "https://zuul.gfresh.cn/api/product/product/queryHomeActivityProduct?",
+      {
+        params: {
+          cityId: "44769e16-ecc6-4d18-a210-caf1c6ec1dea",
+          abroad: "0",
+          pageSize: "5"
+        }
+      }
+    );
+    this.activeList = data;
+
+    //猜你喜欢数据
+    let {
+      data: {
+        data: { quoteList }
+      }
+    } = await this.$axios.get(
+      "https://zuul.gfresh.cn/api/product/product/queryGuessYouLikeProduct?",
+      {
+        params: {
+          pageNumber: "1",
+          cityId: "44769e16-ecc6-4d18-a210-caf1c6ec1dea",
+          abroad: "0",
+          pageSize: "5"
+        }
+      }
+    );
+    this.likeData = quoteList;
+
+    //分区数据
+    let {
+      data: { data: Arealist }
+    } = await this.$axios.get(
+      "https://zuul.gfresh.cn/api/product/homeArea/getHomeAreas"
+    );
+    // console.log(Arealist);
+    this.AreaDatalist = Arealist;
+    let axios1 = this.$axios;
+    let len = Arealist.length;
+    let arrlist = [];
+    this.typeList = arrlist;
+    // let datastr = "";
+
+    // console.time();
+    //在这里拿到数据分区
+    (function fn(num) {
+      if (num >= len) {
+        // console.log("递归结束");
+        // datastr = JSON.stringify(arrlist);
+        // console.log(arrlist);
+        // console.timeEnd();
+        // console.log(datastr);
+        // return datastr;
+        return;
+      } else {
+        let str = "";
+        let lh = Arealist[num].categoryVos.length;
+        // console.log("lh", lh);
+        Arealist[num].categoryVos.forEach((item, idx) => {
+          str += item.categoryId + ",";
+          if (idx == lh - 1) {
+            // console.log(Arealist[num].areaName);
+            str = str.slice(0, -1);
+            let url = `https://zuul.gfresh.cn/api/product/product/queryProductByCateIdShowNum?cateId=${str}&showNum=5&showNoQuote=1&cityId=44769e16-ecc6-4d18-a210-caf1c6ec1dea&abroad=0`;
+            // console.log(url);
+            axios1.get(url).then(res => {
+              let {
+                data: {
+                  data: { quoteList }
+                }
+              } = res;
+              arrlist.push({ type: Arealist[num].areaName, data: quoteList });
+              return fn(++num);
+            });
+          }
+        });
+      }
+    })(0);
+  },
+  methods: {
+    goto(gid) {
+      //路由跳转详情页
+      this.$router.push({ name: "detail", params: { gid } });
+    }
   }
 };
 </script>
@@ -506,6 +457,19 @@ export default {
       font-size: 24px;
       color: #333333;
       line-height: 24px;
+      position: relative;
+    }
+    b {
+      position: absolute;
+      right: -25px;
+      bottom: 50%;
+      transform: translateY(50%);
+      width: 17px;
+      height: 17px;
+      background-image: url("../assets/icon/icon-love.png");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: contain;
     }
   }
   .productList {
@@ -532,8 +496,12 @@ export default {
           }
         }
       }
+      li:last-child {
+        padding-right: 16px;
+      }
     }
   }
+
   // 图片
   .goods_pic {
     position: relative;
@@ -555,6 +523,7 @@ export default {
       background-image: -webkit-linear-gradient(left, #66bdf8, #0091f3);
       background-image: linear-gradient(90deg, #66bdf8, #0091f3);
       min-width: 40px;
+      padding: 0 5px 0 0;
       font-weight: 600;
     }
     .abroad-style {
@@ -565,6 +534,7 @@ export default {
       bottom: 5px;
       left: 6px;
       color: #333;
+      padding: 0 3px;
       line-height: 14px;
       border-radius: 2px;
       background-color: #fff;
@@ -605,6 +575,7 @@ export default {
         display: flex;
         justify-content: flex-start;
         dd {
+          width: 233px;
           position: relative;
           padding-left: 8px;
           .good_name {
