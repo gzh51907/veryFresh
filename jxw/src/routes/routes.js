@@ -9,6 +9,7 @@ import detail from '../pages/detail';
 import cart_rules from '../pages/cart_rules';
 import list from '../pages/list';
 import register_login from '../pages/register_login';
+import quit from '../pages/quit';
 
 //配置
 let routes = [{
@@ -30,6 +31,10 @@ let routes = [{
     {
         path: '/mine',
         component: mine
+    },
+    {
+        path: '/quit',
+        component: quit
     },
     //商品详情动态路由
     {
