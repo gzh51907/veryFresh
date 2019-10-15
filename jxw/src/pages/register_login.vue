@@ -1,50 +1,64 @@
 <template>
   <div>
     <header>
-     <div>
-       <p>极鲜网</p>
-       <h3>Gfresh</h3>
-     </div>
+      <div>
+        <p>极鲜网</p>
+        <h3>Gfresh</h3>
+      </div>
     </header>
     <main>
-<van-tabs type="card" color='#c1c1c1' background='#ccc'>
-  <van-tab title="登录" style="height:50px">
-        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm">
-         <el-form-item label="用户名" prop="username">
-            <el-input v-model="ruleForm.username"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item>
-           <el-checkbox v-model="checked" >下次免登陆</el-checkbox>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>
-    </el-form>
-  </van-tab>
-  <van-tab title="注册">
-        <el-form :model=" reg_ruleForm" status-icon :rules="reg_rules" ref="reg_ruleForm" label-width="70px" class="demo-ruleForm" style="  font-size: 12px;">
-         <el-form-item label="用户名" prop="username">
-            <el-input v-model=" reg_ruleForm.username"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model=" reg_ruleForm.password" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="checkPass">
-            <el-input type="password" v-model=" reg_ruleForm.checkPass" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="reg_submitForm('reg_ruleForm')">注册</el-button>
-            <el-button @click="reg_resetForm('reg_ruleForm')">重置</el-button>
-        </el-form-item>
-    </el-form>
-  </van-tab>
-</van-tabs>
+      <van-tabs type="card" color="#c1c1c1" background="#ccc">
+        <van-tab title="登录" style="height:50px">
+          <el-form
+            :model="ruleForm"
+            status-icon
+            :rules="rules"
+            ref="ruleForm"
+            label-width="70px"
+            class="demo-ruleForm"
+          >
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="ruleForm.username"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-checkbox v-model="checked">下次免登陆</el-checkbox>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+              <el-button @click="resetForm('ruleForm')">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </van-tab>
+        <van-tab title="注册">
+          <el-form
+            :model=" reg_ruleForm"
+            status-icon
+            :rules="reg_rules"
+            ref="reg_ruleForm"
+            label-width="70px"
+            class="demo-ruleForm"
+            style="  font-size: 12px;"
+          >
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model=" reg_ruleForm.username"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input type="password" v-model=" reg_ruleForm.password" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="checkPass">
+              <el-input type="password" v-model=" reg_ruleForm.checkPass" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="reg_submitForm('reg_ruleForm')">注册</el-button>
+              <el-button @click="reg_resetForm('reg_ruleForm')">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </van-tab>
+      </van-tabs>
     </main>
-    
   </div>
 </template>
 
@@ -146,35 +160,41 @@ export default {
   }, //====data===
   methods: {
     submitForm(formName) {
+      let { username, password } = this.ruleForm;
+      // console.log( this.ruleForm)
+      // console.log("username,password:",username,password)
       //登录提交
       this.$refs[formName].validate(async valid => {
-        console.log("checked:" + this.checked);
+        // console.log("checked:" + this.checked);
         //登录验证
         let { data } = await this.$axios.get(
           "http://10.3.133.72:10086/user/login",
           {
             params: {
-              username: this.ruleForm.username,
-              password: this.ruleForm.password,
+              username,
+              password,
               mdl: this.checked
             }
           }
         );
         if (data) {
+          console.log(data)
           localStorage.setItem("Authorization", data.data);
         }
-        console.log("data:", data);
+        // console.log("data:", data);
         if (data.code === 0) {
           alert("用户或者密码错误！");
           return false;
         } else {
           alert("登录成功！");
-          console.log(this.$route);
-          if (this.$route.query.targurl) {
-            this.$router.push(this.$route.query.targurl); //购物车或者mine需要登录，记录足迹并跳转（在全局路由里面做了配置）
+          // console.log(this.$route);
+          if (this.$route.query.targetUrl) {
+            // console.log(this.$route.query.targetUrl)
+            this.$router.push(this.$route.query.targetUrl); //购物车或者mine需要登录，记录足迹并跳转（在全局路由里面做了配置）
           } else {
-            this.$router.push("/mine");
-          }
+            console.log("登录界面的username",username)
+            this.$router.push({ path: "/mine", query: { username } });
+          }  
         }
       });
     },
@@ -188,7 +208,7 @@ export default {
           console.log(this.reg_ruleForm.username);
           let res = await this.$axios.post(
             "http://10.3.133.72:10086/user/reg",
-           data
+            data
           );
           console.log(res.data);
           alert("submit!");
