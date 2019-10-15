@@ -1,7 +1,9 @@
 <template>
   <div class="list">
       <div class="list_header">
-      <p class="title_icon">&lt;</p>
+      <p class="title_icon">
+         <i class="icon-arrow-left"></i>
+      </p>
       <div class="title">
         <div class="list_title">
             <h3>螯龙虾</h3>
@@ -86,14 +88,27 @@ export default {
 .list_header{
    padding-bottom:16px;
    border-bottom:1px solid #ccc;
-    .title_icon{
-    margin-top:20px;
-    margin-left:16px;
-    font-size: 16px;
-    font-weight: 400;    
-    }
+     .title_icon{
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 8px;
+            left: 16px;
+            z-index: 101;
+            .icon-arrow-left{
+                content: "";
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                border: 1px solid #333;
+                border-width: 1px 0 0 1px;
+                transform: rotate(315deg);
+                top: 8px;
+                left: 7px;
+            }
+        } 
     .title{
-    padding: 20px 0px 30px 20px;
+     padding: 52px 16px 32px;
     .list_title {
       
        h3{
