@@ -12,16 +12,20 @@ import register_login from '../pages/register_login';
 import quit from '../pages/quit';
 
 //配置
-let routes = [{
+let routes = [
+    {
         path: '/home',
+        name: 'home',
         component: home
     },
     {
         path: '/type',
+        name: 'type',
         component: type
     },
     {
         path: '/book',
+        name: 'book',
         component: book
     },
     {
@@ -30,6 +34,7 @@ let routes = [{
     },
     {
         path: '/mine',
+        name: 'mine',
         component: mine
     },
     {
@@ -38,12 +43,14 @@ let routes = [{
     },
     //商品详情动态路由
     {
-        path: '/detail/:gid',
+        path: '/detail/gid=:gid',
+        name: 'detail',
         component: detail
     },
     //商品列表动态路由
     {
         path: '/list/:gid',
+        name: 'list',
         component: list
     },
     //404
@@ -54,6 +61,7 @@ let routes = [{
     //购物车-规则详情
     {
         path: '/cart_rules',
+        name: 'cart_rules',
         component: cart_rules
     },
     //*
@@ -69,9 +77,9 @@ let routes = [{
     //登录与注册页
     {
         path: '/register_login',
-        component:register_login
-    },
-
+        name: 'register_login',
+        component: register_login
+    }
 ];
 
 export default routes;
