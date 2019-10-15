@@ -8,12 +8,12 @@
     <div  v-for="item in dataList" :key="item.shopId">
       <!-- 店铺复选框 -->
       <el-row class="store">
-          <el-col :span="2"><input type="checkbox" name="" id="" v-model="item.store_checked" @click='store_check(item.store_checked,item.shopId)'></el-col>
+          <el-col :span="2"><input type="checkbox" name="" id="" v-model="item.isValid" @click='store_check(item.isValid,item.shopId)'></el-col>
           <el-col :span="22"><span class="storeName">{{item.shopName}}</span></el-col>
       </el-row >
       <el-row class="list" v-for="goods in item.shoppingCartVos" :key='goods.productId'>
         <!-- 商品复选框 -->
-        <el-col :span="2"><input type="checkbox" name="" id="" v-model="goods.isValid" @click="goods_check(goods.isValid,item.shopId)"></el-col>
+        <el-col :span="2"><input type="checkbox" name="" id="" v-model="goods.goods_check"></el-col>
         <el-col :span="22">
              <ul>
               <li>
@@ -57,7 +57,7 @@
         </el-row>
         <el-row class="count">
           <el-col :span="12">
-            <input type="checkbox" name="" id=""  v-model="all_check" @click="all_checks(all_check)">
+            <input type="checkbox" name="" id="">
             <label for="">全选</label>
           </el-col>
           <el-col :span="12">
@@ -76,10 +76,7 @@ export default {
   data() {
     return {
       num4: 1,
-      dataList: "", //所有数据
-      arr_goodsCheck: [], //所有商品控制全选
-      all_check: true, //全选默认状态
-      goods: [] //存储购物车每个商品的数据
+      dataList: ""
     };
   },
   computed: {
@@ -96,8 +93,7 @@ export default {
     }
   },
   methods: {
-    add(id) {
-      //数量加
+    add(id) {//数量加
       this.dataList.map(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.productId === id) {
@@ -109,8 +105,7 @@ export default {
         });
       });
     },
-    cut(id) {
-      //数量减
+    cut(id) {//数量减
       this.dataList.map(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.productId === id) {
@@ -122,111 +117,96 @@ export default {
         });
       });
     },
-    goto() {
-      //详情规则
+    goto() {//详情规则
       // console.log("1");
       this.$router.push("/cart_rules");
     },
-    store_check(check, id) {
-      //店铺打钩：（全选和不选）打钩控制商品打钩
+    store_check(check, id) {//店铺全选和不选：打钩控制商品打钩
       check = !check;
-      // console.log("店铺打钩", check);
-      // console.log("id", id);
+      console.log("店铺check", check);
+      console.log("id", id);
 
       this.dataList.forEach(item => {
         if (item.shopId === id) {
+          // console.log('a')
           item.shoppingCartVos.forEach(i => {
-            if (check === true) {
-              if (i.isValid === false) {
-                this.arr_goodsCheck.push(true);
-              }
-            } else {
-              this.arr_goodsCheck.pop();
-            }
-
-            if (this.arr_goodsCheck.length === this.goods.length) {
-              //控制全选
-              this.all_check = true;
-            } else {
-              this.all_check = false;
-            }
-            console.log(this.arr_goodsCheck);
+            i.goods_check = check; //添加每个商品打钩属性
+            console.log(i.goods_check);
           });
         }
-      });
-      this.dataList.forEach(item => {
-        if (item.shopId === id) {
-          item.shoppingCartVos.forEach(i => {
-            i.isValid = check; //添加每个商品打钩属性
-          });
-        }
-      });
-    },
-
-    goods_check(goodsCheck, shopId) {
-      //商品控制本店铺 / 商品控制全选功能
-      goodsCheck = !goodsCheck;
-      console.log(goodsCheck, shopId);
-      this.dataList.forEach(item => {
-        if (item.shopId === shopId) {
-          item.store_checked = goodsCheck;
-        }
-      });
-
-      //商品打钩：如果有一个为false，控制店铺打钩为false;如果全部商品打钩，控制店铺打钩为true
-
-      if (goodsCheck) {
-        this.arr_goodsCheck.push(goodsCheck);
-      } else {
-        this.arr_goodsCheck.pop();
-      }
-      if (this.arr_goodsCheck.length === this.goods.length) {
-        //控制全选
-        this.all_check = true;
-      } else {
-        this.all_check = false;
-      }
-
-      console.log(this.arr_goodsCheck);
-    },
-
-    all_checks(check) {
-      //全选功能（完成）
-      check = !check;
-      this.goods.forEach(item => {
-        //控制所有商品
-        item.isValid = check;
-      });
-      this.dataList.forEach(item => {
-        item.store_checked = check; //控制所有店铺
       });
     }
+
+    //额外加属性：商品打钩
+    // extra_goodsCheck() {
+    //   this.dataList.forEach(item => {
+    //     item.shoppingCartVos.forEach(i => {
+    //       i.goods_check = true;
+    //     });
+    //     console.log(item);
+    //     return item;
+    //   });
+    // }
   },
   async created() {
     let { data } = await this.$axios.get(
       "http://10.3.133.72:10086/goods/cart_test"
     );
     this.dataList = data;
+    // console.log(data);
 
     let length = this.dataList.length; //为了在下面截取掉原本的数据，重新生成新数据
     this.dataList.forEach(item => {
       item.shoppingCartVos.forEach(i => {
-        this.goods.push(i);
-        // console.log("i", this.goods);
         i.goods_check = true; //添加每个商品打钩属性
-        // console.log("dianpu:", i.isValid);
+      console.log('dianpu:',i.isValid)
       });
+      item.shop_check = true; //增加店铺打钩属性
+
+
+
+      // console.log(item)
+      // this.$watch("item.shop_check", function(new_val,old_val) {
+      //   console.log('1')
+      //   if (new_val != old_val) {
+      //   }
+      // },{deep:true});
+
+
       this.dataList.push(item);
     });
 
     this.dataList = this.dataList.slice(length); //截取掉原本的数据
     console.log("this.dataList", this.dataList);
+  },
 
-    //初始化数组arr_goodsCheck:在商品打钩时控制全选功能
-    for (let i = 0; i < this.goods.length; i++) {
-      this.arr_goodsCheck.push(true);
-    }
-  }
+
+  // watch: {
+  //   dataList: {
+  //     handler(newValue, oldValue) {
+  //       for (let i = 0; i < newValue.length; i++) {
+  //         console.log('输出：',newValue[i].shop_check)
+  //         if (oldValue[i]!=newValue[i]) {
+            
+  //           console.log('执行',oldValue[i]);
+  //         }
+  //       }
+  //     },
+  //     deep: true,
+  //     // immediate: true
+  //   }
+  // },
+
+  // watch: {
+  //   "dataList.shop_check": function(new_val, old_val) {
+  //     console.log(new_val, old_val);
+  //     //  for(let i =0 ;i<new_val.length;i++){
+
+  //     //  }
+  //     //   if (new_val.shop_check != old_val.shop_check) {
+  //     //   }
+  //   }
+  // }
 };
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header style="height: 145px;">
+    <el-header style="height: 125px;">
      <el-row>
        <el-col :span='16'>
          <img src="../assets/mine/mine.jpg" alt="">
@@ -98,7 +98,7 @@ export default {};
   .el-header {
     padding: 0 0 0 20px;
     .el-row {
-      margin-top: 60px;
+      margin-top: 46px;
       .el-col-16 {
         display: flex;
 
@@ -145,7 +145,7 @@ export default {};
           background: linear-gradient(270deg, #ff4081, #ff9800);
           color: #fff;
           width: 70px;
-          margin-top: 30px;
+          margin-top: 20px;
           position: absolute;
           right: 0;
         }
@@ -153,6 +153,7 @@ export default {};
     }
   }
   .el-main {
+    padding-top:0;
     .money {
       height: 76px;
       display: flex;
