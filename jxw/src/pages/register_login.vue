@@ -74,16 +74,16 @@ export default {
     //注册
     var reg_checkUser = async (rule, value, callback) => {
       //发送ajax进行用户名验证
-      let res = await this.$axios.get("http://localhost:12345/user/check", {
+      let res = await this.$axios.get("http://10.3.133.72:10086/user/check", {
         params: {
           username: this.reg_ruleForm.username
         }
       });
 
       // res = JSON.stringify(res);
-      // console.log(res)
+      // console.log(res.data)
       //可以用rules里的message属性
-      if (res.data != 0) {
+      if (res.data.code == 0) {
         //后端传过来的数据都在data属性里面
         // console.log("res:" + res);
         return callback(new Error("用户名已存在"));
@@ -151,7 +151,7 @@ export default {
         console.log("checked:" + this.checked);
         //登录验证
         let { data } = await this.$axios.get(
-          "http://localhost:12345/user/login",
+          "http://10.3.133.72:10086/user/login",
           {
             params: {
               username: this.ruleForm.username,
@@ -164,7 +164,7 @@ export default {
           localStorage.setItem("Authorization", data.data);
         }
         console.log("data:", data);
-        if (data === "faile") {
+        if (data.code === 0) {
           alert("用户或者密码错误！");
           return false;
         } else {
@@ -187,12 +187,12 @@ export default {
           let data = { username, password };
           console.log(this.reg_ruleForm.username);
           let res = await this.$axios.post(
-            "http://localhost:12345/user/reg",
+            "http://10.3.133.72:10086/user/reg",
            data
           );
           console.log(res.data);
           alert("submit!");
-          this.$router.push("/login");
+          this.$router.push("/mine");
         } else {
           console.log("error submit!!");
           return false;

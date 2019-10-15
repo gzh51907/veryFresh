@@ -1,69 +1,80 @@
 <template>
   <div>
     <el-row class="title">
-       <el-col :span="20">购物车</el-col>
-       <el-col :span="4">删除</el-col>
+      <el-col :span="20">购物车</el-col>
+      <el-col :span="4">删除</el-col>
     </el-row>
-    <div class="block" >
-    <div  v-for="item in dataList" :key="item.shopId">
+    <div class="block">
+      <div v-for="item in dataList" :key="item.shopId">
         <el-row class="store">
-        <el-col :span="2"><input type="checkbox" name="" id=""></el-col>
-        <el-col :span="22"><span class="storeName">{{item.shopName}}</span></el-col>
-      </el-row >
-      <el-row class="list" v-for="goods in item.shoppingCartVos" :key='goods.productId'>
-        <el-col  :span="2"><input type="checkbox" name="" id=""></el-col>
-        <el-col :span="22">
-             <ul>
+          <el-col :span="2">
+            <input type="checkbox" name id />
+          </el-col>
+          <el-col :span="22">
+            <span class="storeName">{{item.shopName}}</span>
+          </el-col>
+        </el-row>
+        <el-row class="list" v-for="goods in item.shoppingCartVos" :key="goods.productId">
+          <el-col :span="2">
+            <input type="checkbox" name id />
+          </el-col>
+          <el-col :span="22">
+            <ul>
               <li>
-                  <div class="goods">
-                     <div class="con">
-                        <img :src="goods.productImg" alt="">
-                        <div class="con_right">
-                            <h4>{{goods.productName}}</h4>
-                            <div class="info">
-                                <div class="left">
-                                    <p class="price">
-                                        <span>¥{{goods.unitPrice}}</span>
-                                        <small>/{{goods.unitPriceUnit}}</small>
-                                    </p>
-                                    <span class="bottom">¥{{goods.salePrice}}/{{goods.salePriceUnit}}</span>
-                                </div>
-                                <div class="right">
-                                    <span class="cut" @click='cut(goods.productId)'>-</span>
-                                    <input type="number" value="1" v-model='goods.num'>
-                                    <span class="add" @click='add(goods.productId)'>+</span>
-                                     <!-- <el-input-number size="mini" v-model="goods.inducement"></el-input-number> -->
-                                </div>
-                            </div>
+                <div class="goods">
+                  <div class="con">
+                    <img :src="goods.productImg" alt />
+                    <div class="con_right">
+                      <h4>{{goods.productName}}</h4>
+                      <div class="info">
+                        <div class="left">
+                          <p class="price">
+                            <span>¥{{goods.unitPrice}}</span>
+                            <small>/{{goods.unitPriceUnit}}</small>
+                          </p>
+                          <span class="bottom">¥{{goods.salePrice}}/{{goods.salePriceUnit}}</span>
                         </div>
-                     </div>
+                        <div class="right">
+                          <span class="cut" @click="cut(goods.productId)">-</span>
+                          <input type="number" value="1" v-model="goods.num" />
+                          <span class="add" @click="add(goods.productId)">+</span>
+                          <!-- <el-input-number size="mini" v-model="goods.inducement"></el-input-number> -->
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="props"  v-for="details in goods.dynamicProperties" :key='details.name'>
-                      <span>现货</span>
-                      <span>{{details.propertieValue.enValue}}</span>
-                      <span>{{details.propertieValue.Value}}</span>
-                  </div>
+                </div>
+                <div class="props" v-for="details in goods.dynamicProperties" :key="details.name">
+                  <span>现货</span>
+                  <span>{{details.propertieValue.enValue}}</span>
+                  <span>{{details.propertieValue.Value}}</span>
+                </div>
               </li>
-          </ul>
-        </el-col>
-      </el-row>
-    </div>
-      <el-row class="rule" @click.native='goto'>
+            </ul>
+          </el-col>
+        </el-row>
+      </div>
+      <el-row class="rule" @click.native="goto">
         <el-col :span="18">购物车或订单合并支付，运费可以合并计算节省运费</el-col>
         <el-col :span="6">规则详情></el-col>
       </el-row>
-       <el-row class="count">
+      <el-row class="count">
         <el-col :span="12">
-          <input type="checkbox" name="" id="">
-          <label for="">全选</label>
+          <input type="checkbox" name id />
+          <label for>全选</label>
         </el-col>
         <el-col :span="12">
-          <span class="dis">￥<b>0.00</b></span>
-          <span class="goAccount">去结算（<strong>0</strong>）</span>
+          <span class="dis">
+            ￥
+            <b>0.00</b>
+          </span>
+          <span class="goAccount">
+            去结算（
+            <strong>0</strong>）
+          </span>
         </el-col>
       </el-row>
     </div>
-  
   </div>
 </template>
 
@@ -107,7 +118,9 @@ export default {
     }
   },
   async created() {
-    let { data } = await this.$axios.get("http://10.3.133.72:10086/goods/cart");
+    let { data } = await this.$axios.get(
+      "http://10.3.133.72:10086/goods/cart_test"
+    );
     this.dataList = data;
 
     console.log(data);
