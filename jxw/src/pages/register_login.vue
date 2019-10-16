@@ -161,11 +161,8 @@ export default {
   methods: {
     submitForm(formName) {
       let { username, password } = this.ruleForm;
-      // console.log( this.ruleForm)
-      // console.log("username,password:",username,password)
       //登录提交
       this.$refs[formName].validate(async valid => {
-        // console.log("checked:" + this.checked);
         //登录验证
         let { data } = await this.$axios.get(
           "http://10.3.133.72:10086/user/login",
@@ -178,7 +175,7 @@ export default {
           }
         );
         if (data) {
-          console.log(data)
+          //读取本地的 token
           localStorage.setItem("Authorization", data.data);
         }
         // console.log("data:", data);
@@ -192,9 +189,8 @@ export default {
             // console.log(this.$route.query.targetUrl)
             this.$router.push(this.$route.query.targetUrl); //购物车或者mine需要登录，记录足迹并跳转（在全局路由里面做了配置）
           } else {
-            console.log("登录界面的username",username)
-            this.$router.push({ path: "/mine", query: { username } });
-          }  
+            this.$router.push("/mine");
+          }
         }
       });
     },
@@ -205,16 +201,30 @@ export default {
         if (valid) {
           let { username, password } = this.reg_ruleForm;
           let data = { username, password };
-          console.log(this.reg_ruleForm.username);
+          // console.log(this.reg_ruleForm.username);
           let res = await this.$axios.post(
             "http://10.3.133.72:10086/user/reg",
             data
           );
-          console.log(res.data);
-          alert("submit!");
+          alert("注册成功，确定后跳转到个人中心!");
+          //由于存在路由拦截（根据 token 的有效性拦截），注册成功后需要进行自动登录才能不被拦截
+          // this.$router.push("/mine");
+          //自动登录
+          let {
+            data: { data: autoLoginToken }
+          } = await this.$axios.get("http://10.3.133.72:10086/user/login", {
+            params: {
+              username,
+              password,
+              mdl: true
+            }
+          });
+          //token 写入本地
+          localStorage.setItem("Authorization", autoLoginToken);
           this.$router.push("/mine");
+          // console.log("跳转");
         } else {
-          console.log("error submit!!");
+          console.log("注册失败！");
           return false;
         }
       });
