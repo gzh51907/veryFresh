@@ -9,51 +9,21 @@
       <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
+      @open.native="handleOpen"
+      @close.native="handleClose"
       background-color="rgba(32, 34, 42, 1)"
       text-color="#fff"
-      active-text-color="#ffd04b"
+      active-text-color="#28bc58"
       style="height:100%;"
+      router
       >
-      <el-submenu index="1">
+      <el-submenu index="1" v-for="item in menus" :key='item.name'>
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>商品管理</span>
+          <span>{{item.name}}</span>
         </template>
-        <el-menu-item-group>
-          <el-menu-item index="1-1"><i class="el-icon-caret-right"></i>商品列表</el-menu-item>
-          <el-menu-item index="1-3"><i class="el-icon-caret-right"></i>添加商品</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title">
-          <i class="el-icon-menu"></i>
-          <span>用户管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="2-1"><i class="el-icon-caret-right"></i>用户列表</el-menu-item>
-          <el-menu-item index="2-2"><i class="el-icon-caret-right"></i>添加用户</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title">
-          <i class="el-icon-document"></i>
-          <span>订单管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="3-1"><i class="el-icon-caret-right"></i>订单列表</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="4">
-        <template slot="title">
-          <i class="el-icon-warning"></i>
-          <span>错误页面</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="4-1"><i class="el-icon-caret-right"></i>403</el-menu-item>
-          <el-menu-item index="4-2"><i class="el-icon-caret-right"></i>404</el-menu-item>
-          <el-menu-item index="4-3"><i class="el-icon-caret-right"></i>500</el-menu-item>
+        <el-menu-item-group v-for="i in item.childs" :key="i.name" >
+          <el-menu-item :index="i.path" ><i class="el-icon-caret-right"></i>{{i.text}}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -79,31 +49,47 @@ export default {
   data() {
     return {
       activeIndex: "/home",
+
       menus: [
         {
-          name: "home",
-          path: "/home",
-          text: "首页",
+          name: "用户管理",
+          childs: [
+            {
+              name: "adduser",
+              path: "/adduser",
+              text: "添加用户"
+            },
+            {
+              name: "user",
+              path: "/user",
+              text: "用户列表"
+            }
+          ]
         },
         {
-          name: "user",
-          path: "/user",
-          text: "用户信息管理",
+          name: "商品管理",
+          childs: [
+            {
+              name: "addgoods",
+              path: "/addgoods",
+              text: "添加商品"
+            },
+            {
+              name: "goods",
+              path: "/goods",
+              text: "商品列表"
+            }
+          ]
         },
         {
-          name: "goods",
-          path: "/goods",
-          text: "商品信息管理",
-        },
-        {
-          name: "login",
-          path: "/login",
-          text: "登陆",
-        },
-        {
-          name: "regist",
-          path: "/regist",
-          text: "注册",
+          name: "订单管理",
+          childs: [
+            {
+              name: "orders",
+              path: "orders",
+              text: "订单列表"
+            }
+          ]
         }
       ]
     };
@@ -113,10 +99,10 @@ export default {
       this.$router.push(path);
     },
     handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+      console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-        console.log(key, keyPath);
+      console.log(key, keyPath);
     }
   },
   created() {
@@ -139,76 +125,79 @@ export default {
   margin: 0;
   padding: 0;
 }
-body,html{
-height:100%;
+body,
+html {
+  height: 100%;
 }
 </style>
 <style lang="scss">
+.el-header,
+.el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+.bt {
+  float: left;
+  a {
+    color: #58bc58;
+  }
+}
+.el-aside {
+  background-color: #d3dce6;
+  color: #333;
+  text-align: center;
+  line-height: 200px;
+}
 
- .el-header, .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-  }
-  
-  .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-  }
-  
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-  }
-  
-  body > .el-container {
-    margin-bottom: 40px;
-  }
-  
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-  }
-  
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
-  }
+.el-main {
+  background-color: #e9eef3;
+  color: #333;
+  text-align: center;
+  line-height: 160px;
+}
 
-  .el-menu-item-group /deep/ .el-menu-item {
-    font-size:12px;
-  }
+body > .el-container {
+  margin-bottom: 40px;
+}
 
-  .bt{
-     float:left;
-  }
-  .log{
-     float:right;
-     a{
-       color:#9b9797;
-     }
-  }
+.el-container:nth-child(5) .el-aside,
+.el-container:nth-child(6) .el-aside {
+  line-height: 260px;
+}
 
-  .main_head {
+.el-container:nth-child(7) .el-aside {
+  line-height: 320px;
+}
+
+.el-menu-item-group /deep/ .el-menu-item {
+  font-size: 12px;
+}
+
+.log {
+  float: right;
+  a {
+    color: #9b9797;
+  }
+}
+
+.main_head {
+  height: 38px;
+  width: 100%;
+  background: #fff;
+  .main_tab {
+    height: 100%;
+    width: 100px;
+    margin-left: 2;
+    .a3 {
+      color: #000;
       height: 38px;
       width: 100%;
-      background: #fff;
-      .main_tab {
-          height: 100%;
-          width: 100px;
-          margin-left: 2;
-          .a3 {
-             color:#000;
-              height: 38px;
-              width: 100%;
-              display: block;
-              font-size:12px;
-              line-height: 38px;
-          }
-      }
+      display: block;
+      font-size: 12px;
+      line-height: 38px;
+    }
   }
+}
 </style>
