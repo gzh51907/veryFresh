@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -118,6 +119,7 @@ export default {
             i.num += 1;
             if (i.num >= i.stockQty) {
               i.num = i.stockQty;
+              Message.error("库存不足，不要在点我啦！");
             }
           }
         });
@@ -131,6 +133,7 @@ export default {
             i.num -= 1;
             if (i.num <= 1) {
               i.num = 1;
+              Message("还想不想买啦！");
             }
           }
         });
@@ -155,6 +158,7 @@ export default {
           //如果shoppingCartVos（存储商品）的数组为0，把该item（店铺）删掉
           this.dataList.splice(index, 1);
         }
+        console.log("店铺为ture", this.dataList);
       });
 
       this.dataList.forEach((item, index) => {
@@ -162,6 +166,7 @@ export default {
           //如果店铺为true状态,直接删掉
           this.dataList.splice(index, 1);
         }
+        console.log("店铺为false", this.dataList);
       });
     },
 
