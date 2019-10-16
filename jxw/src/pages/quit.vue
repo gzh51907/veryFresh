@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="quit_fixed">
-      <p class="fixed_con">退出登录</p>
+      <p class="fixed_con" @click="signout()">退出登录</p>
     </div>
   </div>
 </template>
@@ -62,6 +62,10 @@ export default {
   methods: {
     goback() {
       this.$router.push("/mine");
+    },
+    signout(){
+      localStorage.setItem("Authorization","");
+      this.$router.push('/register_login')
     }
   }
 };

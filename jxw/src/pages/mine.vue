@@ -96,10 +96,7 @@ export default {
     };
   },
   async created() {
-    // console.log(this.username1)
-    // let data = this.$route.query.username;
-    // this.username = data;
-    // console.log(data);
+    //获取 token 到后天解密出 用户名渲染数据
     let token = localStorage.getItem("Authorization");
     let { data: res } = await this.$axios.get(
       "http://10.3.133.72:10086/token/verify",
@@ -109,8 +106,7 @@ export default {
         }
       }
     );
-    this.username = res.data.yh;
-    // console.log(res.data.yh)
+    this.username = res.data.username;
   },
   methods: {
     goto() {
