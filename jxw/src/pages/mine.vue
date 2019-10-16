@@ -106,7 +106,7 @@ export default {
         }
       }
     );
-    this.username = res.data.yh;
+    this.username = res.data.username;
   },
   methods: {
     goto() {
