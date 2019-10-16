@@ -12,31 +12,40 @@ import register_login from '../pages/register_login';
 import quit from '../pages/quit';
 
 //配置
-let routes = [
+let router = [
     {
         path: '/home',
         name: 'home',
         component: home
     },
+    //分类
     {
         path: '/type',
         name: 'type',
         component: type
     },
+    //预订
     {
         path: '/book',
         name: 'book',
-        component: book
+        component: book,
+        meta: { requiresAuth: true }   //用于权限控制的标记
     },
+
+    //购物车
     {
         path: '/cart',
-        component: cart
+        component: cart,
+        meta: { requiresAuth: true }   //用于权限控制的标记
     },
+    //我的
     {
         path: '/mine',
         name: 'mine',
-        component: mine
+        component: mine,
+        meta: { requiresAuth: true }   //用于权限控制的标记
     },
+    //修改信息
     {
         path: '/quit',
         component: quit
@@ -82,4 +91,6 @@ let routes = [
     }
 ];
 
-export default routes;
+
+
+export default router;

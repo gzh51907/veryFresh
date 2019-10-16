@@ -1,96 +1,124 @@
 <template>
   <el-container>
     <el-header style="height: 145px;">
-     <el-row>
-       <el-col :span='16'>
-         <img src="../assets/mine/mine.jpg" alt="">
-         <div class="me">
-           <h3>18022695382</h3>
-           <p>个人设置</p>
-         </div>
-       </el-col>
-       <el-col :span='8'>
-        <div class="top">
-          <div class="block">
-            <van-icon name="cash-back-record" />
-            <span>提现</span>
+      <el-row>
+        <el-col :span="16" @click.native="goto()">
+          <img src="../assets/mine/mine.jpg" alt />
+          <div class="me">
+            <h3>{{username}}</h3>
+            <p>个人设置</p>
           </div>
-          <div class="block">
+        </el-col>
+        <el-col :span="8">
+          <div class="top">
+            <div class="block">
+              <van-icon name="cash-back-record" />
+              <span>提现</span>
+            </div>
+            <div class="block">
               <van-icon name="after-sale" />
               <span>充值</span>
+            </div>
           </div>
-        </div>
-        <div class="fast">专属号极速充值</div>
-       </el-col>
-     </el-row>
+          <div class="fast">专属号极速充值</div>
+        </el-col>
+      </el-row>
     </el-header>
     <el-main>
       <el-row class="money">
-        <el-col :span='8'>
+        <el-col :span="8">
           <span>0.00</span>
           <p>我的余额</p>
         </el-col>
-        <el-col :span='8'>
+        <el-col :span="8">
           <span>0.00</span>
           <p>保证金</p>
         </el-col>
-        <el-col :span='8'>
+        <el-col :span="8">
           <span>0</span>
           <p>我的积分</p>
         </el-col>
       </el-row>
       <el-row class="contolal">
-        <el-col :span='6'>
-          <img src="../assets/mine/1.png" alt="">
+        <el-col :span="6">
+          <img src="../assets/mine/1.png" alt />
           <p>待付款</p>
         </el-col>
-        <el-col :span='6'>
-          <img src="../assets/mine/2.png" alt="">
+        <el-col :span="6">
+          <img src="../assets/mine/2.png" alt />
           <p>待发货</p>
         </el-col>
-        <el-col :span='6'>
-          <img src="../assets/mine/3.png" alt="">
+        <el-col :span="6">
+          <img src="../assets/mine/3.png" alt />
           <p>已发货</p>
         </el-col>
-        <el-col :span='6'>
-          <img src="../assets/mine/4.png" alt="">
+        <el-col :span="6">
+          <img src="../assets/mine/4.png" alt />
           <p>已结束</p>
         </el-col>
       </el-row>
       <div class="last">
         <el-row>
-        <el-col :span='22'>发票管理</el-col>
-        <el-col :span='2'>&gt;</el-col>
-      </el-row>
-       <el-row>
-        <el-col :span='22'>地址管理</el-col>
-        <el-col :span='2'>&gt;</el-col>
-      </el-row>
-       <el-row>
-        <el-col :span='22'>极鲜白条</el-col>
-        <el-col :span='2'>&gt;</el-col>
-      </el-row>
-      <el-row>
-        <el-col :span='22'>银行卡管理</el-col>
-        <el-col :span='2'>&gt;</el-col>
-      </el-row>
-      <el-row>
-        <el-col :span='14'>客服中心</el-col>
-        <el-col :span='8'>400-628-1818</el-col>
-        <el-col :span='2'>&gt;</el-col>
-      </el-row>
-      <el-row>
-        <el-col :span='22'>我的收藏</el-col>
-        <el-col :span='2'>&gt;</el-col>
-      </el-row>
+          <el-col :span="22">发票管理</el-col>
+          <el-col :span="2">&gt;</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="22">地址管理</el-col>
+          <el-col :span="2">&gt;</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="22">极鲜白条</el-col>
+          <el-col :span="2">&gt;</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="22">银行卡管理</el-col>
+          <el-col :span="2">&gt;</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="14">客服中心</el-col>
+          <el-col :span="8">400-628-1818</el-col>
+          <el-col :span="2">&gt;</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="22">我的收藏</el-col>
+          <el-col :span="2">&gt;</el-col>
+        </el-row>
       </div>
     </el-main>
-
   </el-container>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      username: ""
+    };
+  },
+  async created() {
+    // console.log(this.username1)
+    // let data = this.$route.query.username;
+    // this.username = data;
+    // console.log(data);
+    let token = localStorage.getItem("Authorization");
+    let { data: res } = await this.$axios.get(
+      "http://10.3.133.72:10086/token/verify",
+      {
+        params: {
+          Authorization: token
+        }
+      }
+    );
+    this.username = res.data.yh;
+    // console.log(res.data.yh)
+  },
+  methods: {
+    goto() {
+      // console.log("去修改信息");
+      this.$router.push("/quit");
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -98,7 +126,7 @@ export default {};
   .el-header {
     padding: 0 0 0 20px;
     .el-row {
-      margin-top: 60px;
+      margin-top: 46px;
       .el-col-16 {
         display: flex;
 
@@ -145,7 +173,7 @@ export default {};
           background: linear-gradient(270deg, #ff4081, #ff9800);
           color: #fff;
           width: 70px;
-          margin-top: 30px;
+          margin-top: 20px;
           position: absolute;
           right: 0;
         }
@@ -153,6 +181,7 @@ export default {};
     }
   }
   .el-main {
+    padding-top: 0;
     .money {
       height: 76px;
       display: flex;
