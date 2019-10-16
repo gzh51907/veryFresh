@@ -2,7 +2,7 @@
   <div>
     <el-row class="title">
        <el-col :span="20">购物车</el-col>
-       <el-col :span="4">删除</el-col>
+       <el-col :span="4" @click.native="remove" v-model="dataList">删除</el-col>
     </el-row>
     <div class="block" >
     <div  v-for="item in dataList" :key="item.shopId">
@@ -13,7 +13,7 @@
       </el-row >
       <el-row class="list" v-for="goods in item.shoppingCartVos" :key='goods.productId'>
         <!-- 商品复选框 -->
-        <el-col :span="2"><input type="checkbox" name="" id="" v-model="goods.isValid" @click="goods_check(goods.isValid,item.shopId)"></el-col>
+        <el-col :span="2"><input type="checkbox" name="" id="" v-model="goods.isValid" @change="goods_check(goods.isValid,item.shopId)"></el-col>
         <el-col :span="22">
              <ul>
               <li>
@@ -62,7 +62,7 @@
           </el-col>
           <el-col :span="12">
             <span class="dis">￥<b>{{totalPrice.toFixed(2)}}</b></span>
-            <span class="goAccount">去结算（<strong>0</strong>）</span>
+            <span class="goAccount">去结算（<strong>{{totalNum}}</strong>）</span>
           </el-col>
         </el-row>
       </div>
@@ -76,19 +76,33 @@ export default {
   data() {
     return {
       num4: 1,
-      dataList: "", //所有数据
+      dataList: "", //购物车页面所有数据
       arr_goodsCheck: [], //所有商品控制全选
-      all_check: true, //全选默认状态
+      all_check: false, //全选默认状态
       goods: [] //存储购物车每个商品的数据
     };
   },
   computed: {
     totalPrice() {
+      //勾选的商品总计价
       let total = 0.0;
       this.dataList.forEach(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.isValid) {
+            //如果商品打钩，计算总价
             total += i.unitPrice * i.num;
+          }
+        });
+      });
+      return total;
+    },
+    totalNum() {
+      //勾选商品总数量
+      let total = 0;
+      this.dataList.forEach(item => {
+        item.shoppingCartVos.forEach(i => {
+          if (i.isValid) {
+            total += i.num;
           }
         });
       });
@@ -124,15 +138,36 @@ export default {
     },
     goto() {
       //详情规则
-      // console.log("1");
       this.$router.push("/cart_rules");
     },
-    store_check(check, id) {
-      //店铺打钩：（全选和不选）打钩控制商品打钩
-      check = !check;
-      // console.log("店铺打钩", check);
-      // console.log("id", id);
+    remove() {
+      //删除功能
+      this.dataList.forEach((item, index) => {
+        //如果店铺为打钩状态，删除item
+        //不能先判断店铺为ture状态，这样删了一个店铺，数组长度变少，就少一个循环
+        if (item.store_checked === false) {
+          //如果店铺为false状态，遍历子结构（商品）
+          item.shoppingCartVos = item.shoppingCartVos.filter(
+            goods => goods.isValid == false //过滤出满足条件（勾选状态）的商品
+          );
+        }
+        if (item.shoppingCartVos == 0) {
+          //如果shoppingCartVos（存储商品）的数组为0，把该item（店铺）删掉
+          this.dataList.splice(index, 1);
+        }
+      });
 
+      this.dataList.forEach((item, index) => {
+        if (item.store_checked === true) {
+          //如果店铺为true状态,直接删掉
+          this.dataList.splice(index, 1);
+        }
+      });
+    },
+
+    store_check(check, id) {
+      //店铺打钩
+      check = !check; //(点击事件)
       this.dataList.forEach(item => {
         if (item.shopId === id) {
           item.shoppingCartVos.forEach(i => {
@@ -164,12 +199,31 @@ export default {
     },
 
     goods_check(goodsCheck, shopId) {
-      //商品控制本店铺 / 商品控制全选功能
-      goodsCheck = !goodsCheck;
-      console.log(goodsCheck, shopId);
+      //商品打钩控制店铺
+      let arr = [];
+      let num = 0; //计数该店铺的商品个数：为了判断下面控制店铺打钩
       this.dataList.forEach(item => {
         if (item.shopId === shopId) {
-          item.store_checked = goodsCheck;
+          item.shoppingCartVos.forEach(i => {
+            ++num;
+          });
+        }
+      });
+
+      this.dataList.forEach(item => {
+        if (item.shopId === shopId) {
+          item.shoppingCartVos.forEach(i => {
+            if (i.isValid == false) {
+              //遍历所有商品，有一个为false,店铺则为false
+              item.store_checked = false;
+            } else {
+              //遍历所有商品，商品为true,数组长度加1
+              arr.push(1);
+              if (arr.length === num) {
+                item.store_checked = true;
+              }
+            }
+          });
         }
       });
 
@@ -186,8 +240,6 @@ export default {
       } else {
         this.all_check = false;
       }
-
-      console.log(this.arr_goodsCheck);
     },
 
     all_checks(check) {
@@ -223,8 +275,22 @@ export default {
     console.log("this.dataList", this.dataList);
 
     //初始化数组arr_goodsCheck:在商品打钩时控制全选功能
-    for (let i = 0; i < this.goods.length; i++) {
-      this.arr_goodsCheck.push(true);
+    // for (let i = 0; i < this.goods.length; i++) {
+    //   this.arr_goodsCheck.push(true);
+    // }
+  },
+  watch: {
+    dataList: {
+      handler(newValue, oldValue) {
+        // for (let i = 0; i < newValue.length; i++) {
+        //   console.log("输出：", newValue[i].shop_check);
+        //   if (oldValue[i] != newValue[i]) {
+        //     console.log("执行");
+        //   }
+        // }
+      },
+      deep: true
+      // immediate: true
     }
   }
 };
