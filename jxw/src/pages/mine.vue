@@ -1,19 +1,5 @@
 <template>
   <el-container>
-    <el-header style="height: 125px;">
-     <el-row>
-       <el-col :span='16'>
-         <img src="../assets/mine/mine.jpg" alt="">
-         <div class="me">
-           <h3>18022695382</h3>
-           <p>个人设置</p>
-         </div>
-       </el-col>
-       <el-col :span='8'>
-        <div class="top">
-          <div class="block">
-            <van-icon name="cash-back-record" />
-            <span>提现</span>
     <el-header style="height: 145px;">
       <el-row>
         <el-col :span="16" @click.native="goto()">
@@ -115,11 +101,14 @@ export default {
     // this.username = data;
     // console.log(data);
     let token = localStorage.getItem("Authorization");
-    let {data:res} = await this.$axios.get("http://10.3.133.72:10086/token/verify", {
-      params: {
-        Authorization:token
+    let { data: res } = await this.$axios.get(
+      "http://10.3.133.72:10086/token/verify",
+      {
+        params: {
+          Authorization: token
+        }
       }
-    });
+    );
     this.username = res.data.yh;
     // console.log(res.data.yh)
   },
@@ -192,7 +181,7 @@ export default {
     }
   }
   .el-main {
-    padding-top:0;
+    padding-top: 0;
     .money {
       height: 76px;
       display: flex;
