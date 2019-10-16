@@ -4,7 +4,7 @@
      <h1 class="bt"><a href="###">后台管理系统</a></h1>
      <p class="log"><a href="###"><i class="el-icon-position"></i>登陆</a></p>
   </el-header>
-  <el-container style="height:calc(100% - 60px)">
+  <el-container style="height:calc(100% - 50px)">
     <el-aside width="180px">
       <el-menu
       default-active="2"
@@ -91,6 +91,11 @@ export default {
           text: "用户信息管理",
         },
         {
+          name: "adduser",
+          path: "/adduser",
+          text:"添加用户",
+        },
+        {
           name: "goods",
           path: "/goods",
           text: "商品信息管理",
@@ -163,7 +168,7 @@ height:100%;
     background-color: #E9EEF3;
     color: #333;
     text-align: center;
-    line-height: 160px;
+    // line-height: 160px;
   }
   
   body > .el-container {
