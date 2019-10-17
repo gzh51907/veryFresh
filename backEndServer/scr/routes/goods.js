@@ -31,7 +31,7 @@ Router.get('/queryAll', async (req, res) => {
 //查商品详情接口   参数传递： productId 商品id
 Router.get("/queryByPid", async (req, res) => {
     let { productId } = req.query;
-    console.log("productId：", productId)
+    // console.log("productId：", productId)
     let result = await mongodb.find(colName, { productId });
     // console.log("result:", result.length)
     if (result.length) {
