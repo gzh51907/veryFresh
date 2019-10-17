@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       <div class="user-header">
-          <h1>用户列表</h1>
+          <h1>添加用户</h1>
       </div>
     </div>
     <div class="main">
@@ -10,14 +10,15 @@
         <el-form-item label="用户名" prop="username">
           <el-input v-model="ruleForm2.username"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="pass">
-          <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
           <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm2')">确认</el-button>
+          <el-button type="success" @click="resetForm('ruleForm2')">重置</el-button>
         </el-form-item>
         </el-form>
     </div>
@@ -27,46 +28,59 @@
 <script>
 export default {
    data(){
-      var validatePass2 = (rule, value, callback) => {
-        console.log("validatePass2",rule, value, callback);
+      // 校验用户名是否存在
+      const checkUsername = async (rule, value, callback) => {
+        let {data} = await this.$axios.get('http://10.3.133.72:10086/user/check',{
+          params:{
+            username:this.ruleForm2.username
+          }
+        })
+        console.log(data);
         
-        // if (value === '') {
-        //   callback(new Error('请再次输入密码'));
-        // } else
-        if (value !== this.ruleForm2.pass) {
+        if(data.code === 0){
+          callback(new Error("用户名已存在"));
+        }else{
+          callback();
+        }
+      }; 
+
+      //校验密码是否存在
+      var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.ruleForm2.checkPass !== '') {
+            this.$refs.ruleForm2.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+
+      //校验两次密码是否一致
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.ruleForm2.pass) {
           callback(new Error('两次输入密码不一致!'));
         } else {
           callback();
         }
       };
-      // 校验用户名是否存在
-    //   const checkUsername = async (rule, value, callback) => {
 
-    //   let {data} = await this.$axios.get('http://localhost:1907/user/check',{
-    //     params:{
-    //       username:this.ruleForm2.username
-    //     }
-    //   })
-    //   if(data.code === 0){
-    //     callback(new Error("用户名已存在"));
-    //   }else{
-    //     callback();
-    //   }
-    //   };
-   
-      return {
+     return {
         ruleForm2: {
             username:'',
-            pass: '',
+            password: '',
             checkPass: ''
         },
+        //设置正则校验规则要求
         rules2: {
           username: [
             { required: true, message: "用户名不能为空", trigger: "blur" },
-            // { validator: checkUsername, trigger: 'blur' }
+            { validator: checkUsername, trigger: 'blur' }
           ],
-          pass: [
-            { required: true, message: "请输入密码", trigger: "blur" },
+          password: [
+            { validator: validatePass, trigger: 'blur' },
             {
               min: 6,
               max: 12,
@@ -79,12 +93,12 @@ export default {
             { validator: validatePass2, trigger: 'blur' }
           ], 
         }
-      };   
+      };  
     },
     methods:{
-        submitForm() {
+        submitForm(formName) {
         //校验整个表单
-        this.$refs.ruleForm2.validate((valid) => {
+        this.$refs[formName].validate((valid) => {
             //valid:所有校验规则都通过后，得到true，只要有一个表单元素校验不通过则得到form
           if (valid) {
             // alert('submit!');
@@ -101,8 +115,12 @@ export default {
             return false;
           }
         });
-      },
-    }
+        },
+        resetForm(formName) {
+        this.$refs[formName].resetFields();
+        }
+    },
+
 };
 </script>
 <style lang="scss" scoped>

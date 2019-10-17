@@ -2,15 +2,13 @@
   <div>
       <div class="header">
         <div class="user-header">
-            <h1>商品列表</h1>
+            <h1>订单列表</h1>
         </div>
       </div>
       <div class="main">
         <div class="button">
-          <el-button type="success"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
           <el-button type="danger"><i class="el-icon-delete"></i>删除</el-button>
         </div>
-        <!-- 商品列表内容 -->
          <el-table
           ref="multipleTable"
           :data="tableData3"
@@ -22,37 +20,42 @@
             width="55">
           </el-table-column>
           <el-table-column
-            type="index"
-            prop="gfreshBaId"
+            prop="id"
             label="#"
             width="50">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="goodname"
             label="商品名称"
-            width="300">
+            width="200">
           </el-table-column>
           <el-table-column
-            prop="salePrice"
+            prop="sale_price"
             label="现价"
             width="100">
           </el-table-column>
           <el-table-column
-            prop="stockQty"
-            label="库存"
+            prop="number"
+            label="数量"
             width="100">
           </el-table-column>
           <el-table-column
-            label="添加日期"
+            prop="goodsprice"
+            label="商品总价"
             width="100">
-            <template slot-scope="scope">{{ scope.row.arrayTime }}</template>
+          </el-table-column>
+          <el-table-column
+            prop="bookprice"
+            label="订单总价"
+            width="100">
+          </el-table-column>
+          <el-table-column
+            label="下单日期"
+            width="100">
+            <template slot-scope="scope">{{ scope.row.date }}</template>
           </el-table-column>
            <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                type="success"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -60,7 +63,6 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- 分页 -->
         <div class="block">
           <el-pagination
             @size-change="handleSizeChange"
@@ -80,19 +82,43 @@
 export default {
   data(){
     return{
-      currentPage4: 4,
-      tableData3:[],
-      multipleSelection: []
+     currentPage4: 4,
+      tableData3: [{
+          id:"1",
+          date: '2016-05-03',
+          goodname: '王小虎',
+          sale_price:99.8,
+          goodsprice:998,
+          bookprice:1300,
+          number:10,
+        }, {
+          id:"2",
+          date: '2016-05-02',
+          goodname: '王小虎',
+          sale_price:99.8,
+          goodsprice:998,
+          bookprice:1300,
+          number:10,
+        }, {
+          id:"3",
+          date: '2016-05-04',
+          goodname: '王小虎',
+           sale_price:99.8,
+          goodsprice:998,
+          bookprice:1300,
+          number:10,
+        }, {
+          id:"4",
+          date: '2016-05-01',
+          goodname: '王小虎',
+          goodsprice:998,
+          bookprice:1300,
+          sale_price:99.8,
+          number:10,
+        }],
+        multipleSelection: []
     }
   },
-  
-  //请求数据
-  async created(){
-    let {data}=await this.$axios.get("http://10.3.133.72:10086/goods/queryAll")
-    // console.log(data);
-    this.tableData3=data;
-  },
-
    methods: {
      //分页功能
       handleSizeChange(val) {
@@ -100,7 +126,7 @@ export default {
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
-      },
+      }, 
 
       toggleSelection(rows) {
         if (rows) {
@@ -158,5 +184,4 @@ i{
   padding-top:20px;
   text-align:right;
 }
-
 </style>

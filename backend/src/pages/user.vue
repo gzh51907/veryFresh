@@ -53,6 +53,17 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="block">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage4"
+            :page-sizes="[100, 200, 300, 400]"
+            :page-size="100"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="400">
+          </el-pagination>
+        </div>
       </div>
   </div>
 </template>
@@ -61,6 +72,7 @@
 export default {
   data(){
     return{
+      currentPage4: 4,
       tableData3: [{
           id:"1",
           date: '2016-05-03',
@@ -101,6 +113,15 @@ export default {
     }
   },
    methods: {
+     //分页功能
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      },
+
+
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -141,6 +162,7 @@ i{
 }
 .main{
   padding:0 50px;
+  line-height:0px;
 }
 .button{
   padding:10px;
@@ -152,5 +174,8 @@ i{
 .el-table  /deep/ th>.cell {
     text-align: center;
 }
-
+.block{
+  padding-top:20px;
+  text-align:right;
+}
 </style>

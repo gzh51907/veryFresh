@@ -52,41 +52,41 @@ export default {
 
       menus: [
         {
+          name: "商品管理",
+          childs: [
+            {
+              name: "goods",
+              path: "/goods",
+              text: "商品列表"
+            },
+            {
+              name: "addgoods",
+              path: "/addgoods",
+              text: "添加商品"
+            }, 
+          ]
+        },
+        {
           name: "用户管理",
           childs: [
+            {
+              name: "user",
+              path: "/user",
+              text: "用户列表"
+            },
             {
               name: "adduser",
               path: "/adduser",
               text: "添加用户"
             },
-            {
-              name: "user",
-              path: "/user",
-              text: "用户列表"
-            }
-          ]
-        },
-        {
-          name: "商品管理",
-          childs: [
-            {
-              name: "addgoods",
-              path: "/addgoods",
-              text: "添加商品"
-            },
-            {
-              name: "goods",
-              path: "/goods",
-              text: "商品列表"
-            }
           ]
         },
         {
           name: "订单管理",
           childs: [
             {
-              name: "orders",
-              path: "orders",
+              name: "booklist",
+              path: "booklist",
               text: "订单列表"
             }
           ]
@@ -131,7 +131,7 @@ html {
 }
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-header,
 .el-footer {
   background-color: #b3c0d1;

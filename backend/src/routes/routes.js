@@ -4,8 +4,9 @@ import home from '../pages/home';
 import user from '../pages/user';
 import adduser from '../pages/adduser';
 import goods from '../pages/goods';
+import addgoods from '../pages/addgoods';
 import login from '../pages/login';
-import regist from '../pages/regist';
+import booklist from '../pages/booklist';
 
 
 //配置
@@ -31,14 +32,19 @@ let routes = [
         component: goods
     },
     {
+        path: '/addgoods',
+        name: 'addgoods',
+        component: addgoods
+    },
+    {
         path: '/login',
         name: 'login',
         component: login
     },
     {
-        path: '/regist',
-        name: 'regist',
-        component: regist
+        path: '/booklist',
+        name: 'booklist',
+        component: booklist
     },
     //404
     {
