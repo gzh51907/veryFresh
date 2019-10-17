@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试接口html</title>
+</head>
+
+<body>
+    <button id="btn">发送请求</button>
+
+</body>
+
+</html>
+<script>
+    let btn = document.getElementById("btn");
+    // let obj = { name: "lh" }
+    btn.onclick = () => {
+        // obj.sex = '男';
+        // console.log(obj)
+        let params = `token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoibGgiLCJpYXQiOjE1NzEyMTg1NTYsImV4cCI6MTU3MTgyMzM1Nn0.Xi1dD_MohuQRaku4xBnUZV4K4viMTw2v98L6e7XUsjA`;
+        console.log("已发送请求")
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", `http://10.3.133.72:10086/cart/queryAll?${params}`, true);
+        xhr.send();
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+
+        }
+    }
+
+</script>
