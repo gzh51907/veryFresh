@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     //params1:state;params2:playload
     mutations: {
         init_data(state, playload) {
+            // sessionStorage.setItem('state.dataList', JSON.stringify(playload))
             state.dataList = playload;
         }
     },
