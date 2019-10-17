@@ -36,27 +36,49 @@ Router.get('/queryAll', async (req, res) => {
 
     let result = await mongodb.find_uid('user', { username });
     let userId = result[0].userId;//查到用户id
-    // console.log("userId:", userId);
+    // console.log("查到的userId:", userId);
 
     let queryData = await mongodb.find(colName, { userId });
     // console.log("queryData:",queryData);
-    datalist = [];
+
+    //提取店铺名
     let arrShop = [];
+    let arrShopId = [];
     queryData.forEach((item, idx) => {
         // console.log(item.shopId);
-        arrShop.push(item.shopId);
+        arrShop.push(item.shopName);//
+        arrShopId.push(item.shopId);
     });
-    console.log("arrShop:",arrShop);
-    console.log("---------------------------分隔线-------------------------------")
-    arrShop = noRepeat(arrShop)
-    console.log("arrShop:", arrShop)
-
-    console.log("---------------------------分隔线-------------------------------")
+    // console.log("shopId2:",arrShopId)
+    let datalist = [];
+    // console.log("arrShop:", arrShop);
+    // console.log("---------------------------分隔线-------------------------------")
+    let arrShop2 = noRepeat(arrShop);
+    arrShopId = noRepeat(arrShopId);
+    // console.log("shopId2:",arrShopId)
+    arrShop2.forEach((item,idx) => {
+        datalist.push({
+            shopName: item,
+            shopId:arrShopId[idx],
+            store_checked: false,
+            shoppingCartVos: []
+        })
+    });
+    // console.log("arrShop2:", arrShop2)
+    // console.log("datalist:", datalist);
+    // console.log("---------------------------分隔线-------------------------------")
     // shoppingCartVos
+    queryData.forEach((item, idx1) => {
+        // console.log(item)
+        datalist.forEach((ele, idx2) => {
+            if (item.shopName == ele.shopName) {
+                ele.shoppingCartVos.push(item);
+            }
+        });
 
-
-    // res.send(formatData({ data: queryData }))
-    res.send(queryData);
+    });
+    // console.log("返回的数据Datalist:",datalist)
+    res.send(formatData({ data: datalist }));
 });
 
 

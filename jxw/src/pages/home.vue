@@ -186,7 +186,7 @@
                 <span class="p_price" v-else>￥{{(subitem.unitPrice-0).toFixed(2)}}</span>
                 <span class="p_weight">/{{subitem.unitName}}</span>
               </div>
-              <i class="el-icon-shopping-cart-2"></i>
+              <i class="el-icon-shopping-cart-2" @click.stop="addCart()"></i>
             </div>
           </dd>
         </dl>
@@ -275,11 +275,6 @@ export default {
     (function fn(num) {
       if (num >= len) {
         // console.log("递归结束");
-        // datastr = JSON.stringify(arrlist);
-        // console.log(arrlist);
-        // console.timeEnd();
-        // console.log(datastr);
-        // return datastr;
         return;
       } else {
         let str = "";
@@ -310,6 +305,10 @@ export default {
     goto(gid) {
       //路由跳转详情页
       this.$router.push({ name: "detail", params: { gid } });
+    },
+    //添加到购物车
+    addCart() {
+      console.log("添加购物车");
     }
   }
 };

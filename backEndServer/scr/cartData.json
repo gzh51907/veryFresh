@@ -22,17 +22,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "250g+",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "250g+",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "5/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -65,17 +57,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "公15-20头/500克",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "公15-20头/500克",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "5/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -108,17 +92,9 @@
         "inducementRate": "",
         "isNew": true,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "100-150g",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "100-150g",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "5/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -151,16 +127,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "600~800g",
-                    "enValue": "600~800g"
-                }
-            }
-        ],
+        "propertieValue": "600~800g",
+        "propertieEnValue": "600~800g",
+        "propertieRemark": "",
         "packName": "1/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -193,17 +162,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "4号/盒",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "4号/盒",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "1/盒/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -236,17 +197,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "45-60g左右/只",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "45-60g左右/只",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "5/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -279,17 +232,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "B级800-1000g/只",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "B级800-1000g/只",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "10/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -322,17 +267,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "800+g/只",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "800+g/只",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "10/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -365,17 +302,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "咸水~18头",
-                    "enValue": "咸水-18头",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "咸水~18头",
+        "propertieEnValue": "咸水~18头",
+        "propertieRemark": "",
         "packName": "10/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -408,17 +337,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "A级400-600g/500克",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "A级400-600g/500克",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "10/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -451,17 +372,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "75g/只",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "75g/只",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "5/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -494,17 +407,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "2000-2500g/只",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "2000-2500g/只",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "25/千克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -537,17 +442,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "30/40",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "30/40",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "21.6/500克/箱",
         "isValid": false,
         "isProprietary": 1,
@@ -580,17 +477,9 @@
         "inducementRate": "",
         "isNew": true,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "750g/袋",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "750g/袋",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "75/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -623,17 +512,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "现货",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "1.5kg✖️6/盒",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "1.5kg✖️6/盒",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "18/500克/箱",
         "isValid": false,
         "isProprietary": 2,
@@ -651,7 +532,8 @@
         "quoteId": "8328c4d6-a9a8-4ee2-9a27-9839015ab161",
         "num": 1,
         "productId": "ea79296f-3649-4a4d-8473-c8c798622208",
-        "shopId": "9aaba2e8-0cd5-487b-8d2e-b2f2d9e12f5f","shopName" : "波龙巴",
+        "shopId": "9aaba2e8-0cd5-487b-8d2e-b2f2d9e12f5f",
+        "shopName": "波龙巴",
         "shopName": "冻品巴-现货",
         "memberLevel": 0,
         "cityId": "44769e16-ecc6-4d18-a210-caf1c6ec1dea",
@@ -666,17 +548,9 @@
         "inducementRate": "0%",
         "isNew": false,
         "arrayTime": "10-18",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "1.00~1.25磅/只",
-                    "enValue": "1.00~1.25lb/pcs",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "1.00~1.25磅/只",
+        "propertieEnValue": "1.00~1.25lb/pcs",
+        "propertieRemark": "",
         "packName": "32/磅/箱",
         "isValid": false,
         "isProprietary": 1,
@@ -710,17 +584,9 @@
         "inducementRate": "",
         "isNew": false,
         "arrayTime": "10-12",
-        "dynamicProperties": [
-            {
-                "propertiesId": "b3c8610f-1ece-4a48-a2bb-dc285a58b22c",
-                "name": "产品规格",
-                "propertieValue": {
-                    "value": "B",
-                    "enValue": "",
-                    "remark": ""
-                }
-            }
-        ],
+        "propertieValue": "B",
+        "propertieEnValue": "",
+        "propertieRemark": "",
         "packName": "18/千克/箱",
         "isValid": false,
         "isProprietary": 1,
