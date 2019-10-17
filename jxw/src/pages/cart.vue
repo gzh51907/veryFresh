@@ -1,73 +1,102 @@
 <template>
   <div>
     <el-row class="title">
-       <el-col :span="20">购物车</el-col>
-       <el-col :span="4" @click.native="remove" v-model="dataList">删除</el-col>
+      <el-col :span="20">购物车</el-col>
+      <el-col :span="4" @click.native="remove" v-model="dataList">删除</el-col>
     </el-row>
-    <div class="block" >
-    <div  v-for="item in dataList" :key="item.shopId">
-      <!-- 店铺复选框 -->
-      <el-row class="store">
-          <el-col :span="2"><input type="checkbox" name="" id="" v-model="item.store_checked" @click='store_check(item.store_checked,item.shopId)'></el-col>
-          <el-col :span="22"><span class="storeName">{{item.shopName}}</span></el-col>
-      </el-row >
-      <el-row class="list" v-for="goods in item.shoppingCartVos" :key='goods.productId'>
-        <!-- 商品复选框 -->
-        <el-col :span="2"><input type="checkbox" name="" id="" v-model="goods.isValid" @change="goods_check(goods.isValid,item.shopId)"></el-col>
-        <el-col :span="22">
-             <ul>
+    <div class="block">
+      <div v-for="item in dataList" :key="item.shopId">
+        <!-- 店铺复选框 -->
+        <el-row class="store">
+          <el-col :span="2">
+            <input
+              type="checkbox"
+              name
+              id
+              v-model="item.store_checked"
+              @click="store_check(item.store_checked,item.shopId)"
+            />
+          </el-col>
+          <el-col :span="22">
+            <span class="storeName">{{item.shopName}}</span>
+          </el-col>
+        </el-row>
+        <el-row class="list" v-for="goods in item.shoppingCartVos" :key="goods.productId">
+          <!-- 商品复选框 -->
+          <el-col :span="2">
+            <input
+              type="checkbox"
+              name
+              id
+              v-model="goods.isValid"
+              @change="goods_check(goods.isValid,item.shopId)"
+            />
+          </el-col>
+          <el-col :span="22">
+            <ul>
               <li>
-                  <div class="goods">
-                     <div class="con">
-                        <img :src="goods.productImg" alt="">
-                        <div class="con_right">
-                            <h4>{{goods.productName}}</h4>
-                            <div class="info">
-                                <div class="left">
-                                    <p class="price">
-                                        <span>¥{{goods.unitPrice}}</span>
-                                        <small>/{{goods.unitPriceUnit}}</small>
-                                    </p>
-                                    <span class="bottom">¥{{goods.salePrice}}/{{goods.salePriceUnit}}</span>
-                                </div>
-                                <div class="right">
-                                    <span class="cut" @click='cut(goods.productId)'>-</span>
-                                    <input type="number"  v-model='goods.num'>
-                                    <span class="add" @click='add(goods.productId)'>+</span>
-                                     <!-- <el-input-number size="mini" v-model="goods.inducement"></el-input-number> -->
-                                </div>
-                            </div>
+                <div class="goods">
+                  <div class="con">
+                    <img :src="goods.productImg" @click="gotoDeatil(goods.productId)" />
+                    <div class="con_right">
+                      <h4 @click="gotoDeatil(goods.productId)">{{goods.productName}}</h4>
+                      <div class="info">
+                        <div class="left" @click="gotoDeatil(goods.productId)">
+                          <p class="price">
+                            <span>¥{{goods.unitPrice}}</span>
+                            <small>/{{goods.unitPriceUnit}}</small>
+                          </p>
+                          <span class="bottom">¥{{goods.salePrice}}/{{goods.salePriceUnit}}</span>
                         </div>
-                     </div>
+                        <div class="right">
+                          <span class="cut" @click="cut(goods.productId)">-</span>
+                          <input type="number" v-model="goods.num" />
+                          <span class="add" @click="add(goods.productId)">+</span>
+                          <!-- <el-input-number size="mini" v-model="goods.inducement"></el-input-number> -->
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="props"  v-for="details in goods.dynamicProperties" :key='details.name'>
+                </div>
+                <!-- <div class="props"  v-for="details in goods.dynamicProperties" :key='details.name'>
                       <span>现货</span>
                       <span>{{details.propertieValue.enValue}}</span>
                       <span>{{details.propertieValue.Value}}</span>
-                  </div>
+                </div>-->
+                <div class="props">
+                  <span>现货</span>
+                  <span>{{goods.propertieValue}}</span>
+                  <span>{{goods.propertieEnValue}}</span>
+                  <span>{{goods.propertieRemark}}</span>
+                </div>
               </li>
-          </ul>
-        </el-col>
-      </el-row>
-    </div>
+            </ul>
+          </el-col>
+        </el-row>
+      </div>
       <div class="fixed">
-        <el-row class="rule" @click.native='goto'>
+        <el-row class="rule" @click.native="goto">
           <el-col :span="18">购物车或订单合并支付，运费可以合并计算节省运费</el-col>
           <el-col :span="6">规则详情></el-col>
         </el-row>
         <el-row class="count">
           <el-col :span="12">
-            <input type="checkbox" name="" id=""  v-model="all_check" @click="all_checks(all_check)">
-            <label for="">全选</label>
+            <input type="checkbox" name id v-model="all_check" @click="all_checks(all_check)" />
+            <label for>全选</label>
           </el-col>
           <el-col :span="12">
-            <span class="dis">￥<b>{{totalPrice.toFixed(2)}}</b></span>
-            <span class="goAccount">去结算（<strong>{{totalNum}}</strong>）</span>
+            <span class="dis">
+              ￥
+              <b>{{totalPrice.toFixed(2)}}</b>
+            </span>
+            <span class="goAccount">
+              去结算（
+              <strong>{{totalNum}}</strong>）
+            </span>
           </el-col>
         </el-row>
       </div>
     </div>
-  
   </div>
 </template>
 
@@ -142,6 +171,9 @@ export default {
     goto() {
       //详情规则
       this.$router.push("/cart_rules");
+    },
+    gotoDeatil(gid) {
+      this.$router.push({ name: "detail", params: { gid } });
     },
     remove() {
       //删除功能
@@ -260,10 +292,21 @@ export default {
     }
   },
   async created() {
-    let { data } = await this.$axios.get(
-      "http://10.3.133.72:10086/goods/cart_test"
+    let token = localStorage.getItem("Authorization");
+    let { data: { data: datas } } = await this.$axios.get(
+      "http://10.3.133.72:10086/cart/queryAll",
+      {
+        params: {
+          token
+        }
+      }
     );
-    this.dataList = data;
+    // console.log("datas:",datas)
+    // this.dataList = datas;
+
+    //vuex写法：初始化数据
+    this.$store.commit("init_data", datas);
+    this.dataList = this.$store.state.dataList;
 
     let length = this.dataList.length; //为了在下面截取掉原本的数据，重新生成新数据
     this.dataList.forEach(item => {
