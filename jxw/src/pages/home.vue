@@ -151,17 +151,17 @@
     </div>
 
     <!-- 龙虾专区 -->
-    <div class="Special_area" v-for="item in typeList" :key="item.areaName">
+    <div class="Special_area" v-for="item in AreaDatalist" :key="item.areaId">
       <!-- 标题 -->
       <div class="productListTitle">
-        <h4>{{item.type}}</h4>
+        <h4>{{item.areaName}}</h4>
         <span class="listMore">
           更多
           <i class="el-icon-arrow-right"></i>
         </span>
       </div>
       <div class="goodlist">
-        <dl v-for="subitem in item.data" :key="subitem.productId" @click="goto(subitem.productId)">
+        <dl v-for="subitem in item.quoteList" :key="subitem.productId" @click="goto(subitem.productId)">
           <dt>
             <div class="goods_pic">
               <img :src="subitem.imgUrl" />
@@ -204,7 +204,7 @@ export default {
       activeList: "",
       likeData: "",
       AreaDatalist: "",
-      typeList: ""
+      // typeList: ""
     };
   },
   async created() {
@@ -257,49 +257,54 @@ export default {
     this.likeData = quoteList;
 
     //分区数据
-    let {
-      data: { data: Arealist }
-    } = await this.$axios.get(
-      "https://zuul.gfresh.cn/api/product/homeArea/getHomeAreas"
-    );
-    // console.log(Arealist);
-    this.AreaDatalist = Arealist;
-    let axios1 = this.$axios;
-    let len = Arealist.length;
-    let arrlist = [];
-    this.typeList = arrlist;
-    // let datastr = "";
+    // let {
+    //   data: { data: Arealist }
+    // } = await this.$axios.get(
+    //   "https://zuul.gfresh.cn/api/product/homeArea/getHomeAreas"
+    // );
+    // // console.log(Arealist);
+    // this.AreaDatalist = Arealist;
+    // let axios1 = this.$axios;
+    // let len = Arealist.length;
+    // let arrlist = [];
+    // this.typeList = arrlist;
+    // // let datastr = "";
 
-    // console.time();
-    //在这里拿到数据分区
-    (function fn(num) {
-      if (num >= len) {
-        // console.log("递归结束");
-        return;
-      } else {
-        let str = "";
-        let lh = Arealist[num].categoryVos.length;
-        // console.log("lh", lh);
-        Arealist[num].categoryVos.forEach((item, idx) => {
-          str += item.categoryId + ",";
-          if (idx == lh - 1) {
-            // console.log(Arealist[num].areaName);
-            str = str.slice(0, -1);
-            let url = `https://zuul.gfresh.cn/api/product/product/queryProductByCateIdShowNum?cateId=${str}&showNum=5&showNoQuote=1&cityId=44769e16-ecc6-4d18-a210-caf1c6ec1dea&abroad=0`;
-            // console.log(url);
-            axios1.get(url).then(res => {
-              let {
-                data: {
-                  data: { quoteList }
-                }
-              } = res;
-              arrlist.push({ type: Arealist[num].areaName, data: quoteList });
-              return fn(++num);
-            });
-          }
-        });
-      }
-    })(0);
+    // // console.time();
+    // //在这里拿到数据分区
+    // (function fn(num) {
+    //   if (num >= len) {
+    //     // console.log("递归结束");
+    //     return;
+    //   } else {
+    //     let str = "";
+    //     let lh = Arealist[num].categoryVos.length;
+    //     // console.log("lh", lh);
+    //     Arealist[num].categoryVos.forEach((item, idx) => {
+    //       str += item.categoryId + ",";
+    //       if (idx == lh - 1) {
+    //         // console.log(Arealist[num].areaName);
+    //         str = str.slice(0, -1);
+    //         let url = `https://zuul.gfresh.cn/api/product/product/queryProductByCateIdShowNum?cateId=${str}&showNum=5&showNoQuote=1&cityId=44769e16-ecc6-4d18-a210-caf1c6ec1dea&abroad=0`;
+    //         // console.log(url);
+    //         axios1.get(url).then(res => {
+    //           let {
+    //             data: {
+    //               data: { quoteList }
+    //             }
+    //           } = res;
+    //           arrlist.push({ type: Arealist[num].areaName, data: quoteList });
+    //           return fn(++num);
+    //         });
+    //       }
+    //     });
+    //   }
+    // })(0);
+
+    //分区数据 {data:AreaData} 
+    let {data:{data:AreaData}} = await this.$axios.get("http://10.3.133.72:10086/goods/queryArea?pagesNum=5");
+    console.log("分区的数据：",AreaData)
+    this.AreaDatalist = AreaData;
   },
   methods: {
     goto(gid) {
@@ -308,7 +313,7 @@ export default {
     },
     //添加到购物车
     addCart() {
-      console.log("添加购物车");
+      // console.log("添加购物车");
     }
   }
 };

@@ -10,7 +10,7 @@ const randomCode = require('../assert/common');
 
 const colName = 'user';
 
-//失去焦点验证用户名
+//失去焦点验证用户名 
 Router.get('/check', async (req, res) => {
     let { username } = req.query;
     // console.log('username', username)
