@@ -4,7 +4,7 @@
      <h1 class="bt"><a href="###">后台管理系统</a></h1>
      <p class="log"><a href="###"><i class="el-icon-position"></i>登陆</a></p>
   </el-header>
-  <el-container style="height:calc(100% - 60px)">
+  <el-container style="height:calc(100% - 50px)">
     <el-aside width="180px">
       <el-menu
       default-active="2"
@@ -130,6 +130,7 @@ html {
   height: 100%;
 }
 </style>
+
 <style lang="scss">
 .el-header,
 .el-footer {

@@ -1,15 +1,125 @@
 <template>
   <div>
-      添加用户
+    <div class="header">
+      <div class="user-header">
+          <h1>用户列表</h1>
       </div>
+    </div>
+    <div class="main">
+      <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="ruleForm2.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="pass">
+          <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass">
+          <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm2')">确认</el-button>
+        </el-form-item>
+        </el-form>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+   data(){
+      var validatePass2 = (rule, value, callback) => {
+        console.log("validatePass2",rule, value, callback);
+        
+        // if (value === '') {
+        //   callback(new Error('请再次输入密码'));
+        // } else
+        if (value !== this.ruleForm2.pass) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+      // 校验用户名是否存在
+    //   const checkUsername = async (rule, value, callback) => {
+
+    //   let {data} = await this.$axios.get('http://localhost:1907/user/check',{
+    //     params:{
+    //       username:this.ruleForm2.username
+    //     }
+    //   })
+    //   if(data.code === 0){
+    //     callback(new Error("用户名已存在"));
+    //   }else{
+    //     callback();
+    //   }
+    //   };
+   
+      return {
+        ruleForm2: {
+            username:'',
+            pass: '',
+            checkPass: ''
+        },
+        rules2: {
+          username: [
+            { required: true, message: "用户名不能为空", trigger: "blur" },
+            // { validator: checkUsername, trigger: 'blur' }
+          ],
+          pass: [
+            { required: true, message: "请输入密码", trigger: "blur" },
+            {
+              min: 6,
+              max: 12,
+              message: "密码长度必须为 6 到 12 个字符",
+              trigger: "blur"
+            }
+          ],
+          checkPass: [
+            { required: true, message: "请再次确认密码", trigger: "blur" },
+            { validator: validatePass2, trigger: 'blur' }
+          ], 
+        }
+      };   
+    },
+    methods:{
+        submitForm() {
+        //校验整个表单
+        this.$refs.ruleForm2.validate((valid) => {
+            //valid:所有校验规则都通过后，得到true，只要有一个表单元素校验不通过则得到form
+          if (valid) {
+            // alert('submit!');
+             // 发起ajax请求，等待服务器返回结果
+            // 根据服务器返回结果：注册成功->跳到“二手房”
+            // let {username,pass}=this.ruleForm2;
+            // let {data}=await this.$axios.post("")
+
+            // this.$router.replace('/againHouse');
+            let {username}=this.ruleForm2;
+            this.$router.replace({name:'againHouse',query:{username}})
+          } else {
+            // console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+    }
+};
 </script>
 <style lang="scss" scoped>
-div {
-  color: #f00;
-  font-size: 100px;
+.user-header{
+    height:50px;
+    width:100%;
+    h1{
+        height:50px;
+        width:1100px;
+        line-height: 50px;
+        font-size:20px;
+        color:#000;
+        margin:auto;
+        border-bottom:2px solid orangered;
+    }
+}
+.main{
+  padding: 100px 300px;
 }
 </style>
