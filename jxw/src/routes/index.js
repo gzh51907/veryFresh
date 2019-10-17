@@ -32,7 +32,7 @@ router.beforeEach(async function (to, from, next) {
                     Authorization
                 }
             })
-            console.log(data);
+            // console.log(data);
             if (data.code == 1) {
                 next();
             } else {
