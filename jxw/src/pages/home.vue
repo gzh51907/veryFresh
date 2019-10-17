@@ -303,7 +303,7 @@ export default {
 
     //分区数据 {data:AreaData} 
     let {data:{data:AreaData}} = await this.$axios.get("http://10.3.133.72:10086/goods/queryArea?pagesNum=5");
-    console.log("分区的数据：",AreaData)
+    // console.log("分区的数据：",AreaData)
     this.AreaDatalist = AreaData;
   },
   methods: {

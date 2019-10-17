@@ -3,26 +3,30 @@
     <div class="del_header">
       <p class="title_icon el-icon-arrow-left" @click="goback()"></p>
       <div class="del_img">
-        <img src="../assets/goods/01.jpg" alt />
+        <img :src="gooddata.imgUrl" />
       </div>
       <div class="del_tag">
-        <span class="abroad-style">国内精品</span>
+        <span class="abroad-style" v-if="gooddata.abroad === 2">国内精品</span>
+        <span class="abroad-style" v-if="gooddata.abroad === 1">海外原包</span>
         <span class="num-style">4</span>
       </div>
     </div>
     <div class="del_con">
       <div class="good_name">
-        <i class="Self-support1" style="margin-top:7px;">自营</i> 极鲜仓配 中国 扇贝 野生（上海市发货）
+        <i class="Self-support1" style="margin-top:7px;" v-if="gooddata.isProprietary==='1'">自营</i>
+        {{gooddata.name}}
       </div>
       <div class="good_price">
         <div class="row01">
           <div class="pro_price">
             <p class="p_priceA">
-              ￥81.00
-              <span class="s_weight">/500g</span>
+              <!-- ￥{{gooddata.}} -->
+              <span v-if="gooddata.unitPrice == null">￥__.__</span>
+                <span  v-else>￥{{(gooddata.unitPrice-0).toFixed(2)}}</span>
+              <span class="s_weight">&nbsp;&nbsp;&nbsp;{{gooddata.unitName}}</span>
             </p>
             <p>
-              ￥3118.45/箱
+              ￥{{gooddata.specName}}
               <span class="trans_price">(运费每￥10/箱)</span>
             </p>
           </div>
@@ -43,19 +47,19 @@
         style="padding-bottom:100px;"
       >
         <el-form-item label="总销量:">
-          <p class="sale_num">62箱</p>
+          <p class="sale_num">{{gooddata.saledQty}}{{gooddata.salePriceUnitName}}</p>
         </el-form-item>
-        <el-form-item label="启发量:">
-          <p class="sale_num">1箱</p>
+        <el-form-item label="起发量:">
+          <p class="sale_num">1{{gooddata.salePriceUnitName}}</p>
         </el-form-item>
         <el-form-item label="到港日期:">
-          <van-button plain type="info">现货</van-button>
+          <van-button plain type="info">{{gooddata.sendDate}}</van-button>
         </el-form-item>
         <el-form-item label="包装规格">
-          <van-button plain type="info">5千克/箱</van-button>
+          <van-button plain type="info">{{gooddata.packName}}</van-button>
         </el-form-item>
         <el-form-item label="产品规格:">
-          <van-button plain type="info">800+g/只(上海现货标准)</van-button>
+          <van-button plain type="info">{{gooddata.propertieValue}}({{gooddata.cityName}}发货)</van-button>
         </el-form-item>
       </el-form>
     </div>
@@ -104,6 +108,7 @@ export default {
       subPage: "",
       url: "",
       refer: "",
+      gooddata: "",
       formLabelAlign: {
         name: "",
         region: "",
@@ -117,13 +122,24 @@ export default {
       // console.log(this.url)
     }
   },
-  created() {},
+  async created() {
+    let productId = this.$route.params.gid;
+    // console.log("productI:", productId);
+    let {
+      data: { data: goodsDetail }
+    } = await this.$axios.get(
+      `http://10.3.133.72:10086/goods/queryByPid?productId=${productId}`
+    );
+    this.gooddata = goodsDetail[0];
+    // console.log(goodsDetail[0]);
+  },
   //路由守卫，进入路由时监听路由，目的为了回到上一页
   beforeRouteEnter(to, from, next) {
     //进入路由
     // console.log("beforeRouteEnter:to --> from", to, from);
     let prePage = from.fullPath;
-    next(vm => {  //回到上一页
+    next(vm => {
+      //回到上一页
       vm.subPage = prePage;
     });
   }
