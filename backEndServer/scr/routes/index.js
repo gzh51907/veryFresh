@@ -8,6 +8,7 @@ const goodsRouter = require('./goods');
 const userRouter = require('./user');
 const verifyRouter = require('./verify');
 const CartRouter = require('./cart');
+const adminRouter = require('./admin');
 
 //自定义中间件，跨域授权
 Router.use((req, res, next) => {
@@ -31,6 +32,7 @@ Router.use('/goods', goodsRouter);
 Router.use('/user', userRouter);
 Router.use('/token', verifyRouter);
 Router.use('/cart', CartRouter);
+Router.use('/admin', adminRouter);
 
 //被引入(require)的文件一定要有导出(module.exports)
 // console.log("路由管理")

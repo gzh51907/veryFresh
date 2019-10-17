@@ -9,14 +9,26 @@
 </head>
 
 <body>
-    <button id="btn">发送请求</button>
-
+    <button id="btn">发送购物车请求</button>
+    <br>
+    <br>
+    <button id="btn2">请求goods数据</button>
+    <br>
+    <br>
+    <button id="btn3">请求商品详情</button>
+    <br>
+    <br>
+    <button id="btn4">管理员登录</button>
+    <br>
+    <br>
+    <button id="btn5">请求分区数据</button>
 </body>
 
 </html>
 <script>
     let btn = document.getElementById("btn");
     // let obj = { name: "lh" }
+    // 购物车测试
     btn.onclick = () => {
         // obj.sex = '男';
         // console.log(obj)
@@ -28,8 +40,55 @@
         xhr.onload = () => {
             let res = JSON.parse(xhr.responseText);
             console.log(res);
-
         }
     }
 
+    //请求全部商品
+    btn2.onclick = () => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "http://10.3.133.72:10086/goods/queryAll", true);
+        xhr.send();
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+        }
+    }
+    // 查看商品详情
+    btn3.onclick = () => {
+        let xhr = new XMLHttpRequest();
+        let productId = `productId=ea79296f-3649-4a4d-8473-c8c798622208`
+        xhr.open("get", `http://10.3.133.72:10086/goods/queryByPid?${productId}`, true);
+        xhr.send();
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+        }
+    }
+
+    // 管理员登录
+    btn4.onclick = () => {
+        let xhr = new XMLHttpRequest();
+        // let productId = `productId=ea79296f-3649-4a4d-8473-c8c798622208`
+        xhr.open("post", "http://10.3.133.72:10086/admin/login", true);
+        //post 要设置请求头
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        xhr.send(`username=admin&password=1233`);
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+        }
+    }
+   
+    // 请求分区数据
+    btn5.onclick = () => {
+        let xhr = new XMLHttpRequest();
+        // let productId = `productId=ea79296f-3649-4a4d-8473-c8c798622208`
+        xhr.open("get", "http://10.3.133.72:10086/goods/queryArea", true);
+        xhr.send();
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+        }
+    }
+    
 </script>
