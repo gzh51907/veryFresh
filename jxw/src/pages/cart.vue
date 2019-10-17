@@ -1,5 +1,7 @@
 <template>
   <div>
+
+
     <el-row class="title">
        <el-col :span="20">购物车</el-col>
        <el-col :span="4" @click.native="remove" v-model="dataList">删除</el-col>
@@ -77,13 +79,19 @@ export default {
   data() {
     return {
       num4: 1,
-      dataList: "", //购物车页面所有数据
+      // dataList: "", //购物车页面所有数据
       arr_goodsCheck: [], //所有商品控制全选
       all_check: false, //全选默认状态
       goods: [] //存储购物车每个商品的数据
     };
   },
   computed: {
+    dataList() {
+      return this.$store.state.dataList;
+    },
+    cartlist() {
+      return this.$store.state.cartlist;
+    },
     totalPrice() {
       //勾选的商品总计价
       let total = 0.0;
@@ -263,7 +271,12 @@ export default {
     let { data } = await this.$axios.get(
       "http://10.3.133.72:10086/goods/cart_test"
     );
-    this.dataList = data;
+
+    
+    // this.dataList = data;//原始写法
+    //vue写法
+    this.$store.commit("init_data", data);
+    this.dataList = this.$store.state.dataList;
 
     let length = this.dataList.length; //为了在下面截取掉原本的数据，重新生成新数据
     this.dataList.forEach(item => {

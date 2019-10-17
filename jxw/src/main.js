@@ -23,7 +23,12 @@ import router from './routes'
 import axios from 'axios';
 Vue.prototype.$axios = axios;
 
+
+//引入vuex的store实例，并把它注入到vue实例
+import store from './store'
+
 new Vue({
-  router,   //注入实例
+  router, //注入实例
+  store, //vuex的store实例
   render: h => h(App),
 }).$mount('#app')
