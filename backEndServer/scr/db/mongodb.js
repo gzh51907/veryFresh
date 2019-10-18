@@ -106,8 +106,8 @@ async function find_num(colName, { pages, number }) {
     let { db, client } = await connect();
     let col = db.collection(colName);
     //查询数据   从 sub 开始查 num 条数据
-    console.log("查询条件:",(number - 0),(number * pages - 0))
-    let result = await col.find().limit(number-0).skip((number * pages - 0)).toArray();
+    // console.log("查询条件:", (number - 0), (number * pages - 0))
+    let result = await col.find().limit(number - 0).skip((number * (pages - 1) - 0)).toArray();
     client.close();
     //返回查询结果
     return result;
@@ -126,6 +126,20 @@ async function find_uid(colName, query) {
     return result;
 }
 
+/**
+ * @param
+ * 删除多条数据
+ */
+async function delById(colName, query) {
+    // console.log("query:",query)
+    let { db, client } = await connect();
+    let col = db.collection(colName);
+    let { deletedCount } = await col.deleteMany(query);
+    // console.log("result:",deletedCount);
+    client.close();
+    return deletedCount;
+}
+
 
 module.exports = {
     create,
@@ -133,5 +147,6 @@ module.exports = {
     update,
     find,
     find_num,
-    find_uid
+    find_uid,
+    delById
 };
