@@ -4,7 +4,7 @@
       <el-col :span="20">购物车</el-col>
       <el-col :span="4" @click.native="remove" v-model="dataList">删除</el-col>
     </el-row>
-    <div class="block">
+    <div class="block" v-if="dataList.length">
       <div v-for="item in dataList" :key="item.shopId">
         <!-- 店铺复选框 -->
         <el-row class="store">
@@ -49,9 +49,9 @@
                           <span class="bottom">¥{{goods.salePrice}}/{{goods.salePriceUnit}}</span>
                         </div>
                         <div class="right">
-                          <span class="cut" @click="cut(goods.productId)">-</span>
+                          <span class="cut" @click="cut(goods.productId,goods.num)">-</span>
                           <input type="number" v-model="goods.num" />
-                          <span class="add" @click="add(goods.productId)">+</span>
+                          <span class="add" @click="add(goods.productId,goods.num)">+</span>
                           <!-- <el-input-number size="mini" v-model="goods.inducement"></el-input-number> -->
                         </div>
                       </div>
@@ -97,6 +97,15 @@
         </el-row>
       </div>
     </div>
+    <div class="else" v-else>
+     <el-row class="null">
+      <i class="el-icon-s-cooperation"></i>
+      <span>购物车空空如也</span>
+     </el-row>
+     <el-row>
+        <div class="goshopping" @click="goto_home">去逛逛</div>
+     </el-row>
+    </div>
   </div>
 </template>
 
@@ -140,8 +149,9 @@ export default {
     }
   },
   methods: {
+    //数量加
     add(id) {
-      //数量加
+      console.log("加");
       this.dataList.map(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.productId === id) {
@@ -154,8 +164,8 @@ export default {
         });
       });
     },
+    //数量减
     cut(id) {
-      //数量减
       this.dataList.map(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.productId === id) {
@@ -168,20 +178,37 @@ export default {
         });
       });
     },
+    //去详情规则
     goto() {
-      //详情规则
       this.$router.push("/cart_rules");
+    },
+    goto_home(){
+       this.$router.push("/home");
     },
     gotoDeatil(gid) {
       this.$router.push({ name: "detail", params: { gid } });
     },
+    //删除功能
     remove() {
-      //删除功能
+      let rm = {
+        shopId: [],
+        productId: []
+      };
+      let rm_arr = [];
+      let length = this.dataList.length;
+
       this.dataList.forEach((item, index) => {
         //如果店铺为打钩状态，删除item
         //不能先判断店铺为ture状态，这样删了一个店铺，数组长度变少，就少一个循环
         if (item.store_checked === false) {
           //如果店铺为false状态，遍历子结构（商品）
+          item.shoppingCartVos.forEach(i => {
+            if (i.isValid) {
+              rm.productId.push(i.productId);
+
+              console.log("商品打钩id:", i.productId);
+            }
+          });
           item.shoppingCartVos = item.shoppingCartVos.filter(
             goods => goods.isValid == false //过滤出满足条件（勾选状态）的商品
           );
@@ -190,20 +217,24 @@ export default {
           //如果shoppingCartVos（存储商品）的数组为0，把该item（店铺）删掉
           this.dataList.splice(index, 1);
         }
-        console.log("店铺为ture", this.dataList);
+        // console.log("店铺为ture", this.dataList);
       });
-
       this.dataList.forEach((item, index) => {
         if (item.store_checked === true) {
           //如果店铺为true状态,直接删掉
-          this.dataList.splice(index, 1);
+          rm.shopId.push(item.shopId);
+          rm_arr.push(index);
         }
-        console.log("店铺为false", this.dataList);
       });
-    },
 
+      rm_arr = rm_arr.reverse();
+      for (let i = 0; i < rm_arr.length; i++) {
+        this.dataList.splice(rm_arr[i], 1);
+      }
+      console.log("rm:", rm);
+    },
+    //店铺打钩
     store_check(check, id) {
-      //店铺打钩
       check = !check; //(点击事件)
       this.dataList.forEach(item => {
         if (item.shopId === id) {
@@ -234,9 +265,8 @@ export default {
         }
       });
     },
-
+    //商品打钩控制店铺
     goods_check(goodsCheck, shopId) {
-      //商品打钩控制店铺
       let arr = [];
       let num = 0; //计数该店铺的商品个数：为了判断下面控制店铺打钩
       this.dataList.forEach(item => {
@@ -308,39 +338,35 @@ export default {
     this.$store.commit("init_data", datas);
     this.dataList = this.$store.state.dataList;
 
+    //写在本地浏览器的写法
+    // this.dataList = JSON.parse(sessionStorage.getItem("state.dataList"));
+
     let length = this.dataList.length; //为了在下面截取掉原本的数据，重新生成新数据
     this.dataList.forEach(item => {
       item.shoppingCartVos.forEach(i => {
         this.goods.push(i);
-        // console.log("i", this.goods);
         i.goods_check = true; //添加每个商品打钩属性
-        // console.log("dianpu:", i.isValid);
       });
       this.dataList.push(item);
     });
 
     this.dataList = this.dataList.slice(length); //截取掉原本的数据
     console.log("this.dataList", this.dataList);
-
-    //初始化数组arr_goodsCheck:在商品打钩时控制全选功能
-    // for (let i = 0; i < this.goods.length; i++) {
-    //   this.arr_goodsCheck.push(true);
-    // }
-  },
-  watch: {
-    dataList: {
-      handler(newValue, oldValue) {
-        // for (let i = 0; i < newValue.length; i++) {
-        //   console.log("输出：", newValue[i].shop_check);
-        //   if (oldValue[i] != newValue[i]) {
-        //     console.log("执行");
-        //   }
-        // }
-      },
-      deep: true
-      // immediate: true
-    }
   }
+  // watch: {
+  // dataList: {
+  //   handler(newValue, oldValue) {
+  //     for (let i = 0; i < newValue.length; i++) {
+  //       console.log("输出：", newValue[i].shop_check);
+  //       if (oldValue[i] != newValue[i]) {
+  //         console.log("执行");
+  //       }
+  //     }
+  //   },
+  //   deep: true,
+  //   immediate: true
+  // }
+  // }
 };
 </script>
 
@@ -358,6 +384,32 @@ export default {
   .el-col-4 {
     font-size: 16px;
     color: #777;
+  }
+}
+.else {
+  width: 200px;
+  height: 300px;
+  // border: 1px solid #000;
+  margin: auto;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+  .null {
+    width: 180px;
+    padding: 40px 0;
+    span {
+      font-size: 14px;
+      margin-left: 8px;
+      color: rgba(51, 51, 51, 0.6);
+    }
+  }
+  .goshopping {
+    width: 180px;
+    height: 45px;
+    background: #0463de;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #fff;
   }
 }
 .block {
