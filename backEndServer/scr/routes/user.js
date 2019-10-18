@@ -10,7 +10,7 @@ const randomCode = require('../assert/common');
 
 const colName = 'user';
 
-//失去焦点验证用户名
+//失去焦点验证用户名 
 Router.get('/check', async (req, res) => {
     let { username } = req.query;
     // console.log('username', username)
@@ -43,18 +43,18 @@ Router.post('/reg', async (req, res) => {
 //登录
 Router.get('/login', async (req, res) => {
     let { username, password, mdl } = req.query;
-
+    console.log("登录：",username, password, mdl)
     let result = await mongodb.find(colName, { username, password });
 
     if (result.length) {
         ///如果前端免登陆，生成一个token返回给前端
-        let Authorization
+        let Authorization;
         if (mdl) {
             Authorization = token.create(username);
             // console.log("生成的token:", Authorization)
         }
         //登录成功并返回密文给前端
-        res.send(formatData({ data: Authorization }));
+        res.send(formatData({ data: { Authorization, username } }));
     } else {
         res.send(formatData({ code: 0 }));//登录失败
     }

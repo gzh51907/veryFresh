@@ -97,16 +97,17 @@ async function find(colName, query) {
  * 插询指定区间的数据，相当于mysql的limit(a,b)
  * 
 */
-async function find_num(colName, { num, sub }) {
-    if (!num)
-        num = 0;
-    if (!sub)
-        sub = 0;
+async function find_num(colName, { pages, number }) {
+    // if (!pages)
+    //     pages = 0;
+    // if (!number)
+    //     number = 10;
     // console.log("num,sub", sub)
     let { db, client } = await connect();
     let col = db.collection(colName);
     //查询数据   从 sub 开始查 num 条数据
-    let result = await col.find().limit(num - 0).skip(sub - 0).toArray();
+    console.log("查询条件:",(number - 0),(number * pages - 0))
+    let result = await col.find().limit(number-0).skip((number * pages - 0)).toArray();
     client.close();
     //返回查询结果
     return result;

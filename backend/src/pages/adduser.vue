@@ -60,7 +60,7 @@ export default {
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm2.pass) {
+        } else if (value !== this.ruleForm2.password) {
           callback(new Error('两次输入密码不一致!'));
         } else {
           callback();
@@ -98,24 +98,28 @@ export default {
     methods:{
         submitForm(formName) {
         //校验整个表单
-        this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate(async valid => {
             //valid:所有校验规则都通过后，得到true，只要有一个表单元素校验不通过则得到form
           if (valid) {
             // alert('submit!');
              // 发起ajax请求，等待服务器返回结果
             // 根据服务器返回结果：注册成功->跳到“二手房”
-            // let {username,pass}=this.ruleForm2;
-            // let {data}=await this.$axios.post("")
+            let {username,password}=this.ruleForm2;
+            let {data}=await this.$axios.post("http://10.3.133.72:10086/user/reg",{username,password});
 
-            // this.$router.replace('/againHouse');
-            let {username}=this.ruleForm2;
-            this.$router.replace({name:'againHouse',query:{username}})
+            if(data.code===1){
+              alert("恭喜你，添加用户成功！");
+            }else{
+              alert("真可惜，添加用户失败！")
+            }
+ 
           } else {
             // console.log('error submit!!');
             return false;
           }
         });
         },
+        //重置
         resetForm(formName) {
         this.$refs[formName].resetFields();
         }

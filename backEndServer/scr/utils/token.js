@@ -10,7 +10,7 @@ let { secret } = require('../config.json');
  * 创建一个token加密字符串
  * @param {String} data 需要加密的数据
  * @param {Number} expiresIn 密文有效时间，单位s，这里给20
- */
+*/
 let token;
 function create(data, expiresIn = '7d') {  //'7d' 有效期7天
     // console.log("data:", { data })

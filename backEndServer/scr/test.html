@@ -22,6 +22,18 @@
     <br>
     <br>
     <button id="btn5">请求分区数据</button>
+    <br>
+    <br>
+    <button id="btn6">查看用户列表</button>
+    <br>
+    <br>
+    <button id="btn7">管理员删除用户</button>
+    <br>
+    <br>
+    <button id="btn8">分页查询数据</button>
+    <br>
+    <br>
+    <button id="btn9">删除购物车数据</button>
 </body>
 
 </html>
@@ -78,17 +90,74 @@
             console.log(res);
         }
     }
-   
+
     // 请求分区数据
     btn5.onclick = () => {
         let xhr = new XMLHttpRequest();
         // let productId = `productId=ea79296f-3649-4a4d-8473-c8c798622208`
-        xhr.open("get", "http://10.3.133.72:10086/goods/queryArea", true);
+        xhr.open("get", "http://10.3.133.72:10086/goods/queryArea?pagesNum=5", true);
         xhr.send();
         xhr.onload = () => {
             let res = JSON.parse(xhr.responseText);
             console.log(res);
         }
     }
-    
+
+    // 查看用户列表
+    btn6.onclick = () => {
+        let xhr = new XMLHttpRequest();
+        // let productId = `productId=ea79296f-3649-4a4d-8473-c8c798622208`
+        xhr.open("get", "http://10.3.133.72:10086/admin/userList", true);
+        xhr.send();
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+        }
+    }
+
+    // 删除用户
+    btn7.onclick = () => {
+        let xhr = new XMLHttpRequest();
+        let userId = `put79tdf-h476-bsye-12ddsl5umoag`
+        xhr.open("get", `http://10.3.133.72:10086/admin/delUser?userId=${userId}`, true);
+        xhr.send();
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+        }
+    }
+
+    // 具有分页的查找查询数据
+    btn8.onclick = () => {
+        let xhr = new XMLHttpRequest();
+        let pages = 2;
+        let number = 10;
+        xhr.open("get", `http://10.3.133.72:10086/goods/getNumGoods?pages=${pages}&number=${number}`, true);
+        xhr.send();
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+        }
+    }
+
+    // 删除购物车数据
+    btn9.onclick = () => {
+        let xhr = new XMLHttpRequest();
+        let  {rm,Authorization}= {
+            rm:
+                '{"shopId":[],"productId":["f521dd15-e865-4d5b-94d6-edc8673b5a41"]}',
+            Authorization:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoieWFubmkiLCJpYXQiOjE1NzEzNjg0MTMsImV4cCI6MTU3MTk3MzIxM30.KJWOYmdWr2rJ8gYbIEhaFJ0Aa_0yC0O94hv-pE2lU0w'
+        };
+        // console.log(rm)
+        // console.log(Authorization)
+        xhr.open("get", `http://10.3.133.72:10086/cart/removeGood?rm=${rm}&Authorization=${Authorization}`, true);
+        xhr.send();
+        xhr.onload = () => {
+            let res = JSON.parse(xhr.responseText);
+            console.log(res);
+        }
+    }
+
+
 </script>
