@@ -11,7 +11,7 @@
         </div>
          <el-table
           ref="multipleTable"
-          :data="tableData3"
+          :data="tableData3.result"
           tooltip-effect="dark"
           style="width: 100%;"
           @selection-change="handleSelectionChange">
@@ -20,22 +20,23 @@
             width="55">
           </el-table-column>
           <el-table-column
+           type="index"
             prop="id"
             label="#"
             width="50">
           </el-table-column>
           <el-table-column
-            prop="goodname"
+            prop="productName"
             label="商品名称"
             width="200">
           </el-table-column>
           <el-table-column
-            prop="sale_price"
+            prop="salePrice"
             label="现价"
             width="100">
           </el-table-column>
           <el-table-column
-            prop="number"
+            prop="num"
             label="数量"
             width="100">
           </el-table-column>
@@ -68,10 +69,10 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage4"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :page-sizes="[5,10,15,20,25,30,35,40,45,50]"
+            :page-size="pagesize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="tableData3.AllNum">
           </el-pagination>
         </div>
       </div>
@@ -82,43 +83,30 @@
 export default {
   data(){
     return{
-     currentPage4: 4,
-      tableData3: [{
-          id:"1",
-          date: '2016-05-03',
-          goodname: '王小虎',
-          sale_price:99.8,
-          goodsprice:998,
-          bookprice:1300,
-          number:10,
-        }, {
-          id:"2",
-          date: '2016-05-02',
-          goodname: '王小虎',
-          sale_price:99.8,
-          goodsprice:998,
-          bookprice:1300,
-          number:10,
-        }, {
-          id:"3",
-          date: '2016-05-04',
-          goodname: '王小虎',
-           sale_price:99.8,
-          goodsprice:998,
-          bookprice:1300,
-          number:10,
-        }, {
-          id:"4",
-          date: '2016-05-01',
-          goodname: '王小虎',
-          goodsprice:998,
-          bookprice:1300,
-          sale_price:99.8,
-          number:10,
-        }],
-        multipleSelection: []
+     currentPage4: 1,
+     pagesize:5,
+     tableData3:[],
+     multipleSelection: []
     }
   },
+
+  //请求数据
+  async created(){
+    let {data:{data}}=await this.$axios.get("http://10.3.133.72:10086/cart/cartList",{
+      params:{
+        pages:this.currentPage4,
+        number:this.pagesize,
+      }
+    })
+    console.log(data);
+    this.tableData3=data;
+  },
+  
+  //动态生成数据
+  computed(){
+    
+  }
+
    methods: {
      //分页功能
       handleSizeChange(val) {
