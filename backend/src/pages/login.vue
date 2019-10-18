@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
     <div class="header">
       <div class="user-header">
           <h1>管理员登陆</h1>
@@ -94,20 +94,34 @@ export default {
   }
 </script>
 <style lang="scss" scoped>
+html,body{
+  height:100%;
+  
+}
+.login{
+   width: 450px;
+  margin: 120px auto;
+  background-color:#fff;
+}
 .user-header{
     height:50px;
     width:100%;
+    text-align:center;
+    background-color:#08c;
     h1{
         height:50px;
-        width:1100px;
         line-height: 50px;
         font-size:20px;
         color:#000;
-        margin:auto;
         border-bottom:2px solid orangered;
     }
 }
 .main{
-  padding: 100px 300px;
+  height:250px;
+  padding-top:50px;
 }
+
+.el-form-item /deep/ .el-form-item__content{
+  margin-right:40px;
+} 
 </style>
