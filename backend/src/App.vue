@@ -1,7 +1,8 @@
 <template>
 
 <div>
-<el-container style="height:100%;margin-bottom:0px;" v-if='true'>
+<login v-if='true'></login>
+<el-container style="height:100%;margin-bottom:0px;" v-else>
   <el-header style="background-color:#2E363F;">
      <h1 class="bt"><a href="###">极鲜网后台管理系统</a></h1>
      <p class="log"><a href="###"><i class="el-icon-position"></i>退出</a></p>
@@ -43,7 +44,7 @@
       </el-main>
   </el-container>
 </el-container>
- <login e-else></login>
+
 </div>
 </template>
 
