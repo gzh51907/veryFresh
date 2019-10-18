@@ -141,6 +141,7 @@ export default {
       this.dataList.forEach(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.isValid) {
+            i.num=i.num-0;
             total += i.num;
           }
         });
@@ -150,12 +151,14 @@ export default {
   },
   methods: {
     //数量加
-    add(id) {
-      console.log("加");
+    async add(id, num) {
+      num = num-0;//字符串
       this.dataList.map(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.productId === id) {
+            i.num = i.num-0;//字符串转数字
             i.num += 1;
+            num = i.num-0;
             if (i.num >= i.stockQty) {
               i.num = i.stockQty;
               Message.error("库存不足，不要在点我啦！");
@@ -163,27 +166,49 @@ export default {
           }
         });
       });
+      let data = await this.$axios.get(
+        "http://10.3.133.72:10086/cart/updateNum",
+        {
+          params: {
+            productId: id,
+            num: num,
+            username: localStorage.getItem("username")
+          }
+        }
+      );
     },
     //数量减
-    cut(id) {
+    cut(id, num) {
+       num = num-0;//字符串
       this.dataList.map(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.productId === id) {
+             i.num = i.num-0;//字符串转数值
             i.num -= 1;
-            if (i.num <= 1) {
+            num = i.num;
+            if (i.num < 1) {
               i.num = 1;
+              num = i.num;
               Message("还想不想买啦！");
             }
           }
         });
       });
+      this.$axios.get("http://10.3.133.72:10086/cart/updateNum", {
+        params: {
+          productId: id,
+          num: num,
+          username: localStorage.getItem("username")
+        }
+      });
+
     },
     //去详情规则
     goto() {
       this.$router.push("/cart_rules");
     },
-    goto_home(){
-       this.$router.push("/home");
+    goto_home() {
+      this.$router.push("/home");
     },
     gotoDeatil(gid) {
       this.$router.push({ name: "detail", params: { gid } });
@@ -231,14 +256,13 @@ export default {
       for (let i = 0; i < rm_arr.length; i++) {
         this.dataList.splice(rm_arr[i], 1);
       }
-      console.log("username:", localStorage.getItem('username'));
-      this.$axios.get('http://10.3.133.72:10086/cart/removeGood',{
-        params:{
-          'rm':rm,
-          'username':localStorage.getItem('username')
-
+      console.log("username:", localStorage.getItem("username"));
+      this.$axios.get("http://10.3.133.72:10086/cart/removeGood", {
+        params: {
+          rm: rm,
+          username: localStorage.getItem("username")
         }
-      })
+      });
     },
     //店铺打钩
     store_check(check, id) {

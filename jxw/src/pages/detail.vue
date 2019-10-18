@@ -74,9 +74,9 @@
           <div class="flex_down">库存：有库存</div>
         </div>
         <div class="add_number">
-          <span class="icon_mins showOpacity">-</span>
-          <input type="text" value="1" />
-          <span class="icon_plus">+</span>
+          <span class="icon_mins showOpacity" @click="cut">-</span>
+          <input type="text"  v-model="default_num"/>
+          <span class="icon_plus"  @click="add">+</span>
         </div>
       </div>
       <div class="car_shop">
@@ -87,12 +87,12 @@
           <a href="#">
             <van-icon name="service-o" />
           </a>
-          <a href="#">
+          <a href="#" @click="goto_cart">
             <van-icon name="cart-o" />
           </a>
         </div>
         <div class="shop_right">
-          <div class="shop_flex">加入购物车</div>
+          <div class="shop_flex" @click="add2cart">加入购物车</div>
           <div class="shop_flex now_shop">立即购买</div>
         </div>
       </div>
@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -109,6 +110,7 @@ export default {
       url: "",
       refer: "",
       gooddata: "",
+      default_num: 1,
       formLabelAlign: {
         name: "",
         region: "",
@@ -120,18 +122,41 @@ export default {
     goback() {
       this.$router.push({ path: this.subPage });
       // console.log(this.url)
+    },
+    goto_cart(){
+      console.log('111')
+       this.$router.push('/cart');
+    },
+        add() {
+      //stockQty  this.gooddata
+      this.default_num++;
+      if (this.default_num >=this.gooddata.stockQty) {
+        this.default_num = this.gooddata.stockQty;
+        Message.error("库存不足，不要在点我啦！");
+      }
+    },
+    cut() {
+      this.default_num--;
+      if (this.default_num < 1) {
+        this.default_num = 1;
+        Message("还想不想买啦！");
+      }
+    },
+    add2cart(){
+      this.gooddata.qty =this.default_num;
+      // console.log(this.gooddata)
+      this.$axios.post('http://10.3.133.72:10086/cart/AddToCart',this.gooddata)
     }
   },
   async created() {
     let productId = this.$route.params.gid;
     // console.log("productI:", productId);
-    let {
-      data: { data: goodsDetail }
-    } = await this.$axios.get(
+    let { data: { data: goodsDetail } } = await this.$axios.get(
       `http://10.3.133.72:10086/goods/queryByPid?productId=${productId}`
     );
     this.gooddata = goodsDetail[0];
     // console.log(goodsDetail[0]);
+    console.log(this.gooddata);
   },
   //路由守卫，进入路由时监听路由，目的为了回到上一页
   beforeRouteEnter(to, from, next) {
