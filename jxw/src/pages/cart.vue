@@ -232,6 +232,13 @@ export default {
         this.dataList.splice(rm_arr[i], 1);
       }
       console.log("rm:", rm);
+      this.$axios.get('http://10.3.133.72:10086/cart/removeGood',{
+        params:{
+          rm,
+          Authorization:localStorage.getItem('Authorization')
+
+        }
+      })
     },
     //店铺打钩
     store_check(check, id) {

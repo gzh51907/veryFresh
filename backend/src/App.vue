@@ -1,49 +1,54 @@
 <template>
-<el-container style="height:100%;margin-bottom:0px;">
-  <el-header style="background-color:#2E363F;">
-     <h1 class="bt"><a href="###">后台管理系统</a></h1>
-     <p class="log"><a href="###"><i class="el-icon-position"></i>登陆</a></p>
-  </el-header>
-  <el-container style="height:calc(100% - 50px)">
-    <el-aside width="180px">
-      <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      @open.native="handleOpen"
-      @close.native="handleClose"
-      background-color="rgba(32, 34, 42, 1)"
-      text-color="#fff"
-      active-text-color="#28bc58"
-      style="height:100%;"
-      router
-      >
-      <el-submenu index="1" v-for="item in menus" :key='item.name'>
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>{{item.name}}</span>
-        </template>
-        <el-menu-item-group v-for="i in item.childs" :key="i.name" >
-          <el-menu-item :index="i.path" ><i class="el-icon-caret-right"></i>{{i.text}}</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-    </el-menu>
-    </el-aside>
-    <el-main style="padding:0px;">
-      <div class="main_head">
-          <div class="main_tab">
-              <a href="" class="a3">
-                  <i class="el-icon-s-home"></i>
-                  主页
-              </a>
-          </div>
-      </div>
-      <router-view />
-      </el-main>
-  </el-container>
+<div>
+ 
+  <el-container style="height:100%;margin-bottom:0px;" v-if="true">
+    <el-header style="background-color:#2E363F;">
+      <h1 class="bt"><a href="###">后台管理系统</a></h1>
+      <p class="log"><a href="###"><i class="el-icon-position"></i>登陆</a></p>
+    </el-header>
+    <el-container style="height:calc(100% - 50px)">
+      <el-aside width="180px">
+        <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open.native="handleOpen"
+        @close.native="handleClose"
+        background-color="rgba(32, 34, 42, 1)"
+        text-color="#fff"
+        active-text-color="#28bc58"
+        style="height:100%;"
+        router
+        >
+        <el-submenu index="1" v-for="item in menus" :key='item.name'>
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span>{{item.name}}</span>
+          </template>
+          <el-menu-item-group v-for="i in item.childs" :key="i.name" >
+            <el-menu-item :index="i.path" ><i class="el-icon-caret-right"></i>{{i.text}}</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+      </el-menu>
+      </el-aside>
+      <el-main style="padding:0px;">
+        <div class="main_head">
+            <div class="main_tab">
+                <a href="" class="a3">
+                    <i class="el-icon-s-home"></i>
+                    主页
+                </a>
+            </div>
+        </div>
+        <router-view />
+        </el-main>
+    </el-container>
 </el-container>
+ <login v-else></login>
+</div>
 </template>
 
 <script>
+import login from "./pages/login.vue";
 export default {
   name: "app",
   data() {
@@ -63,7 +68,7 @@ export default {
               name: "addgoods",
               path: "/addgoods",
               text: "添加商品"
-            }, 
+            }
           ]
         },
         {
@@ -78,7 +83,7 @@ export default {
               name: "adduser",
               path: "/adduser",
               text: "添加用户"
-            },
+            }
           ]
         },
         {
@@ -93,6 +98,9 @@ export default {
         }
       ]
     };
+  },
+  components: {
+    login
   },
   methods: {
     goto(path) {

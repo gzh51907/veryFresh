@@ -7,7 +7,7 @@
       </div>
       <div class="main">
         <div class="button">
-          <el-button type="success"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
+          <el-button type="success" @click="goto_adduser"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
           <el-button type="danger"><i class="el-icon-delete"></i>删除</el-button>
         </div>
          <el-table
@@ -15,20 +15,26 @@
           :data="tableData3"
           tooltip-effect="dark"
           style="width: 100%;"
-          @selection-change="handleSelectionChange">
+          @selection-change="handleSelectionChange"
+           @cell-click="celledit"
+           v-model="tableData3"
+          >
           <el-table-column
             type="selection"
             width="55">
           </el-table-column>
           <el-table-column
+            type="index"
             prop="id"
             label="#"
             width="120">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="username"
             label="用户名"
-            width="120">
+            width="120"
+           @change="username"
+           slot-scope="{row,$index}">
           </el-table-column>
           <el-table-column
             prop="password"
@@ -36,16 +42,17 @@
             width="250">
           </el-table-column>
           <el-table-column
+            prop='regtime'
             label="注册日期"
             width="">
-            <template slot-scope="scope">{{ scope.row.date }}</template>
+            <template slot-scope="scope">{{ scope.row.regtime }}</template>
           </el-table-column>
            <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button
                 size="mini"
                 type="success"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -70,112 +77,93 @@
 
 <script>
 export default {
-  data(){
-    return{
+  data() {
+    return {
       currentPage4: 4,
-      tableData3: [{
-          id:"1",
-          date: '2016-05-03',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"2",
-          date: '2016-05-02',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"3",
-          date: '2016-05-04',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"4",
-          date: '2016-05-01',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"5",
-          date: '2016-05-08',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"6",
-          date: '2016-05-06',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"7",
-          date: '2016-05-07',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }],
-        multipleSelection: []
+      tableData3: [],
+      multipleSelection: []
+    };
+  },
+  methods: {
+    celledit(row, column, cell, event) {
+      cell.contentEditable = true;
+      cell.focus();
+    },
+    username() {},
+    goto_adduser() {
+      this.$router.push("/adduser");
+    },
+    //分页功能
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
+      }
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    handleEdit(index, data, a) {
+      console.log(index, data, a);
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
     }
   },
-   methods: {
-     //分页功能
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      },
 
-
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
-    }
+  //请求数据
+  async created() {
+    let { data: { data } } = await this.$axios.get(
+      "http://10.3.133.72:10086/admin/userList"
+    );
+    console.log(data);
+    this.tableData3 = data;
+  }
 };
 </script>
 <style lang="scss" scoped>
-.user-header{
-    height:50px;
-    width:100%;
-    h1{
-        height:50px;
-        width:1100px;
-        line-height: 50px;
-        font-size:20px;
-        color:#000;
-        margin:auto;
-        border-bottom:2px solid orangered;
-    }
+.user-header {
+  height: 50px;
+  width: 100%;
+  h1 {
+    height: 50px;
+    width: 1100px;
+    line-height: 50px;
+    font-size: 20px;
+    color: #000;
+    margin: auto;
+    border-bottom: 2px solid orangered;
+  }
 }
-i{
-  margin-right:10px;
+i {
+  margin-right: 10px;
 }
-.main{
-  padding:0 50px;
-  line-height:0px;
+.main {
+  padding: 0 50px;
+  line-height: 0px;
 }
-.button{
-  padding:10px;
-  text-align:left;
+.button {
+  padding: 10px;
+  text-align: left;
 }
-.el-table /deep/ td{
-  text-align:center;
+.el-table /deep/ td {
+  text-align: center;
 }
-.el-table  /deep/ th>.cell {
-    text-align: center;
+.el-table /deep/ th > .cell {
+  text-align: center;
 }
-.block{
-  padding-top:20px;
-  text-align:right;
+.block {
+  padding-top: 20px;
+  text-align: right;
 }
 </style>
