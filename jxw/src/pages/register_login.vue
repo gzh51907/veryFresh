@@ -164,21 +164,23 @@ export default {
       //登录提交
       this.$refs[formName].validate(async valid => {
         //登录验证
-        let {
-          data: { data: loginInfo }
-        } = await this.$axios.get("http://10.3.133.72:10086/user/login", {
-          params: {
-            username,
-            password,
-            mdl: this.checked
+        let { data } = await this.$axios.get(
+          "http://10.3.133.72:10086/user/login",
+          {
+            params: {
+              username,
+              password,
+              mdl: this.checked
+            }
           }
-        });
-        console.log("返回的数据:", loginInfo.Authorization);
-        if (loginInfo) {
+        );
+        // console.log("返回的数据:", data.code);
+        // console.log("存储token",data.data.Authorization)
+        if (data.data.Authorization) {
           //读取本地的 token
-          // console.log("存储token")
-          localStorage.setItem("Authorization", loginInfo.Authorization);
-          localStorage.setItem("username", loginInfo.username);
+          // console.log("存储token",data.data.Authorization)
+          localStorage.setItem("Authorization", data.data.Authorization);
+          localStorage.setItem("username", data.data.username);
         }
         // console.log("data:", data);
         if (data.code === 0) {
