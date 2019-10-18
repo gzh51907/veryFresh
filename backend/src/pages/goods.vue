@@ -67,7 +67,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage4"
-            :page-sizes="[5,10,15,20,25,30,35,40,45,50]" 
+            :page-sizes="[5,10,15,20]" 
             :page-size="pagesize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="tableData3.AllNum"
@@ -91,7 +91,7 @@ export default {
   
   //请求数据
     created(){  
-         this.handlepages(this.currentPage4)  
+         this.handlepages(this.currentPage4);  
      },  
 
    methods: {
@@ -108,7 +108,7 @@ export default {
      //分页功能
      //初始页currentPage4、初始每页数据数pagesize和数据data
       handleSizeChange(size) {
-        console.log(this.pagesize);//每页下拉显示的数据
+        console.log(size);//每页下拉显示的数据
       },
       handleCurrentChange(page) {
         // console.log(page);//点击第几页

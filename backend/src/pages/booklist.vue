@@ -103,9 +103,9 @@ export default {
   },
   
   //动态生成数据
-  computed(){
+  computed:{
     
-  }
+  },
 
    methods: {
      //分页功能

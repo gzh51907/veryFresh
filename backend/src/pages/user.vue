@@ -13,7 +13,7 @@
         <!-- 商品列表内容 -->
          <el-table
           ref="multipleTable"
-          :data="tableData3"
+          :data="tableData3.result"
           tooltip-effect="dark"
           style="width: 100%;"
           @selection-change="handleSelectionChange">
@@ -66,10 +66,10 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage4"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :page-sizes="[5,10,15,20]"
+            :page-size="pagesize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="tableData3.AllNum">
           </el-pagination>
         </div>
       </div>
@@ -80,33 +80,46 @@
 export default {
   data() {
     return {
-      currentPage4: 4,
+      currentPage4: 1,   // 初始页码
+      pagesize:5,        //每页显示条数
       tableData3: [],
       multipleSelection: []
     };
   },
 
   //请求数据
-  async created() {
-    let { data: { data: data } } = await this.$axios.get(
-      "http://10.3.133.72:10086/admin/userList"
-    );
-    console.log(data);
-    this.tableData3 = data;
+   created() {
+   this.handlepages(this.currentPage4);
   },
 
   methods: {
     goto_adduser() {
         this.$router.push('/adduser')
     },
-    //分页功能
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    },
 
+    async handlepages(page){
+      let { data:{data} } = await this.$axios.get(
+      "http://10.3.133.72:10086/admin/userList",{
+        params:{
+          pages:page,
+          number:this.pagesize
+        }
+      }
+    );
+    // console.log(data);
+    this.tableData3 = data;
+    },
+    //分页功能
+    handleSizeChange(size) {
+      console.log(size);
+    },
+    handleCurrentChange(page) {
+      console.log(page);
+      this.handlepages(page);
+    },
+    
+
+    //用户列表内容
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -119,6 +132,8 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+
+    //编辑和删除
     handleEdit(index, row) {
       console.log(index, row);
     },
