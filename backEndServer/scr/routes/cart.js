@@ -80,9 +80,16 @@ Router.get('/queryAll', async (req, res) => {
         });
         // console.log("返回的数据Datalist:",datalist)
         res.send(formatData({ data: datalist }));
-    }else{
-        res.send(formatData({code:0,data:"请先登录"}))
+    } else {
+        res.send(formatData({ code: 0, data: "请先登录" }))
     }
+});
+
+
+//删除商品
+Router.get('/removeGood', async (req, res) => {
+    let  {rm,Authorization} = req.query;
+    console.log("rm:",rm,"token",Authorization)
 });
 
 
