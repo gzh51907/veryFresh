@@ -43,7 +43,7 @@ Router.post('/reg', async (req, res) => {
 //登录
 Router.get('/login', async (req, res) => {
     let { username, password, mdl } = req.query;
-    console.log("登录：",username, password, mdl)
+    // console.log("登录：",username, password, mdl)
     let result = await mongodb.find(colName, { username, password });
 
     if (result.length) {

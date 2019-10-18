@@ -88,8 +88,12 @@ Router.get('/queryAll', async (req, res) => {
 
 //删除商品
 Router.get('/removeGood', async (req, res) => {
-    let  {rm,Authorization} = req.query;
-    console.log("rm:",rm,"token",Authorization)
+    let { rm, username } = req.query;
+    console.log("rm:", rm, "username:", username);
+    let userInf = await mongodb.find('user', { username });
+    let userId = userInf[0].userId;
+    console.log("userId:", userId);
+
 });
 
 
