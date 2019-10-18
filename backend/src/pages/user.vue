@@ -7,9 +7,10 @@
       </div>
       <div class="main">
         <div class="button">
-          <el-button type="success"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
+          <el-button type="success" @click="goto_adduser"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
           <el-button type="danger"><i class="el-icon-delete"></i>删除</el-button>
         </div>
+        <!-- 商品列表内容 -->
          <el-table
           ref="multipleTable"
           :data="tableData3"
@@ -21,24 +22,30 @@
             width="55">
           </el-table-column>
           <el-table-column
-            prop="id"
+            type="index"
+            prop="gfreshBaId"
             label="#"
-            width="120">
+            width="50">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="username"
             label="用户名"
-            width="120">
+            width="100">
+          </el-table-column>
+          <el-table-column
+            prop="userId"
+            label="ID"
+            width="300">
           </el-table-column>
           <el-table-column
             prop="password"
             label="密码"
-            width="250">
+            width="100">
           </el-table-column>
           <el-table-column
-            label="注册日期"
-            width="">
-            <template slot-scope="scope">{{ scope.row.date }}</template>
+            label="注册时间"
+            width="200">
+            <template slot-scope="scope">{{ scope.row.regtime }}</template>
           </el-table-column>
            <el-table-column label="操作">
             <template slot-scope="scope">
@@ -53,6 +60,7 @@
             </template>
           </el-table-column>
         </el-table>
+        <!-- 分页 -->
         <div class="block">
           <el-pagination
             @size-change="handleSizeChange"
@@ -70,112 +78,89 @@
 
 <script>
 export default {
-  data(){
-    return{
-      currentPage3: 1,
-      tableData3: [{
-          id:"1",
-          date: '2016-05-03',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"2",
-          date: '2016-05-02',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"3",
-          date: '2016-05-04',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"4",
-          date: '2016-05-01',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"5",
-          date: '2016-05-08',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"6",
-          date: '2016-05-06',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id:"7",
-          date: '2016-05-07',
-          name: '王小虎',
-          password: '上海市普陀区金沙江路 1518 弄'
-        }],
-        multipleSelection: []
-    }
+  data() {
+    return {
+      currentPage4: 4,
+      tableData3: [],
+      multipleSelection: []
+    };
   },
-   methods: {
-     //分页功能
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      },
 
+  //请求数据
+  async created() {
+    let { data: { data: data } } = await this.$axios.get(
+      "http://10.3.133.72:10086/admin/userList"
+    );
+    console.log(data);
+    this.tableData3 = data;
+  },
 
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
+  methods: {
+    goto_adduser() {
+        this.$router.push('/adduser')
+    },
+    //分页功能
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
       }
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
     }
+  }
 };
 </script>
 <style lang="scss" scoped>
-.user-header{
-    height:50px;
-    width:100%;
-    h1{
-        height:50px;
-        width:1100px;
-        line-height: 50px;
-        font-size:20px;
-        color:#000;
-        margin:auto;
-        border-bottom:2px solid orangered;
-    }
+.user-header {
+  height: 50px;
+  width: 100%;
+  h1 {
+    height: 50px;
+    width: 1100px;
+    line-height: 50px;
+    font-size: 20px;
+    color: #000;
+    margin: auto;
+    border-bottom: 2px solid orangered;
+  }
 }
-i{
-  margin-right:10px;
+i {
+  margin-right: 10px;
 }
-.main{
-  padding:0 50px;
-  line-height:0px;
+.main {
+  padding: 0 50px;
+  line-height: 0px;
 }
-.button{
-  padding:10px;
-  text-align:left;
+.button {
+  padding: 10px;
+  text-align: left;
 }
-.el-table /deep/ td{
-  text-align:center;
+.el-table /deep/ td {
+  text-align: center;
 }
-.el-table  /deep/ th>.cell {
-    text-align: center;
+.el-table /deep/ th > .cell {
+  text-align: center;
 }
-.block{
-  padding-top:20px;
-  text-align:right;
+.block {
+  padding-top: 20px;
+  text-align: right;
 }
 </style>

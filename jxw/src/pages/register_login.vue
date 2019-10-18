@@ -174,9 +174,13 @@ export default {
             }
           }
         );
-        if (data) {
+        // console.log("返回的数据:", data.code);
+        // console.log("存储token",data.data.Authorization)
+        if (data.data.Authorization) {
           //读取本地的 token
-          localStorage.setItem("Authorization", data.data);
+          // console.log("存储token",data.data.Authorization)
+          localStorage.setItem("Authorization", data.data.Authorization);
+          localStorage.setItem("username", data.data.username);
         }
         // console.log("data:", data);
         if (data.code === 0) {
@@ -211,7 +215,7 @@ export default {
           // this.$router.push("/mine");
           //自动登录
           let {
-            data: { data: autoLoginToken }
+            data: { data: AutoLogin }
           } = await this.$axios.get("http://10.3.133.72:10086/user/login", {
             params: {
               username,
@@ -219,9 +223,16 @@ export default {
               mdl: true
             }
           });
-          //token 写入本地
-          localStorage.setItem("Authorization", autoLoginToken);
-          this.$router.push("/mine");
+
+          console.log("AutoLogin:", AutoLogin);
+          if (AutoLogin.Authorization) {
+            //token 写入本地
+            localStorage.setItem("Authorization", AutoLogin.Authorization);
+            localStorage.setItem("username", AutoLogin.username);
+            this.$router.push("/mine");
+          } else {
+            alert("登录失败，请重新登录");
+          }
           // console.log("跳转");
         } else {
           console.log("注册失败！");

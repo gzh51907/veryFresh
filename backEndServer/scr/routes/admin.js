@@ -5,16 +5,19 @@ const Router = express.Router();
 const { mongodb } = require('../db');
 const colName = 'admin';
 
-const { formatData } = require('../utils')
+const { formatData ,token} = require('../utils');
 
 //管理员登录
 Router.post('/login', async (req, res) => {
     let { username, password } = req.body;
-    // console.log("aa,bb:", username, password)
+    // console.log("username,password:", username, password)
     let result = await mongodb.find(colName, { username, password });
     // console.log("result:",result)
     if (result.length) {
-        res.send(formatData());
+        //返回一个token
+        Authorization = token.create(username);
+        // console.log(Authorization)
+        res.send(formatData({data:Authorization}));
     } else {
         res.send(formatData({ code: 0 }));
     }
@@ -36,7 +39,7 @@ Router.get('/userList', async (req, res) => {
 Router.get('/delUser', async (req, res) => {
     let { userId } = req.query;
     if (userId) {
-        console.log("userId:", userId)
+        // console.log("userId:", userId)
         try {
             let result = await mongodb.remove('user', { userId });
             // console.log(result.deletedCount)

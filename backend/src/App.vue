@@ -1,5 +1,7 @@
 <template>
-<el-container style="height:100%;margin-bottom:0px;">
+<div class="box">
+<login v-if='usertoken==0' v-model="usertoken" @addHandel='add'></login>
+<el-container style="height:100%;margin-bottom:0px;" v-else>
   <el-header style="background-color:#2E363F;">
      <h1 class="bt"><a href="###">极鲜网后台管理系统</a></h1>
      <p class="log"><a href="###"><i class="el-icon-position"></i>退出</a></p>
@@ -41,15 +43,18 @@
       </el-main>
   </el-container>
 </el-container>
+
+</div>
 </template>
 
 <script>
+import login from "./pages/login.vue";
 export default {
   name: "app",
   data() {
     return {
       activeIndex: "/home",
-
+      usertoken: 0,
       menus: [
         {
           name: "商品管理",
@@ -63,7 +68,7 @@ export default {
               name: "addgoods",
               path: "/addgoods",
               text: "添加商品"
-            }, 
+            }
           ]
         },
         {
@@ -78,7 +83,7 @@ export default {
               name: "adduser",
               path: "/adduser",
               text: "添加用户"
-            },
+            }
           ]
         },
         {
@@ -94,7 +99,14 @@ export default {
       ]
     };
   },
+  components: {
+    login
+  },
+
   methods: {
+    add(a) {
+      this.usertoken = 1;
+    },
     goto(path) {
       this.$router.push(path);
     },
@@ -108,11 +120,21 @@ export default {
   created() {
     //获取到当前路由信息
     this.activeIndex = this.$route.path; //刷新时高亮不会还原到首页
+    this.usertoken = localStorage.getItem("admin") ? 1 : 0;
+    console.log("usertoken", this.usertoken);
+    this.$router.push("/user");
   },
+
   watch: {
+    usertoken(newval, oldval) {
+      console.log("dddddddddddddddddd");
+    },
     $route(to, from) {
-      // console.log("to,from", to, from);
+      console.log("to,from", to, from);
       // console.log("activeIndex", this.activeIndex);
+      //  if(localStorage.getItem("admin")){
+      //    this.$router.push('/goods')
+      //  }
       if (to.path != from.path) {
         this.activeIndex = to.path; //高亮跟随
       }
@@ -132,6 +154,10 @@ html {
 </style>
 
 <style lang="scss" scoped>
+.box {
+  height: 100%;
+  width: 100%;
+}
 .el-header,
 .el-footer {
   background-color: #b3c0d1;

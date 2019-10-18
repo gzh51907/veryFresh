@@ -231,7 +231,14 @@ export default {
       for (let i = 0; i < rm_arr.length; i++) {
         this.dataList.splice(rm_arr[i], 1);
       }
-      console.log("rm:", rm);
+      console.log("username:", localStorage.getItem('username'));
+      this.$axios.get('http://10.3.133.72:10086/cart/removeGood',{
+        params:{
+          'rm':rm,
+          'username':localStorage.getItem('username')
+
+        }
+      })
     },
     //店铺打钩
     store_check(check, id) {
