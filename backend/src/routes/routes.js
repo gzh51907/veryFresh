@@ -59,7 +59,7 @@ let routes = [
     //默认首页
     {
         path: '/',
-        redirect: '/login'
+        redirect: '/goods'
     },
 ];
 

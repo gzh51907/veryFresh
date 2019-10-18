@@ -234,8 +234,8 @@ export default {
       console.log("username:", localStorage.getItem('username'));
       this.$axios.get('http://10.3.133.72:10086/cart/removeGood',{
         params:{
-          rm,
-          username:localStorage.getItem('username')
+          'rm':rm,
+          'username':localStorage.getItem('username')
 
         }
       })

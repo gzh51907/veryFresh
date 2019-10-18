@@ -61,6 +61,7 @@ export default {
     },
     methods: {
       submitForm(formName) {
+        
         this.$refs[formName].validate(async valid => {
           if (valid) {
             //发起请求，等待服务器返回结果
@@ -69,15 +70,19 @@ export default {
 
             //发送请求查询数据库
             let {data}=await this.$axios.post("http://10.3.133.72:10086/admin/login",{username,password});
-            // console.log(data);
+            console.log(data);
 
             //判断返回数据的状态，然后进行相应的跳转操作
             if(data.code===1){
                 let {targetUrl} =this.$route.query;
                 // console.log(targetUrl);
-                this.$router.replace({
-                  path:targetUrl || "/goods"
-                });
+                // this.$router.replace({
+                //   path:targetUrl || "/goods"
+                // });
+                alert('登录成功！');
+                localStorage.setItem('admin',1)
+                this.$emit('addHandel',1)
+
               } else{
                 alert("用户名或密码不正确");
             };  
@@ -94,10 +99,10 @@ export default {
   }
 </script>
 <style lang="scss" scoped>
-html,body{
-  height:100%;
+// html,body{
+//   height:100%;
   
-}
+// }
 .login{
    width: 450px;
   margin: 120px auto;

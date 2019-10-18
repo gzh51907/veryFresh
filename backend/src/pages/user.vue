@@ -10,41 +10,41 @@
           <el-button type="success" @click="goto_adduser"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
           <el-button type="danger"><i class="el-icon-delete"></i>删除</el-button>
         </div>
+        <!-- 商品列表内容 -->
          <el-table
           ref="multipleTable"
           :data="tableData3"
           tooltip-effect="dark"
           style="width: 100%;"
-          @selection-change="handleSelectionChange"
-           @cell-click="celledit"
-           v-model="tableData3"
-          >
+          @selection-change="handleSelectionChange">
           <el-table-column
             type="selection"
             width="55">
           </el-table-column>
           <el-table-column
             type="index"
-            prop="id"
+            prop="gfreshBaId"
             label="#"
-            width="120">
+            width="50">
           </el-table-column>
           <el-table-column
             prop="username"
             label="用户名"
-            width="120"
-           @change="username"
-           slot-scope="{row,$index}">
+            width="100">
+          </el-table-column>
+          <el-table-column
+            prop="userId"
+            label="ID"
+            width="300">
           </el-table-column>
           <el-table-column
             prop="password"
             label="密码"
-            width="250">
+            width="100">
           </el-table-column>
           <el-table-column
-            prop='regtime'
-            label="注册日期"
-            width="">
+            label="注册时间"
+            width="200">
             <template slot-scope="scope">{{ scope.row.regtime }}</template>
           </el-table-column>
            <el-table-column label="操作">
@@ -52,7 +52,7 @@
               <el-button
                 size="mini"
                 type="success"
-                @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -60,6 +60,7 @@
             </template>
           </el-table-column>
         </el-table>
+        <!-- 分页 -->
         <div class="block">
           <el-pagination
             @size-change="handleSizeChange"
@@ -84,14 +85,19 @@ export default {
       multipleSelection: []
     };
   },
+
+  //请求数据
+  async created() {
+    let { data: { data: data } } = await this.$axios.get(
+      "http://10.3.133.72:10086/admin/userList"
+    );
+    console.log(data);
+    this.tableData3 = data;
+  },
+
   methods: {
-    celledit(row, column, cell, event) {
-      cell.contentEditable = true;
-      cell.focus();
-    },
-    username() {},
     goto_adduser() {
-      this.$router.push("/adduser");
+        this.$router.push('/adduser')
     },
     //分页功能
     handleSizeChange(val) {
@@ -113,21 +119,12 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    handleEdit(index, data, a) {
-      console.log(index, data, a);
+    handleEdit(index, row) {
+      console.log(index, row);
     },
     handleDelete(index, row) {
       console.log(index, row);
     }
-  },
-
-  //请求数据
-  async created() {
-    let { data: { data } } = await this.$axios.get(
-      "http://10.3.133.72:10086/admin/userList"
-    );
-    console.log(data);
-    this.tableData3 = data;
   }
 };
 </script>
