@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <el-row class="title">
       <el-col :span="20">购物车</el-col>
       <el-col :span="4" @click.native="remove" v-model="dataList">删除</el-col>
@@ -52,17 +52,11 @@
                           <span class="cut" @click="cut(goods.productId,goods.num)">-</span>
                           <input type="number" v-model="goods.num" />
                           <span class="add" @click="add(goods.productId,goods.num)">+</span>
-                          <!-- <el-input-number size="mini" v-model="goods.inducement"></el-input-number> -->
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- <div class="props"  v-for="details in goods.dynamicProperties" :key='details.name'>
-                      <span>现货</span>
-                      <span>{{details.propertieValue.enValue}}</span>
-                      <span>{{details.propertieValue.Value}}</span>
-                </div>-->
                 <div class="props">
                   <span>现货</span>
                   <span>{{goods.propertieValue}}</span>
@@ -80,11 +74,11 @@
           <el-col :span="6">规则详情></el-col>
         </el-row>
         <el-row class="count">
-          <el-col :span="12">
+          <el-col :span="12"  :xs="16" >
             <input type="checkbox" name id v-model="all_check" @click="all_checks(all_check)" />
             <label for>全选</label>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="12"  :xs="8">
             <span class="dis">
               ￥
               <b>{{totalPrice.toFixed(2)}}</b>
@@ -141,7 +135,7 @@ export default {
       this.dataList.forEach(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.isValid) {
-            i.num=i.num-0;
+            i.num = i.num - 0;
             total += i.num;
           }
         });
@@ -152,13 +146,13 @@ export default {
   methods: {
     //数量加
     async add(id, num) {
-      num = num-0;//字符串
+      num = num - 0; //字符串
       this.dataList.map(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.productId === id) {
-            i.num = i.num-0;//字符串转数字
+            i.num = i.num - 0; //字符串转数字
             i.num += 1;
-            num = i.num-0;
+            num = i.num - 0;
             if (i.num >= i.stockQty) {
               i.num = i.stockQty;
               Message.error("库存不足，不要在点我啦！");
@@ -166,8 +160,8 @@ export default {
           }
         });
       });
-      let data = await this.$axios.get(
-        "http://10.3.133.72:10086/cart/updateNum",
+      let data = await this.$jxw_axios.get(
+        "/cart/updateNum",
         {
           params: {
             productId: id,
@@ -179,11 +173,11 @@ export default {
     },
     //数量减
     cut(id, num) {
-       num = num-0;//字符串
+      num = num - 0; //字符串
       this.dataList.map(item => {
         item.shoppingCartVos.forEach(i => {
           if (i.productId === id) {
-             i.num = i.num-0;//字符串转数值
+            i.num = i.num - 0; //字符串转数值
             i.num -= 1;
             num = i.num;
             if (i.num < 1) {
@@ -194,14 +188,13 @@ export default {
           }
         });
       });
-      this.$axios.get("http://10.3.133.72:10086/cart/updateNum", {
+      this.$jxw_axios.get("/cart/updateNum", {
         params: {
           productId: id,
           num: num,
           username: localStorage.getItem("username")
         }
       });
-
     },
     //去详情规则
     goto() {
@@ -215,12 +208,12 @@ export default {
     },
     //删除功能
     remove() {
-      let rm = {
-        shopId: [],
-        productId: []
+      let rm = {//给后端传值
+        shopId: [],//店铺id
+        productId: []//商品id
       };
-      let rm_arr = [];
-      let length = this.dataList.length;
+      let rm_arr = [];//存储店铺下标
+      // let length = this.dataList.length;
 
       this.dataList.forEach((item, index) => {
         //如果店铺为打钩状态，删除item
@@ -230,8 +223,6 @@ export default {
           item.shoppingCartVos.forEach(i => {
             if (i.isValid) {
               rm.productId.push(i.productId);
-
-              console.log("商品打钩id:", i.productId);
             }
           });
           item.shoppingCartVos = item.shoppingCartVos.filter(
@@ -242,7 +233,6 @@ export default {
           //如果shoppingCartVos（存储商品）的数组为0，把该item（店铺）删掉
           this.dataList.splice(index, 1);
         }
-        // console.log("店铺为ture", this.dataList);
       });
       this.dataList.forEach((item, index) => {
         if (item.store_checked === true) {
@@ -252,13 +242,12 @@ export default {
         }
       });
 
-      rm_arr = rm_arr.reverse();
+      rm_arr = rm_arr.reverse();//数组下标反转
       for (let i = 0; i < rm_arr.length; i++) {
         this.dataList.splice(rm_arr[i], 1);
       }
-      console.log("username:", localStorage.getItem("username"));
-      this.$axios.get("http://10.3.133.72:10086/cart/removeGood", {
-        params: {
+      this.$jxw_axios.get("/cart/removeGood", {
+        params: {//rm包含:shopId;productId
           rm: rm,
           username: localStorage.getItem("username")
         }
@@ -270,21 +259,20 @@ export default {
       this.dataList.forEach(item => {
         if (item.shopId === id) {
           item.shoppingCartVos.forEach(i => {
-            if (check === true) {
-              if (i.isValid === false) {
+            if (check === true) {//如果店铺打钩
+              if (i.isValid === false) {//遍历所有商品数，存入arr_goodsCheck数组
                 this.arr_goodsCheck.push(true);
               }
             } else {
               this.arr_goodsCheck.pop();
             }
 
-            if (this.arr_goodsCheck.length === this.goods.length) {
+            if (this.arr_goodsCheck.length === this.goods.length) {//通过arr_goodsCheck.length长度来控制全选
               //控制全选
               this.all_check = true;
             } else {
               this.all_check = false;
             }
-            console.log(this.arr_goodsCheck);
           });
         }
       });
@@ -353,24 +341,20 @@ export default {
     }
   },
   async created() {
+     this.$store.state.footer = 1;
     let token = localStorage.getItem("Authorization");
-    let { data: { data: datas } } = await this.$axios.get(
-      "http://10.3.133.72:10086/cart/queryAll",
+    let { data: { data: datas } } = await this.$jxw_axios.get(
+      "/cart/queryAll",
       {
         params: {
           token
         }
       }
     );
-    // console.log("datas:",datas)
-    // this.dataList = datas;
 
     //vuex写法：初始化数据
     this.$store.commit("init_data", datas);
     this.dataList = this.$store.state.dataList;
-
-    //写在本地浏览器的写法
-    // this.dataList = JSON.parse(sessionStorage.getItem("state.dataList"));
 
     let length = this.dataList.length; //为了在下面截取掉原本的数据，重新生成新数据
     this.dataList.forEach(item => {
@@ -382,27 +366,15 @@ export default {
     });
 
     this.dataList = this.dataList.slice(length); //截取掉原本的数据
-    console.log("this.dataList", this.dataList);
   }
-  // watch: {
-  // dataList: {
-  //   handler(newValue, oldValue) {
-  //     for (let i = 0; i < newValue.length; i++) {
-  //       console.log("输出：", newValue[i].shop_check);
-  //       if (oldValue[i] != newValue[i]) {
-  //         console.log("执行");
-  //       }
-  //     }
-  //   },
-  //   deep: true,
-  //   immediate: true
-  // }
-  // }
 };
 </script>
 
 
 <style lang='scss' scoped>
+.main {
+  padding-bottom: 35px;
+}
 .title {
   height: 125px;
   border-bottom: 1px solid #ccc;
@@ -420,7 +392,6 @@ export default {
 .else {
   width: 200px;
   height: 300px;
-  // border: 1px solid #000;
   margin: auto;
   text-align: center;
   line-height: 50px;
@@ -483,6 +454,7 @@ export default {
               border-bottom: 1px solid rgb(238, 238, 238);
               img {
                 width: 72px;
+                height: 72px;
                 margin-right: 10px;
               }
               .con_right {
@@ -510,17 +482,6 @@ export default {
                     position: absolute;
                     right: 0;
                     width: 110px;
-                    // /deep/ .el-input {
-                    //   width: 100px;
-                    //   input {
-                    //     // width: 35px;
-                    //     text-align: center;
-                    //   }
-                    // }
-                    //  /deep/ .el-input-number__increase{
-                    //   right: 30px;
-                    // }
-
                     input {
                       width: 35px;
                       border: none;
@@ -561,7 +522,8 @@ export default {
   position: fixed;
   bottom: 46px;
   width: 100%;
-  height: 114px;
+  height: 163px;
+  background: #fff;
   .rule {
     background-color: #ffa219;
     height: 50px;

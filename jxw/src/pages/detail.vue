@@ -123,14 +123,13 @@ export default {
       this.$router.push({ path: this.subPage });
       // console.log(this.url)
     },
-    goto_cart(){
-      console.log('111')
-       this.$router.push('/cart');
+    goto_cart() {
+      console.log("111");
+      this.$router.push("/cart");
     },
-        add() {
-      //stockQty  this.gooddata
+    add() {
       this.default_num++;
-      if (this.default_num >=this.gooddata.stockQty) {
+      if (this.default_num >= this.gooddata.stockQty) {
         this.default_num = this.gooddata.stockQty;
         Message.error("库存不足，不要在点我啦！");
       }
@@ -142,21 +141,26 @@ export default {
         Message("还想不想买啦！");
       }
     },
-    add2cart(){
-      this.gooddata.qty =this.default_num;
+    async add2cart() {
+      this.gooddata.qty = this.default_num;
+      this.gooddata.username = localStorage.getItem("username");
       // console.log(this.gooddata)
-      this.$axios.post('http://10.3.133.72:10086/cart/AddToCart',this.gooddata)
+      let { data: { code } } = await this.$jxw_axios.post(
+        "/cart/AddToCart",
+        this.gooddata
+      );
+      if (code === 1) {
+        alert("加入成功！");
+      }
     }
   },
   async created() {
+     this.$store.state.footer = 1;
     let productId = this.$route.params.gid;
-    // console.log("productI:", productId);
-    let { data: { data: goodsDetail } } = await this.$axios.get(
-      `http://10.3.133.72:10086/goods/queryByPid?productId=${productId}`
+    let { data: { data: goodsDetail } } = await this.$jxw_axios.get(
+      `/goods/queryByPid?productId=${productId}`
     );
     this.gooddata = goodsDetail[0];
-    // console.log(goodsDetail[0]);
-    console.log(this.gooddata);
   },
   //路由守卫，进入路由时监听路由，目的为了回到上一页
   beforeRouteEnter(to, from, next) {
@@ -360,9 +364,9 @@ export default {
           line-height: 26px;
           display: inline-block;
         }
-        .showOpacity {
-          opacity: 0.4;
-        }
+        // .showOpacity {
+        //   opacity: 0.4;
+        // }
         input {
           width: 40px;
           height: 35px;
