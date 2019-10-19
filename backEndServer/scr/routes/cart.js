@@ -168,49 +168,75 @@ Router.get('/removeGood', async (req, res) => {
 //加入购物车
 Router.post('/AddToCart', async (req, res) => {
 
-    let data = req.body;
-    console.log("data:",data)
+    let goods = req.body;//把商品详情传过来
+    console.log("goods:", goods)
+    // let shopId = goods.shopId;
+    let productId = goods.productId;
+    let username = goods.username;
+    let num = goods.qty;
 
+    let userInf = await mongodb.find('user', { username });
+    let userId = userInf[0].userId;//查到的用户id
 
-    // let { username, shopId, productId, num } = req.body;
-    // let userInf = await mongodb.find('user', { username });
-    // // let userId = userInf[0].userId;//查到的用户id
-    // let userId = 'j1mnzh9z-vtu9-e348-y8motiiq1urg';
-    // // console.log("加入购物车的数据:", username, shopId, productId, num);
     // // 先查询该购物车中是否有记录，有就更新数量，没有就加入；
-    // let query;
-    // let data;
-    // query = { $and: [{ userId, productId }] };
+    let query;
+    let data;
+    query = { $and: [{ userId, productId }] };
     // console.log(query)
-    // try {
-    //     let result1 = await mongodb.find(colName, query);
-    //     console.log("result1:", result1.length)
-    //     if (result1.length) {
-    //         console.log("直接修改！")
-    //         //cart 中有数据，直接更新，
-    //         query = {
-    //             $and: [
-    //                 { userId },
-    //                 { productId }
-    //             ]
-    //         };
-    //         data = {
-    //             $set: { num:(result1[0].num-0)+(num -0 ) }
-    //         };
-    //         try {
-    //             await mongodb.update(colName, query, data);
-    //             res.send(formatData({ code: 1, data: "修改成功" }))
-    //         } catch (error) {
-    //             res.send(formatData({ code: 0, data: "加入购物车失败" }))
-    //         }
-    //     } else {
-    //         console.log("购物车中暂无数据！")
-    //         //cart 中无数据，插入记录，会麻烦，明天做
-    //         // res.send({formatData({code:})})
-    //     }
-    // } catch (error) {
-    //     res.send(formatData({ code: 0, data: "请求出错，请联系开发者!" }))
-    // }
+    try {
+        let result1 = await mongodb.find(colName, query);
+        // console.log("result1:", result1.length)
+        if (result1.length) {
+            // console.log("直接修改！")
+            //cart 中有数据，直接更新，
+            query = {
+                $and: [
+                    { userId },
+                    { productId }
+                ]
+            };
+            data = {
+                $set: { num: (result1[0].num - 0) + (num - 0) }
+            };
+            try {
+                await mongodb.update(colName, query, data);
+                res.send(formatData({ code: 1, data: "购物车中已有数据，修改数量成功！" }))
+            } catch (error) {
+                res.send(formatData({ code: 0, data: "加入购物车失败，未知原因" }))
+            }
+        } else {
+            // console.log("购物车中暂无数据！")
+            let insertData = [{
+                userId,
+                shopId: goods.shopId,
+                // store_checked: false,
+                shopName: goods.shopName,
+                productId: goods.productId,
+                isValid: false,
+                stockQty: goods.stockQty,
+                productImg: goods.imgUrl,
+                productName: goods.name,
+                unitPrice: goods.unitPrice,
+                unitPriceUnit: goods.unitName,
+                salePrice: goods.salePrice,
+                num: goods.qty,
+                salePriceUnit: goods.salePriceUnitName,
+                propertieValue: goods.propertieValue,
+                propertieEnValue: goods.propertieEnValue,
+                propertieRemark: goods.propertieRemark
+            }];
+            // console.log("需要插入的数据：", insertData)
+            try {
+                let result2 = await mongodb.create(colName, insertData);
+                // console.log(result2.insertedCount)
+                res.send(formatData({ data: `成功加入购物车` }));
+            } catch (error) {
+                res.send(formatData({ code: 0, data: `加入购物车失败，请联系开发者` }))
+            }
+        }
+    } catch (error) {
+        res.send(formatData({ code: 0, data: "请求出错，请联系开发者!" }))
+    }
 
 });
 
