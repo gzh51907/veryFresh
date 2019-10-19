@@ -212,7 +212,7 @@ export default {
     };
   },
   async created() {
-     this.$store.state.footer = 1;
+    this.$store.state.footer = 1;
     let { data: { data: { content } } } = await this.$axios.get(
       "https://zuul.gfresh.cn/api/product/banner/queryBannerList?",
       {
@@ -223,7 +223,7 @@ export default {
       }
     );
     this.bannerUrl = content;
-    
+
     // console.log(content);
     // //优选现货 好货限时购 的数据请求
     // let {
@@ -257,9 +257,9 @@ export default {
     //   }
     // );
     // this.likeData = quoteList;
-    let {
-      data: { data: ACList }
-    } = await this.$jxw_axios.get("/goods/getActiveData");
+    let { data: { data: ACList } } = await this.$jxw_axios.get(
+      "/goods/getActiveData"
+    );
     this.activeList = ACList;
     //分区数据 {data:AreaData}
     // let {
@@ -284,16 +284,22 @@ export default {
     //添加到购物车
     async addCart(subitem) {
       // console.log("添加购物车");
-      subitem.qty = 1;
-      subitem.username = localStorage.getItem("username");;
-      let {data} = await this.$jxw_axios.post(
-        "/cart/AddToCart",
-        subitem
-      );
-      // console.log("subitem", subitem);
-      // console.log(data);
-      if (data.code === 1) {
-        alert("加入成功！");
+      let lg = localStorage.getItem("username");
+      if (lg) {
+        subitem.qty = 1;
+        subitem.username = localStorage.getItem("username");
+        let { data } = await this.$jxw_axios.post("/cart/AddToCart", subitem);
+        // console.log("subitem", subitem);
+        // console.log(data);
+        if (data.code === 1) {
+          alert("加入成功！");
+        }
+      } else {
+        let isOK = confirm("请先登录再操作，点确定去登录");
+        // console.log("isOK", isOK);
+        if (isOK) {
+          this.$router.push("/register_login");
+        }
       }
     }
   }

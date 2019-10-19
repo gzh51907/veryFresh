@@ -124,7 +124,7 @@ export default {
       // console.log(this.url)
     },
     goto_cart() {
-      console.log("111");
+      // console.log("111");
       this.$router.push("/cart");
     },
     add() {
@@ -142,20 +142,28 @@ export default {
       }
     },
     async add2cart() {
-      this.gooddata.qty = this.default_num;
-      this.gooddata.username = localStorage.getItem("username");
-      // console.log(this.gooddata)
-      let { data: { code } } = await this.$jxw_axios.post(
-        "/cart/AddToCart",
-        this.gooddata
-      );
-      if (code === 1) {
-        alert("加入成功！");
+      let lg = localStorage.getItem("username");
+      if (lg) {
+        this.gooddata.qty = this.default_num;
+        this.gooddata.username = localStorage.getItem("username");
+        // console.log(this.gooddata)
+        let { data: { code } } = await this.$jxw_axios.post(
+          "/cart/AddToCart",
+          this.gooddata
+        );
+        if (code === 1) {
+          alert("加入成功！");
+        }
+      } else {
+        let isOK = confirm("请先登录再操作，点确定去登录");
+        if (isOK) {
+          this.$router.push("/register_login");
+        }
       }
     }
   },
   async created() {
-     this.$store.state.footer = 1;
+    this.$store.state.footer = 1;
     let productId = this.$route.params.gid;
     let { data: { data: goodsDetail } } = await this.$jxw_axios.get(
       `/goods/queryByPid?productId=${productId}`

@@ -211,7 +211,7 @@ export default {
           //自动登录
           let {
             data: { data: AutoLogin }
-          } = await this.$jxw_axios.get("/user/login", {
+          } = await this.$jxw_axios.get("/user/register_login", {
             params: {
               username,
               password,
