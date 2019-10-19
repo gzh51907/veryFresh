@@ -36,7 +36,7 @@ export default {
     let { data: { data } } = await this.$axios.get(
       "https://zuul.gfresh.cn/api/product/product/queryAllCategory"
     );
-    console.log(data);
+    // console.log(data);
     this.navlist = data;
   }
 };

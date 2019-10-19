@@ -68,6 +68,7 @@ export default {
     },
     signout() {
       localStorage.setItem("Authorization", "");
+      localStorage.setItem("username", "");
       this.$router.push("/register_login");
     }
   }
