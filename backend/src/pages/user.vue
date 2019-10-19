@@ -100,8 +100,8 @@ export default {
     
     //点击删除全部的按钮删除所有用户数据
     async handlepages(page){
-      let { data:{data} } = await this.$axios.get(
-      "http://10.3.133.72:10086/admin/userList",{
+      let { data:{data} } = await this.$backend_axios.get(
+      "/admin/userList",{
         params:{
           pages:page,
           number:this.pagesize
@@ -156,7 +156,7 @@ export default {
     },
     //删除单行
     async getlist(id){
-      let {data}=await this.$axios.get("http://10.3.133.72:10086/admin/delUser",{
+      let {data}=await this.$backend_axios.get("/admin/delUser",{
         params:{
           userId:id
         }

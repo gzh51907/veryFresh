@@ -1,6 +1,5 @@
 //导入路由
 import NotFound from '../pages/NotFound';
-import home from '../pages/home';
 import user from '../pages/user';
 import adduser from '../pages/adduser';
 import goods from '../pages/goods';
@@ -11,11 +10,6 @@ import booklist from '../pages/booklist';
 
 //配置
 let routes = [
-    {
-        path: '/home',
-        name: 'home',
-        component: home
-    },
     {
         path: '/user',
         name: 'user',

@@ -4,7 +4,7 @@
 <el-container style="height:100%;margin-bottom:0px;" v-else>
   <el-header style="background-color:#2E363F;">
      <h1 class="bt"><a href="###">极鲜网后台管理系统</a></h1>
-     <p class="log"><a href="###"><i class="el-icon-position"></i>退出</a></p>
+     <p class="log" @click="goto_quit"><a href="###"><i class="el-icon-position"></i>退出</a></p>
   </el-header>
   <el-container style="height:calc(100% - 50px)">
     <el-aside width="180px">
@@ -53,7 +53,6 @@ export default {
   name: "app",
   data() {
     return {
-      activeIndex: "/home",
       usertoken: 0,
       menus: [
         {
@@ -102,6 +101,12 @@ export default {
   components: {
     login
   },
+  mounted(){
+    window.onbeforeunload = function (e) {
+         var storage = window.localStorage;
+         storage.clear()
+      }
+  },
 
   methods: {
     add(a) {
@@ -115,6 +120,11 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    goto_quit(){
+       var storage = window.localStorage;
+        storage.clear();
+        this.usertoken=0;
     }
   },
   created() {

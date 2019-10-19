@@ -111,7 +111,7 @@ export default {
 
    methods: {
      async handlepages(page){
-        let {data:{data}}=await this.$axios.get("http://10.3.133.72:10086/goods/getNumGoods",{
+        let {data:{data}}=await this.$backend_axios.get("/goods/getNumGoods",{
          params:{
            pages:page,
            number:this.pagesize
@@ -160,7 +160,7 @@ export default {
 
        //删除单行
       async getlist(productId){
-        let {data}=await this.$axios.get("http://10.3.133.72:10086/goods/removeGoods",{
+        let {data}=await this.$backend_axios.get("/goods/removeGoods",{
           params:{
             productId:[productId]
           }

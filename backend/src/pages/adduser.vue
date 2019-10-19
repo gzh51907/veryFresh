@@ -30,7 +30,7 @@ export default {
    data(){
       // 校验用户名是否存在
       const checkUsername = async (rule, value, callback) => {
-        let {data} = await this.$axios.get('http://10.3.133.72:10086/user/check',{
+        let {data} = await this.$backend_axios.get('/user/check',{
           params:{
             username:this.ruleForm2.username
           }
@@ -104,7 +104,7 @@ export default {
             // alert('submit!');
              // 发起ajax请求，等待服务器返回结果
             let {username,password}=this.ruleForm2;
-            let {data}=await this.$axios.post("http://10.3.133.72:10086/user/reg",{username,password});
+            let {data}=await this.$backend_axios.post("/user/reg",{username,password});
 
             if(data.code===1){
               alert("恭喜你，添加用户成功！");

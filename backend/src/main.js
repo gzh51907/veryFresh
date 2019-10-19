@@ -19,7 +19,10 @@ import router from './routes'
 //把 axios 写入Vue的原型，成为Vue的属性 在任何地方都可以使用了
 import axios from 'axios';
 Vue.prototype.$axios = axios;
-
+const backend_axios=axios.create({
+  baseURL:"http://10.3.133.72:10086"
+})
+Vue.prototype.$backend_axios = backend_axios;
 new Vue({
   router,   //注入实例
   render: h => h(App),

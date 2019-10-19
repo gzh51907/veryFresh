@@ -46,7 +46,7 @@
             width="100">
           </el-table-column>
           <el-table-column
-            prop="totalPrice"
+            prop="total"
             label="商品总价"
             width="100">
           </el-table-column>
@@ -92,25 +92,20 @@ export default {
 
   //请求数据
   async created(){
-    let {data:{data}}=await this.$axios.get("http://10.3.133.72:10086/cart/cartList",{
+    let {data:{data}}=await this.$backend_axios.get("/cart/cartList",{
       params:{
         pages:this.currentPage4,
         number:this.pagesize,
       }
     })
-    console.log(data);
+    // console.log(data);
     this.tableData3=data;
+
+    this.tableData3.result.forEach(item=>{
+        item.total=item.salePrice*item.num;
+    })
+
   },
-  
-  //动态生成数据
-  // computed:{
-  //   totalPrice(){
-  //     let salePrice=this.tableData3.result.salePrice;
-  //     let num=this.tableData3.result.num;
-  //     let total=salePrice*num;
-  //     return total;
-  //   }
-  // },
 
    methods: {
      //分页功能
