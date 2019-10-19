@@ -189,6 +189,13 @@ import router from './routes'
 //把 axios 写入Vue的原型，成为Vue的属性 在任何地方都可以使用了
 import axios from 'axios';
 Vue.prototype.$axios = axios;
+const jxw_axios = axios.create({
+  baseURL: 'http://10.3.133.72:10086',
+
+})
+Vue.prototype.$jxw_axios = jxw_axios;
+
+
 
 
 //引入vuex的store实例，并把它注入到vue实例

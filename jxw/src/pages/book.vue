@@ -11,7 +11,7 @@
     <div class="book_con">
       <dl>
         <dt class="book_dt">
-          <img src="../assets/goods/01.jpg" alt="">
+          <img src="../assets/book/01螯龙虾.png" alt="">
         </dt>
         <dd class="book_dd">
           <p class="dd_p1">螯龙虾</p>
@@ -20,28 +20,28 @@
       </dl>
       <dl>
         <dt class="book_dt">
-          <img src="../assets/goods/3441455.jpg" alt="">
+          <img src="../assets/book/02棕蟹.jpg" alt="">
         </dt>
         <dd class="book_dd">
-          <p class="dd_p1">螯龙虾</p>
+          <p class="dd_p1">棕蟹</p>
           <p class="dd_p2">(活鲜产品)</p>
         </dd>
       </dl>
       <dl>
         <dt class="book_dt">
-          <img src="../assets/goods/01.jpg" alt="">
+          <img src="../assets/book/03新西兰岩龙虾.png" alt="">
         </dt>
         <dd class="book_dd">
-          <p class="dd_p1">螯龙虾</p>
+          <p class="dd_p1">新西兰岩龙虾</p>
           <p class="dd_p2">(活鲜产品)</p>
         </dd>
       </dl>
       <dl>
         <dt class="book_dt">
-          <img src="../assets/goods/01.jpg" alt="">
+          <img src="../assets/book/04西澳大利亚龙虾.png" alt="">
         </dt>
         <dd class="book_dd">
-          <p class="dd_p1">螯龙虾</p>
+          <p class="dd_p1">西澳大利亚龙虾</p>
           <p class="dd_p2">(活鲜产品)</p>
         </dd>
       </dl>
@@ -66,6 +66,9 @@ export default {
      
     };
   },
+  created(){
+     this.$store.state.footer = 1;
+  }
   
 };
 </script>

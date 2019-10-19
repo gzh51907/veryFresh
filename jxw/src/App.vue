@@ -11,7 +11,7 @@
     <!-- <div class="app_footer" style="height:56px"> -->
       <el-footer style="padding:0px; position:fixed;bottom:0px;width:100%;height:47px;">
         <el-row>
-          <ul id="footers" :default-active="activeIndex">
+          <ul id="footers" :default-active="activeIndex" v-if="this.$store.state.footer==1">
             <li v-for="item in menus" :key="item.path" @click="goto(item.path)">
               <i v-if="activeIndex == item.path" :class="item.activeIcon"></i>
               <i v-else :class="item.iconClassName" ref="active-icon"></i>

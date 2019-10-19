@@ -57,14 +57,17 @@
 
 <script>
 export default {
-    data(){
-        return{}
-    },
-    methods:{
-        goto(){
-            this.$router.push('/cart')
-        }
+  data() {
+    return {};
+  },
+  created() {
+    this.$store.state.footer = 1;
+  },
+  methods: {
+    goto() {
+      this.$router.push("/cart");
     }
+  }
 };
 </script>
 
@@ -87,23 +90,23 @@ export default {
   }
 }
 .main {
-    padding: 0 10px 12px;
-.block{
-      h3 {
-    font-size: 16px;
-    font-weight: 800;
-    line-height: 28px;
-  }
-  p {
+  padding: 0 10px 12px;
+  .block {
+    h3 {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 28px;
+    }
+    p {
       font-size: 14px;
-  }
-  dl {
-       font-size: 14px;
-    dd {
+    }
+    dl {
+      font-size: 14px;
+      dd {
         padding: 0 10px;
         line-height: 20px;
+      }
     }
   }
-}
 }
 </style>

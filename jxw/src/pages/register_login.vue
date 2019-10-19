@@ -88,14 +88,12 @@ export default {
     //注册
     var reg_checkUser = async (rule, value, callback) => {
       //发送ajax进行用户名验证
-      let res = await this.$axios.get("http://10.3.133.72:10086/user/check", {
+      let res = await this.$jxw_axios.get("/user/check", {
         params: {
           username: this.reg_ruleForm.username
         }
       });
 
-      // res = JSON.stringify(res);
-      // console.log(res.data)
       //可以用rules里的message属性
       if (res.data.code == 0) {
         //后端传过来的数据都在data属性里面
@@ -158,14 +156,17 @@ export default {
       }
     };
   }, //====data===
+  created(){
+     this.$store.state.footer = 1;
+  },
   methods: {
     submitForm(formName) {
       let { username, password } = this.ruleForm;
       //登录提交
       this.$refs[formName].validate(async valid => {
         //登录验证
-        let { data } = await this.$axios.get(
-          "http://10.3.133.72:10086/user/login",
+        let { data } = await this.$jxw_axios.get(
+          "/user/login",
           {
             params: {
               username,
@@ -206,8 +207,8 @@ export default {
           let { username, password } = this.reg_ruleForm;
           let data = { username, password };
           // console.log(this.reg_ruleForm.username);
-          let res = await this.$axios.post(
-            "http://10.3.133.72:10086/user/reg",
+          let res = await this.$jxw_axios.post(
+            "/user/reg",
             data
           );
           alert("注册成功，确定后跳转到个人中心!");
@@ -216,7 +217,7 @@ export default {
           //自动登录
           let {
             data: { data: AutoLogin }
-          } = await this.$axios.get("http://10.3.133.72:10086/user/login", {
+          } = await this.$jxw_axios.get("/user/login", {
             params: {
               username,
               password,
@@ -299,6 +300,10 @@ main {
       }
     }
   }
+}
+
+.el-form{
+  padding: 20px 20px 0 5px;
 }
 // .el-form-item__label{
 

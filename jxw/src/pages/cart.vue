@@ -160,8 +160,8 @@ export default {
           }
         });
       });
-      let data = await this.$axios.get(
-        "http://10.3.133.72:10086/cart/updateNum",
+      let data = await this.$jxw_axios.get(
+        "/cart/updateNum",
         {
           params: {
             productId: id,
@@ -188,7 +188,7 @@ export default {
           }
         });
       });
-      this.$axios.get("http://10.3.133.72:10086/cart/updateNum", {
+      this.$jxw_axios.get("/cart/updateNum", {
         params: {
           productId: id,
           num: num,
@@ -246,8 +246,7 @@ export default {
       for (let i = 0; i < rm_arr.length; i++) {
         this.dataList.splice(rm_arr[i], 1);
       }
-      // console.log("username:", localStorage.getItem("username"));
-      this.$axios.get("http://10.3.133.72:10086/cart/removeGood", {
+      this.$jxw_axios.get("/cart/removeGood", {
         params: {//rm包含:shopId;productId
           rm: rm,
           username: localStorage.getItem("username")
@@ -260,21 +259,20 @@ export default {
       this.dataList.forEach(item => {
         if (item.shopId === id) {
           item.shoppingCartVos.forEach(i => {
-            if (check === true) {
-              if (i.isValid === false) {
+            if (check === true) {//如果店铺打钩
+              if (i.isValid === false) {//遍历所有商品数，存入arr_goodsCheck数组
                 this.arr_goodsCheck.push(true);
               }
             } else {
               this.arr_goodsCheck.pop();
             }
 
-            if (this.arr_goodsCheck.length === this.goods.length) {
+            if (this.arr_goodsCheck.length === this.goods.length) {//通过arr_goodsCheck.length长度来控制全选
               //控制全选
               this.all_check = true;
             } else {
               this.all_check = false;
             }
-            // console.log(this.arr_goodsCheck);
           });
         }
       });
@@ -343,9 +341,10 @@ export default {
     }
   },
   async created() {
+     this.$store.state.footer = 1;
     let token = localStorage.getItem("Authorization");
-    let { data: { data: datas } } = await this.$axios.get(
-      "http://10.3.133.72:10086/cart/queryAll",
+    let { data: { data: datas } } = await this.$jxw_axios.get(
+      "/cart/queryAll",
       {
         params: {
           token

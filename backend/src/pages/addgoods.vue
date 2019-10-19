@@ -7,24 +7,29 @@
     </div>
     <div class="main">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="商品名称" prop="goodname">
-          <el-input v-model="ruleForm.goodname"></el-input>
+        <el-form-item label="商品名称" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="原价" prop="old_name">
-          <el-input v-model="ruleForm.old_name"></el-input>
+         <el-form-item label="店铺名" prop="shopName">
+          <el-input v-model="ruleForm.shopName"></el-input>
         </el-form-item>
-        <el-form-item label="现价" prop="sale_namename">
-          <el-input v-model="ruleForm.sale_name"></el-input>
+        <el-form-item label="单价" prop="unitPrice">
+          <el-input v-model="ruleForm.unitPrice"></el-input>
         </el-form-item>
-        <el-form-item label="库存" prop="store">
-          <el-input v-model="store"></el-input>
+         <el-form-item label="单位" prop="unitName">
+          <el-input v-model="ruleForm.unitName"></el-input>
         </el-form-item>
-        <el-form-item label="添加日期" required>
-          <el-col :span="11">
-            <el-form-item prop="date1">
-              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-            </el-form-item>
-          </el-col>
+       <el-form-item label="库存" prop="stockQty">
+          <el-input v-model="ruleForm.stockQty"></el-input>
+        </el-form-item>
+        <el-form-item label="属于专区" prop="areaName">
+          <el-input v-model="ruleForm.areaName"></el-input>
+        </el-form-item>
+        <el-form-item label="到货状态" prop="sendDate">
+          <el-input v-model="ruleForm.sendDate"></el-input>
+        </el-form-item>
+        <el-form-item label="已售数量" prop="saledQty">
+          <el-input v-model="ruleForm.saledQty"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -40,42 +45,54 @@ export default {
    data() {
       return {
         ruleForm: {
-          goodname: '',
-          old_price: '',
-          sale_price: '',
-          store: '',
-          date1: '',
+          name: '大海虾',
+          shopName: '极鲜仓配',
+          unitPrice: '78',
+          unitName:'500g',
+          areaName:'龙虾专区',
+          stockQty: '12',
+          saledQty: '243',
+          sendDate:'现货',
         },
         rules: {
           goodname: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            { required: true, message: '请输入商品名称', trigger: 'blur' },
           ],
-          old_price: [
-            { required: true, message: '请输入商品原价', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个数字', trigger: 'blur' }
+          shopName: [
+            { required: true, message: '请输入店铺名称', trigger: 'blur' },
           ],
-          sale_price: [
-            { required: true, message: '请输入商品现价', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个数字', trigger: 'blur' }
+          saledNum: [
+            { required: true, message: '请输入已售商品数量', trigger: 'blur' },
           ],
           store: [
             { required: true, message: '请输入商品库存量', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 1 到 5 个数字', trigger: 'blur' }
           ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+          unitPrice: [
+             { required: true, message: '请输入商品单价', trigger: 'blur' },
+          ],
+           unit: [
+             { required: true, message: '请输入商品单位', trigger: 'blur' },
+          ],
+          belongto: [
+             { required: true, message: '请输入商品专区', trigger: 'blur' },
+          ],
+          status: [
+             { required: true, message: '请输入商品到货状态', trigger: 'blur' },
           ],
         }
       };
     },
+      
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+        // 校验整个表单
+        this.$refs[formName].validate(async valid => {
           if (valid) {
-            alert('submit!');
+             // 发起ajax请求，等待服务器返回结果
+             let {data}=await this.$axios.post("http://10.3.133.72:10086/admin/AddGoods",{data:this.ruleForm});
+            alert('添加商品成功!');
           } else {
-            console.log('error submit!!');
+            console.log('添加商品失败!');
             return false;
           }
         });
@@ -101,6 +118,6 @@ export default {
     }
 }
 .main{
-  padding: 100px 300px;
+  padding: 50px 300px;
 }
 </style>
