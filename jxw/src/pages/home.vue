@@ -222,8 +222,9 @@ export default {
         }
       }
     );
+    this.bannerUrl = content;
+    
     // console.log(content);
-    // this.bannerUrl = content;
     // //优选现货 好货限时购 的数据请求
     // let {
     //   data: { data }
