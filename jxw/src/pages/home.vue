@@ -258,7 +258,7 @@ export default {
     // this.likeData = quoteList;
     let {
       data: { data: ACList }
-    } = await this.$axios.get("http://10.3.133.72:10086/goods/getActiveData");
+    } = await this.$jxw_axios.get("/goods/getActiveData");
     this.activeList = ACList;
     //分区数据 {data:AreaData}
     // let {
@@ -273,7 +273,7 @@ export default {
     );
     // console.log("分区的数据：",AreaData)
     this.AreaDatalist = AreaData;
-    console.log("this.AreaDatalist", this.AreaDatalist);
+    // console.log("this.AreaDatalist", this.AreaDatalist);
   },
   methods: {
     goto(gid) {

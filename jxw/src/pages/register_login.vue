@@ -156,8 +156,8 @@ export default {
       }
     };
   }, //====data===
-  created(){
-     this.$store.state.footer = 1;
+  created() {
+    this.$store.state.footer = 1;
   },
   methods: {
     submitForm(formName) {
@@ -165,16 +165,13 @@ export default {
       //登录提交
       this.$refs[formName].validate(async valid => {
         //登录验证
-        let { data } = await this.$jxw_axios.get(
-          "/user/login",
-          {
-            params: {
-              username,
-              password,
-              mdl: this.checked
-            }
+        let { data } = await this.$jxw_axios.get("/user/login", {
+          params: {
+            username,
+            password,
+            mdl: this.checked
           }
-        );
+        });
         // console.log("返回的数据:", data.code);
         // console.log("存储token",data.data.Authorization)
         if (data.data.Authorization) {
@@ -207,10 +204,7 @@ export default {
           let { username, password } = this.reg_ruleForm;
           let data = { username, password };
           // console.log(this.reg_ruleForm.username);
-          let res = await this.$jxw_axios.post(
-            "/user/reg",
-            data
-          );
+          let res = await this.$jxw_axios.post("/user/reg", data);
           alert("注册成功，确定后跳转到个人中心!");
           //由于存在路由拦截（根据 token 的有效性拦截），注册成功后需要进行自动登录才能不被拦截
           // this.$router.push("/mine");
@@ -302,7 +296,7 @@ main {
   }
 }
 
-.el-form{
+.el-form {
   padding: 20px 20px 0 5px;
 }
 // .el-form-item__label{
