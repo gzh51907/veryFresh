@@ -115,7 +115,7 @@
     </div>
 
     <!-- 猜你喜欢 -->
-    <div class="productBox">
+    <!-- <div class="productBox">
       <div class="productListTitle">
         <h4>
           猜你喜欢
@@ -148,7 +148,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
 
     <!-- 龙虾专区 -->
     <div class="Special_area" v-for="item in AreaDatalist" :key="item.areaId">
@@ -161,7 +161,11 @@
         </span>
       </div>
       <div class="goodlist">
-        <dl v-for="subitem in item.quoteList" :key="subitem.productId" @click="goto(subitem.productId)">
+        <dl
+          v-for="subitem in item.quoteList"
+          :key="subitem.productId"
+          @click="goto(subitem.productId)"
+        >
           <dt>
             <div class="goods_pic">
               <img :src="subitem.imgUrl" />
@@ -218,79 +222,51 @@ export default {
         }
       }
     );
-    // console.log(content);
     this.bannerUrl = content;
-    //优选现货 好货限时购 的数据请求
-    let { data: { data } } = await this.$axios.get(
-      "https://zuul.gfresh.cn/api/product/product/queryHomeActivityProduct?",
-      {
-        params: {
-          cityId: "44769e16-ecc6-4d18-a210-caf1c6ec1dea",
-          abroad: "0",
-          pageSize: "5"
-        }
-      }
-    );
-    this.activeList = data;
-
-    //猜你喜欢数据
-    let { data: { data: { quoteList } } } = await this.$axios.get(
-      "https://zuul.gfresh.cn/api/product/product/queryGuessYouLikeProduct?",
-      {
-        params: {
-          pageNumber: "1",
-          cityId: "44769e16-ecc6-4d18-a210-caf1c6ec1dea",
-          abroad: "0",
-          pageSize: "5"
-        }
-      }
-    );
-    this.likeData = quoteList;
-
-    //分区数据
+    
+    // console.log(content);
+    // //优选现货 好货限时购 的数据请求
     // let {
-    //   data: { data: Arealist }
+    //   data: { data }
     // } = await this.$axios.get(
-    //   "https://zuul.gfresh.cn/api/product/homeArea/getHomeAreas"
-    // );
-    // // console.log(Arealist);
-    // this.AreaDatalist = Arealist;
-    // let axios1 = this.$axios;
-    // let len = Arealist.length;
-    // let arrlist = [];
-    // this.typeList = arrlist;
-    // // let datastr = "";
-
-    // // console.time();
-    // //在这里拿到数据分区
-    // (function fn(num) {
-    //   if (num >= len) {
-    //     // console.log("递归结束");
-    //     return;
-    //   } else {
-    //     let str = "";
-    //     let lh = Arealist[num].categoryVos.length;
-    //     // console.log("lh", lh);
-    //     Arealist[num].categoryVos.forEach((item, idx) => {
-    //       str += item.categoryId + ",";
-    //       if (idx == lh - 1) {
-    //         // console.log(Arealist[num].areaName);
-    //         str = str.slice(0, -1);
-    //         let url = `https://zuul.gfresh.cn/api/product/product/queryProductByCateIdShowNum?cateId=${str}&showNum=5&showNoQuote=1&cityId=44769e16-ecc6-4d18-a210-caf1c6ec1dea&abroad=0`;
-    //         // console.log(url);
-    //         axios1.get(url).then(res => {
-    //           let {
-    //             data: {
-    //               data: { quoteList }
-    //             }
-    //           } = res;
-    //           arrlist.push({ type: Arealist[num].areaName, data: quoteList });
-    //           return fn(++num);
-    //         });
-    //       }
-    //     });
+    //   "https://zuul.gfresh.cn/api/product/product/queryHomeActivityProduct?",
+    //   {
+    //     params: {
+    //       cityId: "44769e16-ecc6-4d18-a210-caf1c6ec1dea",
+    //       abroad: "0",
+    //       pageSize: "5"
+    //     }
     //   }
-    // })(0);
+    // );
+    // this.activeList = data;
+
+    // //猜你喜欢数据
+    // let {
+    //   data: {
+    //     data: { quoteList }
+    //   }
+    // } = await this.$axios.get(
+    //   "https://zuul.gfresh.cn/api/product/product/queryGuessYouLikeProduct?",
+    //   {
+    //     params: {
+    //       pageNumber: "1",
+    //       cityId: "44769e16-ecc6-4d18-a210-caf1c6ec1dea",
+    //       abroad: "0",
+    //       pageSize: "5"
+    //     }
+    //   }
+    // );
+    // this.likeData = quoteList;
+    let {
+      data: { data: ACList }
+    } = await this.$jxw_axios.get("/goods/getActiveData");
+    this.activeList = ACList;
+    //分区数据 {data:AreaData}
+    // let {
+    //   data: { data: AreaData }
+    // } = await this.$axios.get(
+    //   "http://10.3.133.72:10086/goods/queryArea?pagesNum=5"
+    // // })(0);
 
     //分区数据 {data:AreaData}
     let { data: { data: AreaData } } = await this.$jxw_axios.get(
@@ -298,7 +274,7 @@ export default {
     );
     // console.log("分区的数据：",AreaData)
     this.AreaDatalist = AreaData;
-    console.log("this.AreaDatalist", this.AreaDatalist);
+    // console.log("this.AreaDatalist", this.AreaDatalist);
   },
   methods: {
     goto(gid) {
@@ -310,16 +286,15 @@ export default {
       // console.log("添加购物车");
       subitem.qty = 1;
       subitem.username = localStorage.getItem("username");;
-      let data = await this.$jxw_axios.post(
+      let {data} = await this.$jxw_axios.post(
         "/cart/AddToCart",
         subitem
       );
-
-      console.log("subitem", subitem);
-      console.log(data);
-      // if (code === 1) {
-      //   alert("加入成功！");
-      // }
+      // console.log("subitem", subitem);
+      // console.log(data);
+      if (data.code === 1) {
+        alert("加入成功！");
+      }
     }
   }
 };

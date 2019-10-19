@@ -33,14 +33,24 @@ Router.get('/queryAll', async (req, res) => {
         var decoded = jwt.verify(token, secret);
 
         let username = decoded.data;
-        // console.log("解密username:", username)
+        let result;
+        try {
+            result = await mongodb.find_uid('user', { username });
+            // console.log("用户名：", username)
+        } catch (error) {
+            // console.log("查找不到用户")
+            res.send(formatData({ code: 0, data: "查找不到该用户，请重新登录" }))
+        }
 
-        let result = await mongodb.find_uid('user', { username });
         let userId = result[0].userId;//查到用户id
         // console.log("查到的userId:", userId);
-
-        let queryData = await mongodb.find(colName, { userId });
-        // console.log("queryData:",queryData);
+        let queryData;
+        try {
+            queryData = await mongodb.find(colName, { userId });
+            // console.log("queryData:", queryData.length);
+        } catch (error) {
+            res.send(formatData({ code: 0 }))
+        }
 
         //提取店铺名
         let arrShop = [];
@@ -50,13 +60,9 @@ Router.get('/queryAll', async (req, res) => {
             arrShop.push(item.shopName);//
             arrShopId.push(item.shopId);
         });
-        // console.log("shopId2:",arrShopId)
         let datalist = [];
-        // console.log("arrShop:", arrShop);
-        // console.log("---------------------------分隔线-------------------------------")
         let arrShop2 = noRepeat(arrShop);
         arrShopId = noRepeat(arrShopId);
-        // console.log("shopId2:",arrShopId)
         arrShop2.forEach((item, idx) => {
             datalist.push({
                 shopName: item,
@@ -65,10 +71,6 @@ Router.get('/queryAll', async (req, res) => {
                 shoppingCartVos: []
             })
         });
-        // console.log("arrShop2:", arrShop2)
-        // console.log("datalist:", datalist);
-        // console.log("---------------------------分隔线-------------------------------")
-        // shoppingCartVos
         queryData.forEach((item, idx1) => {
             // console.log(item)
             datalist.forEach((ele, idx2) => {
@@ -76,7 +78,6 @@ Router.get('/queryAll', async (req, res) => {
                     ele.shoppingCartVos.push(item);
                 }
             });
-
         });
         // console.log("返回的数据Datalist:",datalist)
         res.send(formatData({ data: datalist }));
@@ -93,9 +94,9 @@ Router.get('/AllNum', async (req, res) => {
     } catch (error) {
         res.send(formatData({ code: 0 }))
     }
-})
+});
 
-//查看购物车列表  有分页的功能查询
+// 查看购物车列表  有分页的功能查询
 Router.get('/cartList', async (req, res) => {
     // let result = await mongodb.find(colName);
     // res.send(formatData({ data: result }));
@@ -149,9 +150,9 @@ Router.get('/removeGood', async (req, res) => {
             try {
                 let result = await mongodb.delById(colName, query)
                 if (result) {
-                    res.send(formatData({ data: { deletedCount: result } }))
+                    res.send(formatData({ data: { deletedCount: result.deletedCount } }))
                 } else {
-                    res.send(formatData({ code: 1, data: { deletedCount: result } }))
+                    res.send(formatData({ code: 1, data: { deletedCount: result.deletedCount } }))
                 }
             } catch (error) {
                 res.send(formatData({ code: 0, data: "请求错误" }))
@@ -169,7 +170,7 @@ Router.get('/removeGood', async (req, res) => {
 Router.post('/AddToCart', async (req, res) => {
 
     let goods = req.body;//把商品详情传过来
-    console.log("goods:", goods)
+    // console.log("goods:", goods)
     // let shopId = goods.shopId;
     let productId = goods.productId;
     let username = goods.username;

@@ -75,8 +75,70 @@ Router.get('/queryArea', async (req, res) => {
 
 //管理员删除商品,支持多个删除。
 Router.get('/removeGoods', async (req, res) => {
-    
+    let { productId } = req.query;
+    // console.log("需要删除的商品的productId列表：", productId)
+    if (productId) {
+        let delArr = [];
+        productId.forEach(item => {
+            delArr.push({ productId: item });
+        });
+        let query = {
+            $or: delArr
+        }
+        // console.log("query:", query)
+        try {
+            let result = await mongodb.remove(colName, query);
+            // console.log(result.deletedCount)
+            if (result.deletedCount) {
+                res.send(formatData({ data: `删除成功！deletedCount=${result.deletedCount}` }));
+            } else {
+                res.send(formatData({ code: 0, data: "没有该商品，删除失败！" }));
+            }
+        } catch (error) {
+            res.send(formatData({ code: 0 }));
+        }
+    } else {
+        res.send(formatData({ code: 0, data: "删除商品失败，请检查传参是否正确" }))
+    }
 });
 
+//获取活动方面的数据
+Router.get('/getActiveData', async (req, res) => {
+    try {
+        let result = await mongodb.find(colName);
+        let arr = [
+            {
+                id: "1324f76f-43f0-4de0-86fa-62b4f3333743",
+                actName: "优选现货",
+                products: [],
+            },
+            {
+                id: "ae3510d4-884b-4579-8d65-cdec21b007d4",
+                actName: "好货限时抢",
+                products: [],
+            },
+            {
+                id: "ae3510d4-884b-4579-6676-cdec21b007d4",
+                actName: "猜你喜欢",
+                products: [],
+            }
+        ];
+        result.forEach(item => {
+            arr.forEach(ele => {
+                if (ele.actName == item.actName) {
+                    if (ele.products.length < 10) {
+                        ele.products.push(item);
+                    } else {
+                        return false;
+                    }
+                }
+            });
+        });
+        // console.log("arr:", arr);
+        res.send(formatData({ data: arr }))
+    } catch (error) {
+        res.send(formatData({ code: 0, data: error }))
+    }
+});
 
 module.exports = Router;
