@@ -223,8 +223,7 @@ export default {
               mdl: true
             }
           });
-
-          console.log("AutoLogin:", AutoLogin);
+          // console.log("AutoLogin:", AutoLogin);
           if (AutoLogin.Authorization) {
             //token 写入本地
             localStorage.setItem("Authorization", AutoLogin.Authorization);
@@ -235,7 +234,7 @@ export default {
           }
           // console.log("跳转");
         } else {
-          console.log("注册失败！");
+          // console.log("注册失败！");
           return false;
         }
       });

@@ -246,7 +246,7 @@ export default {
       for (let i = 0; i < rm_arr.length; i++) {
         this.dataList.splice(rm_arr[i], 1);
       }
-      console.log("username:", localStorage.getItem("username"));
+      // console.log("username:", localStorage.getItem("username"));
       this.$axios.get("http://10.3.133.72:10086/cart/removeGood", {
         params: {//rm包含:shopId;productId
           rm: rm,
@@ -274,7 +274,7 @@ export default {
             } else {
               this.all_check = false;
             }
-            console.log(this.arr_goodsCheck);
+            // console.log(this.arr_goodsCheck);
           });
         }
       });
