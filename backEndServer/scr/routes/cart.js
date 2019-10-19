@@ -85,16 +85,158 @@ Router.get('/queryAll', async (req, res) => {
     }
 });
 
+//查询总记录，为了计算总页数
+Router.get('/AllNum', async (req, res) => {
+    try {
+        let result = await mongodb.find(colName);
+        res.send(formatData({ data: result.length }))
+    } catch (error) {
+        res.send(formatData({ code: 0 }))
+    }
+})
 
-//删除商品
+//查看购物车列表  有分页的功能查询
+Router.get('/cartList', async (req, res) => {
+    // let result = await mongodb.find(colName);
+    // res.send(formatData({ data: result }));
+    let { pages, number } = req.query;
+    // console.log('pages, number', { pages, number })
+    // let num = 11;
+    // let sub = 0; 
+    try {
+        let result = await mongodb.find_num(colName, { pages, number });
+        let num = await mongodb.find(colName);
+        res.send(formatData({ data: { result, AllNum: num.length } }))
+    } catch (error) {
+        res.send(formatData({ code: 0, data: "请求错误" }))
+    }
+});
+
+//删除购物车商品
+/*   传参形式，引号也需要的。
+ {rm:`{
+     "shopId":["4ca32455-bda2-4c75-befb-4955c5cbff54"],
+     "productId":[
+         "b657b905-67f3-48da-93b4-94658610f948",
+         "49a1806e-955a-4928-b54c-423cbf635d50",
+         "ea79296f-3649-4a4d-8473-c8c798622208"]
+        }`,
+    username:
+        'lh'
+}
+*///用户删除购物车的数据
 Router.get('/removeGood', async (req, res) => {
     let { rm, username } = req.query;
-    console.log("rm:", rm, "username:", username);
-    let userInf = await mongodb.find('user', { username });
-    let userId = userInf[0].userId;
-    console.log("userId:", userId);
+    if (username || rm) {
+        let userInf = await mongodb.find('user', { username });
+        let userId = userInf[0].userId;//查到的用户id
+        if (userId) {
+            rm = JSON.parse(rm)
+            let delObj = [];
+            rm.shopId.forEach(item => {
+                delObj.push({ "shopId": item });
+            });
+            rm.productId.forEach(item => {
+                delObj.push({ "productId": item })
+            });
+            // console.log("delObj:",delObj)
+            //拼接多条件删除
+            let query = {
+                $and: [{ userId }],
+                $or: delObj
+            };
+            // console.log("query:",query)
+            try {
+                let result = await mongodb.delById(colName, query)
+                if (result) {
+                    res.send(formatData({ data: { deletedCount: result } }))
+                } else {
+                    res.send(formatData({ code: 1, data: { deletedCount: result } }))
+                }
+            } catch (error) {
+                res.send(formatData({ code: 0, data: "请求错误" }))
+            }
+        } else {
+            res.send(formatData({ code: 0, data: "查找不到该用户，请确认用户名无误后联系开发者" }))
+        }
+    } else {
+        res.send(formatData({ code: 0, data: "请求参数有误" }))
+    }
 
 });
+
+//加入购物车
+Router.post('/AddToCart', async (req, res) => {
+
+    let data = req.body;
+    console.log("data:",data)
+
+
+    // let { username, shopId, productId, num } = req.body;
+    // let userInf = await mongodb.find('user', { username });
+    // // let userId = userInf[0].userId;//查到的用户id
+    // let userId = 'j1mnzh9z-vtu9-e348-y8motiiq1urg';
+    // // console.log("加入购物车的数据:", username, shopId, productId, num);
+    // // 先查询该购物车中是否有记录，有就更新数量，没有就加入；
+    // let query;
+    // let data;
+    // query = { $and: [{ userId, productId }] };
+    // console.log(query)
+    // try {
+    //     let result1 = await mongodb.find(colName, query);
+    //     console.log("result1:", result1.length)
+    //     if (result1.length) {
+    //         console.log("直接修改！")
+    //         //cart 中有数据，直接更新，
+    //         query = {
+    //             $and: [
+    //                 { userId },
+    //                 { productId }
+    //             ]
+    //         };
+    //         data = {
+    //             $set: { num:(result1[0].num-0)+(num -0 ) }
+    //         };
+    //         try {
+    //             await mongodb.update(colName, query, data);
+    //             res.send(formatData({ code: 1, data: "修改成功" }))
+    //         } catch (error) {
+    //             res.send(formatData({ code: 0, data: "加入购物车失败" }))
+    //         }
+    //     } else {
+    //         console.log("购物车中暂无数据！")
+    //         //cart 中无数据，插入记录，会麻烦，明天做
+    //         // res.send({formatData({code:})})
+    //     }
+    // } catch (error) {
+    //     res.send(formatData({ code: 0, data: "请求出错，请联系开发者!" }))
+    // }
+
+});
+
+//更新购物商品数量
+Router.get('/updateNum', async (req, res) => {
+    let { productId, username, num } = req.query;
+    // console.log("修改数量：", productId, username, num);
+    let userInf = await mongodb.find('user', { username });
+    let userId = userInf[0].userId;//查到的用户id
+    // console.log("用户Id：", userId);
+    let query = {
+        $and: [
+            { userId },
+            { productId }
+        ]
+    };
+    let data = {
+        $set: { num }
+    };
+    try {
+        await mongodb.update(colName, query, data);
+        res.send(formatData({ code: 1, data: "修改成功" }))
+    } catch (error) {
+        res.send(formatData({ code: 0 }))
+    }
+})
 
 
 module.exports = Router;

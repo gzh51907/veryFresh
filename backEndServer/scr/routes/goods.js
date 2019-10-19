@@ -12,10 +12,9 @@ Router.get('/getNumGoods', async (req, res) => {
     // let num = 11;
     // let sub = 0;
     try {
-        // console.log("step1")
         let result = await mongodb.find_num(colName, { pages, number });
-        // console.log("step2")
-        res.send(formatData({ data: result }))
+        let num = await mongodb.find(colName);
+        res.send(formatData({ data: { result, AllNum: num.length } }))
     } catch (error) {
         res.send(formatData({ code: 0, data: "请求错误" }))
     }
@@ -74,29 +73,10 @@ Router.get('/queryArea', async (req, res) => {
 
 });
 
-
-//购物车 
-Router.get('/cart', async (req, res) => {
-    let { num, sub } = req.query;
-    // console.log('num,sub', num, sub)
-    // let num = 11;
-    // let sub = 0;
-    let result = await mongodb.find_num('cart', { num, sub });
-    // console.log(result);
-    res.send(result)
+//管理员删除商品,支持多个删除。
+Router.get('/removeGoods', async (req, res) => {
+    
 });
-
-//测试用的 购物车 
-Router.get('/cart_test', async (req, res) => {
-    let { num, sub } = req.query;
-    // console.log('num,sub', num, sub)
-    // let num = 11;
-    // let sub = 0;
-    let result = await mongodb.find_num('cart_test', { num, sub });
-    // console.log(result);
-    res.send(result)
-});
-
 
 
 module.exports = Router;
