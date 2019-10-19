@@ -8,6 +8,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         dataList: '',
+        footer:'1'
 
     },
     getters: {},

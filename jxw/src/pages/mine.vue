@@ -96,6 +96,7 @@ export default {
     };
   },
   async created() {
+    this.$store.state.footer = 1;
     //获取 token 到后天解密出 用户名渲染数据
     let token = localStorage.getItem("Authorization");
     let { data: res } = await this.$axios.get(

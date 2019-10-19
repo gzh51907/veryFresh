@@ -59,13 +59,16 @@
 
 <script>
 export default {
+  created() {
+    this.$store.state.footer = 0;
+  },
   methods: {
     goback() {
       this.$router.push("/mine");
     },
-    signout(){
-      localStorage.setItem("Authorization","");
-      this.$router.push('/register_login')
+    signout() {
+      localStorage.setItem("Authorization", "");
+      this.$router.push("/register_login");
     }
   }
 };

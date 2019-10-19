@@ -186,7 +186,7 @@
                 <span class="p_price" v-else>￥{{(subitem.unitPrice-0).toFixed(2)}}</span>
                 <span class="p_weight">/{{subitem.unitName}}</span>
               </div>
-              <i class="el-icon-shopping-cart-2" @click.stop="addCart()"></i>
+              <i class="el-icon-shopping-cart-2" @click.stop="addCart(subitem)"></i>
             </div>
           </dd>
         </dl>
@@ -203,16 +203,13 @@ export default {
       bannerUrl: "",
       activeList: "",
       likeData: "",
-      AreaDatalist: "",
+      AreaDatalist: ""
       // typeList: ""
     };
   },
   async created() {
-    let {
-      data: {
-        data: { content }
-      }
-    } = await this.$axios.get(
+     this.$store.state.footer = 1;
+    let { data: { data: { content } } } = await this.$axios.get(
       "https://zuul.gfresh.cn/api/product/banner/queryBannerList?",
       {
         params: {
@@ -224,9 +221,7 @@ export default {
     // console.log(content);
     this.bannerUrl = content;
     //优选现货 好货限时购 的数据请求
-    let {
-      data: { data }
-    } = await this.$axios.get(
+    let { data: { data } } = await this.$axios.get(
       "https://zuul.gfresh.cn/api/product/product/queryHomeActivityProduct?",
       {
         params: {
@@ -239,11 +234,7 @@ export default {
     this.activeList = data;
 
     //猜你喜欢数据
-    let {
-      data: {
-        data: { quoteList }
-      }
-    } = await this.$axios.get(
+    let { data: { data: { quoteList } } } = await this.$axios.get(
       "https://zuul.gfresh.cn/api/product/product/queryGuessYouLikeProduct?",
       {
         params: {
@@ -301,10 +292,13 @@ export default {
     //   }
     // })(0);
 
-    //分区数据 {data:AreaData} 
-    let {data:{data:AreaData}} = await this.$axios.get("http://10.3.133.72:10086/goods/queryArea?pagesNum=5");
+    //分区数据 {data:AreaData}
+    let { data: { data: AreaData } } = await this.$jxw_axios.get(
+      "/goods/queryArea?pagesNum=5"
+    );
     // console.log("分区的数据：",AreaData)
     this.AreaDatalist = AreaData;
+    console.log("this.AreaDatalist", this.AreaDatalist);
   },
   methods: {
     goto(gid) {
@@ -312,8 +306,20 @@ export default {
       this.$router.push({ name: "detail", params: { gid } });
     },
     //添加到购物车
-    addCart() {
+    async addCart(subitem) {
       // console.log("添加购物车");
+      subitem.qty = 1;
+      subitem.username = localStorage.getItem("username");;
+      let data = await this.$jxw_axios.post(
+        "/cart/AddToCart",
+        subitem
+      );
+
+      console.log("subitem", subitem);
+      console.log(data);
+      // if (code === 1) {
+      //   alert("加入成功！");
+      // }
     }
   }
 };

@@ -60,6 +60,9 @@ export default {
 
         }
     },
+    created(){
+       this.$store.state.footer = 1;
+    }
     // async created(){
     //     //发起请求获取数据
     //     let {data}=await this.$axios.get("https://zuul.gfresh.cn/api/product/product/categorySearch",{

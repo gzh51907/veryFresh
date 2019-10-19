@@ -145,8 +145,8 @@ export default {
       this.gooddata.qty = this.default_num;
       this.gooddata.username = localStorage.getItem("username");
       // console.log(this.gooddata)
-      let { data: { code } } = await this.$axios.post(
-        "http://10.3.133.72:10086/cart/AddToCart",
+      let { data: { code } } = await this.$jxw_axios.post(
+        "/cart/AddToCart",
         this.gooddata
       );
       if (code === 1) {
@@ -155,9 +155,10 @@ export default {
     }
   },
   async created() {
+     this.$store.state.footer = 1;
     let productId = this.$route.params.gid;
-    let { data: { data: goodsDetail } } = await this.$axios.get(
-      `http://10.3.133.72:10086/goods/queryByPid?productId=${productId}`
+    let { data: { data: goodsDetail } } = await this.$jxw_axios.get(
+      `/goods/queryByPid?productId=${productId}`
     );
     this.gooddata = goodsDetail[0];
   },
