@@ -69,7 +69,7 @@ export default {
             let {username,password}=this.ruleForm;
 
             //发送请求查询数据库
-            let {data}=await this.$axios.post("http://10.3.133.72:10086/admin/login",{username,password});
+            let {data}=await this.$backend_axios.post("/admin/login",{username,password});
             console.log(data);
 
             //判断返回数据的状态，然后进行相应的跳转操作
@@ -106,13 +106,15 @@ export default {
 .login{
    width: 450px;
   margin: 120px auto;
-  background-color:#fff;
+  background-color:rgb(125, 186, 240);
+  border:1px solid #08c;
 }
 .user-header{
     height:50px;
     width:100%;
     text-align:center;
     background-color:#08c;
+    
     h1{
         height:50px;
         line-height: 50px;

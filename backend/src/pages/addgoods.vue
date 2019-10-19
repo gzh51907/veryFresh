@@ -89,7 +89,7 @@ export default {
         this.$refs[formName].validate(async valid => {
           if (valid) {
              // 发起ajax请求，等待服务器返回结果
-             let {data}=await this.$axios.post("http://10.3.133.72:10086/admin/AddGoods",{data:this.ruleForm});
+             let {data}=await this.$backend_axios.post("/admin/AddGoods",{data:this.ruleForm});
             alert('添加商品成功!');
           } else {
             console.log('添加商品失败!');
