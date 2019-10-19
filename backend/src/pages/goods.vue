@@ -24,29 +24,44 @@
           </el-table-column>
           <el-table-column
             type="index"
-            prop="gfreshBaId"
+            prop="id"
             label="#"
             width="50">
           </el-table-column>
           <el-table-column
             prop="name"
             label="商品名称"
-            width="300">
+            width="200">
           </el-table-column>
           <el-table-column
-            prop="salePrice"
-            label="现价"
-            width="100">
+            prop="shopName"
+            label="店铺名"
+            width="140">
+          </el-table-column>
+          <el-table-column
+            prop="sendDate"
+            label="到货状态"
+            width="80">
+          </el-table-column>
+          <el-table-column
+            prop="areaName"
+            label="所在专区"
+            width="80">
+          </el-table-column>
+          <el-table-column
+            prop="unitPrice"
+            label="单价"
+            width="80">
+          </el-table-column>
+          <el-table-column
+            prop="unitName"
+            label="单位"
+            width="80">
           </el-table-column>
           <el-table-column
             prop="stockQty"
             label="库存"
-            width="100">
-          </el-table-column>
-          <el-table-column
-            label="添加日期"
-            width="100">
-            <template slot-scope="scope">{{ scope.row.arrayTime }}</template>
+            width="50">
           </el-table-column>
            <el-table-column label="操作">
             <template slot-scope="scope">
@@ -89,7 +104,7 @@ export default {
     }
   },
   
-  //请求数据
+   //一进入页面时发请求获取数据渲染页面
     created(){  
          this.handlepages(this.currentPage4);  
      },  
@@ -102,7 +117,7 @@ export default {
            number:this.pagesize
          }
         })
-       // console.log(data);
+       console.log(data);
        this.tableData3=data;
       },
      //分页功能
@@ -111,6 +126,7 @@ export default {
         console.log(size);//每页下拉显示的数据
       },
       handleCurrentChange(page) {
+        this.currentPage4=page;
         // console.log(page);//点击第几页
         this.handlepages(page)
       },
@@ -134,11 +150,23 @@ export default {
         console.log(index, row);
       },
       handleDelete(index, row) {
+         let data1=this.tableData3.result[index];
+         let productId=data1.productId;
         console.log(index, row);
+        this.getlist(productId);
+        this.tableData3.result.splice(index,1);  //删除页面中被选中删除的数据
+        this.handlepages(this.currentPage4);     //重新发请求渲染数据
+      },
+
+       //删除单行
+      async getlist(productId){
+        let {data}=await this.$axios.get("http://10.3.133.72:10086/goods/removeGoods",{
+          params:{
+            productId:[productId]
+          }
+        }) 
       }
     },
-
-  
 };
 </script>
 <style lang="scss" scoped>

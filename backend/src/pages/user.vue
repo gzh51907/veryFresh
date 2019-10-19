@@ -87,16 +87,18 @@ export default {
     };
   },
 
-  //请求数据
+  //一进入页面时发请求获取数据渲染页面
    created() {
    this.handlepages(this.currentPage4);
   },
 
   methods: {
+    //点击添加按钮跳转到添加用户列
     goto_adduser() {
         this.$router.push('/adduser')
     },
-
+    
+    //点击删除全部的按钮删除所有用户数据
     async handlepages(page){
       let { data:{data} } = await this.$axios.get(
       "http://10.3.133.72:10086/admin/userList",{
@@ -108,17 +110,18 @@ export default {
     );
     // console.log(data);
     this.tableData3 = data;
+    
     },
     //分页功能
     handleSizeChange(size) {
-      console.log(size);
+      console.log(size);  //每页下拉显示的数据  
     },
     handleCurrentChange(page) {
-      console.log(page);
+      console.log(page);  //点击第几页
+      this.currentPage4=page;
       this.handlepages(page);
     },
     
-
     //用户列表内容
     toggleSelection(rows) {
       if (rows) {
@@ -134,11 +137,30 @@ export default {
     },
 
     //编辑和删除
-    handleEdit(index, row) {
+    handleEdit(index, row) {      
       console.log(index, row);
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      let data1=this.tableData3.result[index];
+      let id=data1.userId;
+      let name=data1.username;
+      if(name=="lh"||name=="yani"){
+          alert("该用户为超级VIP用户,不可删除！")
+      }else{
+        alert("您确定删除此用户吗？");
+        this.getlist(id);   //发请求删除数据库中的数据
+        this.tableData3.result.splice(index,1);  //删除页面中被选中删除的数据
+        this.handlepages(this.currentPage4);     //重新发请求渲染数据
+      }
+      // console.log(index, row);
+    },
+    //删除单行
+    async getlist(id){
+      let {data}=await this.$axios.get("http://10.3.133.72:10086/admin/delUser",{
+        params:{
+          userId:id
+        }
+      }) 
     }
   }
 };

@@ -31,6 +31,11 @@
             width="200">
           </el-table-column>
           <el-table-column
+            prop="shopName"
+            label="店铺名"
+            width="100">
+          </el-table-column>
+          <el-table-column
             prop="salePrice"
             label="现价"
             width="100">
@@ -41,19 +46,14 @@
             width="100">
           </el-table-column>
           <el-table-column
-            prop="goodsprice"
+            prop="totalPrice"
             label="商品总价"
             width="100">
           </el-table-column>
           <el-table-column
-            prop="bookprice"
-            label="订单总价"
-            width="100">
-          </el-table-column>
-          <el-table-column
             label="下单日期"
-            width="100">
-            <template slot-scope="scope">{{ scope.row.date }}</template>
+            width="150">
+            <template slot-scope="scope">{{ scope.row.updateTime}}</template>
           </el-table-column>
            <el-table-column label="操作">
             <template slot-scope="scope">
@@ -69,7 +69,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage4"
-            :page-sizes="[5,10,15,20,25,30,35,40,45,50]"
+            :page-sizes="[5,10,15,20]"
             :page-size="pagesize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="tableData3.AllNum">
@@ -103,9 +103,14 @@ export default {
   },
   
   //动态生成数据
-  computed:{
-    
-  },
+  // computed:{
+  //   totalPrice(){
+  //     let salePrice=this.tableData3.result.salePrice;
+  //     let num=this.tableData3.result.num;
+  //     let total=salePrice*num;
+  //     return total;
+  //   }
+  // },
 
    methods: {
      //分页功能
@@ -116,6 +121,7 @@ export default {
         console.log(`当前页: ${val}`);
       }, 
 
+      //显示的列表内容
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -128,12 +134,11 @@ export default {
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
+       
+       //删除
       handleDelete(index, row) {
         console.log(index, row);
-      }
+      },
     }
 };
 </script>

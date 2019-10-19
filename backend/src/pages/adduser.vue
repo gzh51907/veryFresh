@@ -103,7 +103,6 @@ export default {
           if (valid) {
             // alert('submit!');
              // 发起ajax请求，等待服务器返回结果
-            // 根据服务器返回结果：注册成功->跳到“二手房”
             let {username,password}=this.ruleForm2;
             let {data}=await this.$axios.post("http://10.3.133.72:10086/user/reg",{username,password});
 
