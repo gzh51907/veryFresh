@@ -99,8 +99,8 @@ export default {
     this.$store.state.footer = 1;
     //获取 token 到后天解密出 用户名渲染数据
     let token = localStorage.getItem("Authorization");
-    let { data: res } = await this.$axios.get(
-      "http://10.3.133.72:10086/token/verify",
+    let { data: res } = await this.$jxw_axios.get(
+      "/token/verify",
       {
         params: {
           Authorization: token
@@ -108,6 +108,7 @@ export default {
       }
     );
     this.username = res.data.username;
+    // console.log(this.username)
   },
   methods: {
     goto() {

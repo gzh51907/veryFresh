@@ -20,7 +20,7 @@ import router from './routes'
 import axios from 'axios';
 Vue.prototype.$axios = axios;
 const backend_axios=axios.create({
-  baseURL:"http://10.3.133.72:10086"
+  baseURL: "http://47.97.41.248:1907"
 })
 Vue.prototype.$backend_axios = backend_axios;
 new Vue({

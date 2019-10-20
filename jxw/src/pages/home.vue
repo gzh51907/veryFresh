@@ -274,7 +274,7 @@ export default {
     );
     // console.log("分区的数据：",AreaData)
     this.AreaDatalist = AreaData;
-    console.log("this.AreaDatalist", this.AreaDatalist);
+    // console.log("this.AreaDatalist", this.AreaDatalist);
   },
   methods: {
     goto(gid) {
