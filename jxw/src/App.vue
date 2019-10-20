@@ -9,7 +9,7 @@
 
     <!-- 底部 -->
     <!-- <div class="app_footer" style="height:56px"> -->
-      <el-footer style="padding:0px; position:fixed;bottom:0px;width:100%;height:47px;">
+      <el-footer style="padding:0px; position:fixed;bottom:0px;width:100%;height:47px;z-index:200">
         <el-row>
           <ul id="footers" :default-active="activeIndex" v-if="this.$store.state.footer==1">
             <li v-for="item in menus" :key="item.path" @click="goto(item.path)">

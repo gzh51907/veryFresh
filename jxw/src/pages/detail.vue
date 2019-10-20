@@ -163,7 +163,7 @@ export default {
     }
   },
   async created() {
-    this.$store.state.footer = 1;
+    this.$store.state.footer = 0;
     let productId = this.$route.params.gid;
     let { data: { data: goodsDetail } } = await this.$jxw_axios.get(
       `/goods/queryByPid?productId=${productId}`

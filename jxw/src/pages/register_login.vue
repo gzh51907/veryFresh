@@ -172,7 +172,7 @@ export default {
             mdl: this.checked
           }
         });
-        console.log("返回的数据:", data.code);
+        // console.log("返回的数据:", data.code);
         // console.log("存储token",data.data.Authorization)
         if (data.data.Authorization) {
           //读取本地的 token
@@ -211,7 +211,7 @@ export default {
           //自动登录
           let {
             data: { data: AutoLogin }
-          } = await this.$jxw_axios.get("/user/register_login", {
+          } = await this.$jxw_axios.get("/user/login", {
             params: {
               username,
               password,
