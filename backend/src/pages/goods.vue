@@ -7,7 +7,7 @@
       </div>
       <div class="main">
         <div class="button">
-          <el-button type="success"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
+          <el-button type="success" @click="goto_adduser"><i class="el-icon-circle-plus-outline"></i>添加</el-button>
           <el-button type="danger"><i class="el-icon-delete"></i>删除</el-button>
         </div>
         <!-- 商品列表内容 -->
@@ -110,6 +110,11 @@ export default {
      },  
 
    methods: {
+      //点击添加按钮跳转到添加用户列
+    goto_adduser() {
+        this.$router.push('/adduser')
+    },
+
      async handlepages(page){
         let {data:{data}}=await this.$backend_axios.get("/goods/getNumGoods",{
          params:{
