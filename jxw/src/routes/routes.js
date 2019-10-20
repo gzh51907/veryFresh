@@ -29,21 +29,27 @@ let router = [
         path: '/book',
         name: 'book',
         component: book,
-        meta: { requiresAuth: true }   //用于权限控制的标记
+        meta: {
+            requiresAuth: true
+        } //用于权限控制的标记
     },
 
     //购物车
     {
         path: '/cart',
         component: cart,
-        meta: { requiresAuth: true }   //用于权限控制的标记
+        meta: {
+            requiresAuth: true
+        } //用于权限控制的标记
     },
     //我的
     {
         path: '/mine',
         name: 'mine',
         component: mine,
-        meta: { requiresAuth: true }   //用于权限控制的标记
+        meta: {
+            requiresAuth: true
+        } //用于权限控制的标记
     },
     //修改信息
     {
