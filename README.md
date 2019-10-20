@@ -173,25 +173,25 @@
 
 #### 1.首页`home.vue`
 
-![3c71c5e6e4a8045da65aa2b1d31abf4](C:\Users\LH\AppData\Local\Temp\WeChat Files\3c71c5e6e4a8045da65aa2b1d31abf4.png)
+![index](./readmeImg/index.png)
 
 #### 2.详情页`detail.vue`
 
-![aac2e6d8ae4790430852f1a7a8a4814](C:\Users\LH\AppData\Local\Temp\WeChat Files\aac2e6d8ae4790430852f1a7a8a4814.png)
+![detail](./readmeImg/detail.png)
 
 #### 3.购物车`cart.vue`
 
-![45187de0b4405b6e9fd06f406e49bf0](C:\Users\LH\AppData\Local\Temp\WeChat Files\45187de0b4405b6e9fd06f406e49bf0.png)
+![cart](./readmeImg/cart.png)
 
 #### 4.我的`mine.vue`
 
-![015eb5db1eafae025ac4915ed7f89fa](https://github.com/gzh51907/veryFresh/blob/dev/readme%E7%94%A8%E5%88%B0%E7%9A%84%E5%9B%BE%E7%89%87/015eb5db1eafae025ac4915ed7f89fa.png)
+![mine](./readmeImg/mine.png)
 
 #### 5.登录注册`register_login.vue`
 
-![ae5be780934249394935a30f69211ef](C:\Users\LH\AppData\Local\Temp\WeChat Files\ae5be780934249394935a30f69211ef.png)
+![reg-lg](./readmeImg/reg-lg.png)
 
 #### 6.后台管理系统
 
-![1571548137613](C:\Users\LH\AppData\Roaming\Typora\typora-user-images\1571548137613.png)
+![admin](./readmeImg/admin.png)
 
