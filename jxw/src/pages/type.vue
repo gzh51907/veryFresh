@@ -36,7 +36,7 @@ export default {
     let { data: { data } } = await this.$axios.get(
       "https://zuul.gfresh.cn/api/product/product/queryAllCategory"
     );
-    console.log(data);
+    // console.log(data);
     this.navlist = data;
   }
 };
@@ -55,12 +55,15 @@ margin-top: 10px;
   padding: 0; 
 }
 .van-grid-item /deep/ .van-grid-item__icon{
-  font-size: 81px;
+  font-size: 63px;
 }
 .van-grid-item /deep/ [class*=van-hairline]::after {
   border:0 solid #ffffff;
 }
 .van-grid-item /deep/ .van-grid-item__text{
   color:#000;
+}
+span{
+  font-size: 81px;
 }
 </style>
